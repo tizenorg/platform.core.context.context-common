@@ -16,7 +16,6 @@
 
 #include <glib.h>
 #include <gio/gio.h>
-#include <security-server.h>
 
 #include <types_internal.h>
 #include <scope_mutex.h>
@@ -37,29 +36,6 @@ static const gchar introspection_xml[] =
 	"		</method>"
 	"	</interface>"
 	"</node>";
-
-static const char* get_security_cookie()
-{
-	static char *cookie = NULL;
-	static GMutex cookie_mutex;
-	ctx::scope_mutex sm(&cookie_mutex);
-
-	if (cookie == NULL) {
-		int raw_size = security_server_get_cookie_size();
-		IF_FAIL_RETURN_TAG(raw_size > 0, NULL, _E, "Invalid cookie size");
-
-		int ret;
-		char raw_cookie[raw_size];
-
-		ret = security_server_request_cookie(raw_cookie, raw_size);
-		IF_FAIL_RETURN_TAG(ret >= 0, NULL, _E, "Failed to get the security cookie");
-
-		cookie = g_base64_encode(reinterpret_cast<guchar*>(raw_cookie), raw_size);
-		IF_FAIL_RETURN_TAG(cookie, NULL, _E, "Failed to encode the cookie");
-	}
-
-	return cookie;
-}
 
 static void handle_response(const gchar *sender, GVariant *param, GDBusMethodInvocation *invocation)
 {
@@ -170,10 +146,9 @@ int ctx::dbus_client::request(
 		input = EMPTY_JSON_OBJECT;
 	}
 
-	const char *cookie = get_security_cookie();
-	IF_FAIL_RETURN_TAG(cookie, ERR_OPERATION_FAILED, _E, "Cookie generation failed");
-
-	GVariant *param = g_variant_new("(isiss)", type, cookie, req_id, subject, input);
+	/* FIXME: the second param is the security cookie, which is deprected in 3.0.
+	 * We need to completely REMOVE this parameter from the dbus protocol. */
+	GVariant *param = g_variant_new("(isiss)", type, "", req_id, subject, input);
 	IF_FAIL_RETURN_TAG(param, ERR_OUT_OF_MEMORY, _E, "Memory allocation failed");
 
 	GError *err = NULL;
@@ -212,10 +187,9 @@ int ctx::dbus_client::request_with_no_reply(
 		input = EMPTY_JSON_OBJECT;
 	}
 
-	const char *cookie = get_security_cookie();
-	IF_FAIL_RETURN_TAG(cookie, ERR_OPERATION_FAILED, _E, "Cookie generation failed");
-
-	GVariant *param = g_variant_new("(isiss)", type, cookie, req_id, subject, input);
+	/* FIXME: the second param is the security cookie, which is deprected in 3.0.
+	 * We need to completely REMOVE this parameter from the dbus protocol. */
+	GVariant *param = g_variant_new("(isiss)", type, "", req_id, subject, input);
 	IF_FAIL_RETURN_TAG(param, ERR_OUT_OF_MEMORY, _E, "Memory allocation failed");
 
 	GError *err = NULL;

@@ -10,7 +10,7 @@ FILE(GLOB_RECURSE SRCS src/*.cpp)
 MESSAGE("Sources: ${SRCS}")
 
 # Dependencies
-SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 dlog capi-base-common security-server")
+SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 dlog capi-base-common")
 
 INCLUDE(FindPkgConfig)
 INCLUDE_DIRECTORIES(

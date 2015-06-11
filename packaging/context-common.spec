@@ -12,7 +12,6 @@ BuildRequires: pkgconfig(gio-2.0)
 BuildRequires: pkgconfig(json-glib-1.0)
 BuildRequires: pkgconfig(dlog)
 BuildRequires: pkgconfig(capi-base-common)
-BuildRequires: pkgconfig(security-server)
 
 %description
 Context-Service Shared Library
