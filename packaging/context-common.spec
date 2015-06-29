@@ -1,6 +1,6 @@
 Name:       context-common
 Summary:    Context-Service Shared Library
-Version:    0.4.2
+Version:    0.5.0
 Release:    1
 Group:      System/Libraries
 License:    Apache-2.0
@@ -35,7 +35,7 @@ export   CFLAGS+=" -DTIZEN_ENGINEER_MODE"
 export CXXFLAGS+=" -DTIZEN_ENGINEER_MODE"
 export   FFLAGS+=" -DTIZEN_ENGINEER_MODE"
 
-cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix} -DMAJORVER=${MAJORVER} -DFULLVER=%{version} -DPROFILE=%{?tizen_profile_name}
+cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix} -DMAJORVER=${MAJORVER} -DFULLVER=%{version}
 make %{?jobs:-j%jobs}
 
 %install
