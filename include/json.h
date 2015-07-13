@@ -29,106 +29,82 @@ do { \
 } while(0)
 
 #define EMPTY_JSON_OBJECT	"{}"
-#define DEFAULT_PRECISION	3
-#define COMMON_ATTR_CLIENT_APP_ID	"_ClientAppId_"
 
 namespace ctx {
 
 	class json {
-		private:
-			typedef struct _JsonNode json_node_t;
-			json_node_t * json_node;
+	private:
+		typedef struct _JsonNode json_node_t;
+		json_node_t * json_node;
 
-			void parse(const char* s);
-			void release();
+		void parse(const char* s);
+		void release();
 
-			/* For json vs json comparison */
-			bool get_member_list(json_node_t* node, std::list<std::string>& list);
-			bool node_equals(json_node_t* lhs, json_node_t* rhs);
-			bool value_equals(json_node_t* lhs, json_node_t* rhs);
-			bool object_equals(json_node_t* lhs, json_node_t* rhs);
-			bool array_equals(json_node_t* lhs, json_node_t* rhs);
+		/* For json vs json comparison */
+		bool get_member_list(json_node_t* node, std::list<std::string>& list);
+		bool node_equals(json_node_t* lhs, json_node_t* rhs);
+		bool value_equals(json_node_t* lhs, json_node_t* rhs);
+		bool object_equals(json_node_t* lhs, json_node_t* rhs);
+		bool array_equals(json_node_t* lhs, json_node_t* rhs);
 
-		public:
-			json();
-			json(const char* s);
-			json(const std::string& s);
+	public:
+		json();
+		json(const char* s);
+		json(const std::string& s);
 
-			/* This json(const json& j) only copies the reference to the underlying json node.
-			 * Therefore, changes applied to a json object affect the other.
-			 * If you need to create a 'real' copy of a json, which can be manipulated separately,
-			 * utilize the str() function, e.g., ctx::json copy(original.str());
-			 */
-			json(const json& j);
+		/* This json(const json& j) only copies the reference to the underlying json node.
+		 * Therefore, changes applied to a json object affect the other.
+		 * If you need to create a 'real' copy of a json, which can be manipulated separately,
+		 * utilize the str() function, e.g., ctx::json copy(original.str());
+		 */
+		json(const json& j);
 
-			//TODO: Constructor accepting a file descriptor?
+		~json();
 
-			~json();
+		json& operator=(const char* s);
+		json& operator=(const std::string& s);
 
-			json& operator=(const char* s);
-			json& operator=(const std::string& s);
+		/* This operator=(const json& j) only copies the reference to the underlying json node.
+		 * Therefore, changes applied to a json object affect the other.
+		 * If you need to create a 'real' copy of a json, which can be manipulated separately,
+		 * utilize the str() function, e.g., ctx::json copy = original.str();
+		 */
+		json& operator=(const json& j);
 
-			/* This operator=(const json& j) only copies the reference to the underlying json node.
-			 * Therefore, changes applied to a json object affect the other.
-			 * If you need to create a 'real' copy of a json, which can be manipulated separately,
-			 * utilize the str() function, e.g., ctx::json copy = original.str();
-			 */
-			json& operator=(const json& j);
+		bool operator==(const json& rhs);
+		bool operator!=(const json& rhs);
 
-			bool operator==(const json& rhs);
-			bool operator!=(const json& rhs);
+		char* dup_cstr();
+		std::string str();
 
-			char* dup_cstr();
-			std::string str();
+		bool get_keys(std::list<std::string>* list);
 
-			bool get_keys(std::list<std::string>* list);
+		bool set(const char* path, const char* key, json& val);
+		bool set(const char* path, const char* key, int val);
+		bool set(const char* path, const char* key, int64_t val);
+		bool set(const char* path, const char* key, std::string val);
 
-			bool set(const char* path, const char* key, json& val);
-			bool set(const char* path, const char* key, int val);
-			bool set(const char* path, const char* key, int64_t val);
-			bool set(const char* path, const char* key, double val, int prec = DEFAULT_PRECISION);
-			bool set(const char* path, const char* key, std::string val);
+		bool get(const char* path, const char* key, json* val);
+		bool get(const char* path, const char* key, int* val);
+		bool get(const char* path, const char* key, int64_t* val);
+		bool get(const char* path, const char* key, std::string* val);
 
-			bool get(const char* path, const char* key, json* val);
-			bool get(const char* path, const char* key, int* val);
-			bool get(const char* path, const char* key, int64_t* val);
-			bool get(const char* path, const char* key, double* val);
-			bool get(const char* path, const char* key, std::string* val);
+		int array_get_size(const char* path, const char* key);
 
-			int array_get_size(const char* path, const char* key);
+		bool array_append(const char* path, const char* key, json& val);
+		bool array_append(const char* path, const char* key, int val);
+		bool array_append(const char* path, const char* key, int64_t val);
+		bool array_append(const char* path, const char* key, std::string val);
 
-			bool array_append(const char* path, const char* key, json& val);
-			bool array_append(const char* path, const char* key, int val);
-			bool array_append(const char* path, const char* key, int64_t val);
-			bool array_append(const char* path, const char* key, double val, int prec = DEFAULT_PRECISION);
-			bool array_append(const char* path, const char* key, std::string val);
+		bool array_set_at(const char* path, const char* key, int index, json& val);
+		bool array_set_at(const char* path, const char* key, int index, int val);
+		bool array_set_at(const char* path, const char* key, int index, int64_t val);
+		bool array_set_at(const char* path, const char* key, int index, std::string val);
 
-			bool array_set_at(const char* path, const char* key, int index, json& val);
-			bool array_set_at(const char* path, const char* key, int index, int val);
-			bool array_set_at(const char* path, const char* key, int index, int64_t val);
-			bool array_set_at(const char* path, const char* key, int index, double val, int prec = DEFAULT_PRECISION);
-			bool array_set_at(const char* path, const char* key, int index, std::string val);
-
-			bool get_array_elem(const char* path, const char* key, int index, json* val);
-			bool get_array_elem(const char* path, const char* key, int index, int* val);
-			bool get_array_elem(const char* path, const char* key, int index, int64_t* val);
-			bool get_array_elem(const char* path, const char* key, int index, double* val);
-			bool get_array_elem(const char* path, const char* key, int index, std::string* val);
-
-#if 0
-//TODO: Implement below helper functions if necessary
-			bool set_array(const char* path, const char* key, json val[], int size);
-			bool set_array(const char* path, const char* key, int val[], int size);
-			bool set_array(const char* path, const char* key, int64_t val[], int size);
-			bool set_array(const char* path, const char* key, double val[], int size);
-			bool set_array(const char* path, const char* key, std::string val[], int size);
-
-			bool get_array(const char* path, const char* key, json** val, int* size);
-			bool get_array(const char* path, const char* key, int** val, int* size);
-			bool get_array(const char* path, const char* key, int64_t** val, int* size);
-			bool get_array(const char* path, const char* key, double** val, int* size);
-			bool get_array(const char* path, const char* key, std::string** val, int* size);
-#endif
+		bool get_array_elem(const char* path, const char* key, int index, json* val);
+		bool get_array_elem(const char* path, const char* key, int index, int* val);
+		bool get_array_elem(const char* path, const char* key, int index, int64_t* val);
+		bool get_array_elem(const char* path, const char* key, int index, std::string* val);
 	};
 
 }	/* namespace ctx */

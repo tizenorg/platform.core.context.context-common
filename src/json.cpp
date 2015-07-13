@@ -35,6 +35,7 @@ static double string_to_double(const char* in)
 	return out;
 }
 
+#if 0
 static std::string double_to_string(double in, int prec)
 {
 	// Locale-independent double-to-string conversion
@@ -43,6 +44,7 @@ static std::string double_to_string(double in, int prec)
 	ostr << std::setprecision(prec) << std::fixed << in;
 	return ostr.str();
 }
+#endif
 
 ctx::json::json()
 {
@@ -352,6 +354,7 @@ bool ctx::json::set(const char* path, const char* key, int64_t val)
 	return true;
 }
 
+#if 0
 bool ctx::json::set(const char* path, const char* key, double val, int prec)
 {
 	IF_FAIL_RETURN_TAG(this->json_node, false, _E, "Json object not initialized");
@@ -368,6 +371,7 @@ bool ctx::json::set(const char* path, const char* key, double val, int prec)
 	json_object_set_string_member(jobj, key, double_to_string(val, prec).c_str());
 	return true;
 }
+#endif
 
 bool ctx::json::set(const char* path, const char* key, std::string val)
 {
@@ -459,6 +463,7 @@ bool ctx::json::get(const char* path, const char* key, int64_t* val)
 	return true;
 }
 
+#if 0
 bool ctx::json::get(const char* path, const char* key, double* val)
 {
 	IF_FAIL_RETURN_TAG(this->json_node, false, _E, "Json object not initialized");
@@ -481,6 +486,7 @@ bool ctx::json::get(const char* path, const char* key, double* val)
 
 	return true;
 }
+#endif
 
 bool ctx::json::get(const char* path, const char* key, std::string* val)
 {
@@ -568,6 +574,7 @@ bool ctx::json::array_append(const char* path, const char* key, int64_t val)
 	return true;
 }
 
+#if 0
 bool ctx::json::array_append(const char* path, const char* key, double val, int prec)
 {
 	IF_FAIL_RETURN_TAG(this->json_node, false, _E, "Json object not initialized");
@@ -580,6 +587,7 @@ bool ctx::json::array_append(const char* path, const char* key, double val, int 
 	json_array_add_string_element(arr, double_to_string(val, prec).c_str());
 	return true;
 }
+#endif
 
 bool ctx::json::array_append(const char* path, const char* key, std::string val)
 {
@@ -646,6 +654,7 @@ bool ctx::json::array_set_at(const char* path, const char* key, int index, int64
 	return true;
 }
 
+#if 0
 bool ctx::json::array_set_at(const char* path, const char* key, int index, double val, int prec)
 {
 	IF_FAIL_RETURN_TAG(this->json_node, false, _E, "Json object not initialized");
@@ -659,6 +668,7 @@ bool ctx::json::array_set_at(const char* path, const char* key, int index, doubl
 	json_node_set_string(node, double_to_string(val, prec).c_str());
 	return true;
 }
+#endif
 
 bool ctx::json::array_set_at(const char* path, const char* key, int index, std::string val)
 {
@@ -731,6 +741,7 @@ bool ctx::json::get_array_elem(const char* path, const char* key, int index, int
 	return true;
 }
 
+#if 0
 bool ctx::json::get_array_elem(const char* path, const char* key, int index, double* val)
 {
 	IF_FAIL_RETURN_TAG(this->json_node, false, _E, "Json object not initialized");
@@ -757,6 +768,7 @@ bool ctx::json::get_array_elem(const char* path, const char* key, int index, dou
 
 	return true;
 }
+#endif
 
 bool ctx::json::get_array_elem(const char* path, const char* key, int index, std::string* val)
 {
