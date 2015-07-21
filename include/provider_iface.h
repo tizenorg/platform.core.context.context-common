@@ -28,15 +28,15 @@ namespace ctx {
 
 			virtual bool init() = 0;
 
-			virtual bool is_supported(const char* subject, const char* zone) = 0;
+			virtual bool is_supported(const char* subject) = 0;
 
-			virtual int subscribe(const char* subject, ctx::json option, ctx::json* request_result, const char* zone) = 0;
+			virtual int subscribe(const char* subject, ctx::json option, ctx::json* request_result) = 0;
 
-			virtual int unsubscribe(const char* subject, ctx::json option, const char* zone) = 0;
+			virtual int unsubscribe(const char* subject, ctx::json option) = 0;
 
-			virtual int read(const char* subject, ctx::json option, ctx::json* request_result, const char* zone) = 0;
+			virtual int read(const char* subject, ctx::json option, ctx::json* request_result) = 0;
 
-			virtual int write(const char* subject, ctx::json data, ctx::json* request_result, const char* zone) = 0;
+			virtual int write(const char* subject, ctx::json data, ctx::json* request_result) = 0;
 
 	};	/* class context_provider_iface */
 

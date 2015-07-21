@@ -29,11 +29,11 @@ namespace ctx {
 
 		/*
 		 */
-		bool publish(const char* subject, ctx::json option, int error, ctx::json data_updated, const char* zone);
+		bool publish(const char* subject, ctx::json option, int error, ctx::json data_updated);
 
 		/*
 		 */
-		bool reply_to_read(const char* subject, ctx::json option, int error, ctx::json data_read, const char* zone);
+		bool reply_to_read(const char* subject, ctx::json option, int error, ctx::json data_read);
 
 	}	/* namespace ctx::context_manager */
 }	/* namespace ctx */

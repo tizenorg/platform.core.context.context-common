@@ -33,14 +33,14 @@ bool ctx::context_manager::register_provider(const char* subject, ctx::context_p
 	return _instance->register_provider(subject, cp);
 }
 
-bool ctx::context_manager::publish(const char* subject, ctx::json option, int error, ctx::json data_updated, const char* zone)
+bool ctx::context_manager::publish(const char* subject, ctx::json option, int error, ctx::json data_updated)
 {
 	IF_FAIL_RETURN_TAG(_instance, false, _E, "Not initialized");
-	return _instance->publish(subject, option, error, data_updated, zone);
+	return _instance->publish(subject, option, error, data_updated);
 }
 
-bool ctx::context_manager::reply_to_read(const char* subject, ctx::json option, int error, ctx::json data_read, const char* zone)
+bool ctx::context_manager::reply_to_read(const char* subject, ctx::json option, int error, ctx::json data_read)
 {
 	IF_FAIL_RETURN_TAG(_instance, false, _E, "Not initialized");
-	return _instance->reply_to_read(subject, option, error, data_read, zone);
+	return _instance->reply_to_read(subject, option, error, data_read);
 }
