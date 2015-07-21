@@ -25,10 +25,10 @@ struct thread_info_s {
 };
 
 struct event_message_s {
-	bool is_stop_signal;
 	int type;
 	void* data;
-	event_message_s() : is_stop_signal(false), type(-1), data(NULL) {}
+	bool is_stop_signal;
+	event_message_s() : type(-1), data(NULL), is_stop_signal(false) {}
 };
 
 event_driven_thread::event_driven_thread()
