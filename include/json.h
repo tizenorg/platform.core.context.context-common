@@ -29,6 +29,7 @@ do { \
 } while(0)
 
 #define EMPTY_JSON_OBJECT	"{}"
+#define DEFAULT_PRECISION	3
 
 namespace ctx {
 
@@ -82,11 +83,13 @@ namespace ctx {
 		bool set(const char* path, const char* key, json& val);
 		bool set(const char* path, const char* key, int val);
 		bool set(const char* path, const char* key, int64_t val);
+		bool set(const char* path, const char* key, double val, int prec = DEFAULT_PRECISION);
 		bool set(const char* path, const char* key, std::string val);
 
 		bool get(const char* path, const char* key, json* val);
 		bool get(const char* path, const char* key, int* val);
 		bool get(const char* path, const char* key, int64_t* val);
+		bool get(const char* path, const char* key, double* val);
 		bool get(const char* path, const char* key, std::string* val);
 
 		int array_get_size(const char* path, const char* key);
@@ -94,16 +97,19 @@ namespace ctx {
 		bool array_append(const char* path, const char* key, json& val);
 		bool array_append(const char* path, const char* key, int val);
 		bool array_append(const char* path, const char* key, int64_t val);
+		bool array_append(const char* path, const char* key, double val, int prec = DEFAULT_PRECISION);
 		bool array_append(const char* path, const char* key, std::string val);
 
 		bool array_set_at(const char* path, const char* key, int index, json& val);
 		bool array_set_at(const char* path, const char* key, int index, int val);
 		bool array_set_at(const char* path, const char* key, int index, int64_t val);
+		bool array_set_at(const char* path, const char* key, int index, double val, int prec = DEFAULT_PRECISION);
 		bool array_set_at(const char* path, const char* key, int index, std::string val);
 
 		bool get_array_elem(const char* path, const char* key, int index, json* val);
 		bool get_array_elem(const char* path, const char* key, int index, int* val);
 		bool get_array_elem(const char* path, const char* key, int index, int64_t* val);
+		bool get_array_elem(const char* path, const char* key, int index, double* val);
 		bool get_array_elem(const char* path, const char* key, int index, std::string* val);
 	};
 
