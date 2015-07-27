@@ -21,13 +21,14 @@ namespace ctx {
 	/* Forward Declaration */
 	class json;
 	class context_provider_iface;
+	class context_provider_info;
 
 	class context_manager_iface {
-		public:
-			virtual ~context_manager_iface() {}
-			virtual bool register_provider(const char* subject, ctx::context_provider_iface* cp) = 0;
-			virtual bool publish(const char* subject, ctx::json& option, int error, ctx::json& data_updated) = 0;
-			virtual bool reply_to_read(const char* subject, ctx::json& option, int error, ctx::json& data_read) = 0;
+	public:
+		virtual ~context_manager_iface() {}
+		virtual bool register_provider(const char *subject, context_provider_info &provider_info) = 0;
+		virtual bool publish(const char *subject, ctx::json &option, int error, ctx::json &data_updated) = 0;
+		virtual bool reply_to_read(const char *subject, ctx::json &option, int error, ctx::json &data_read) = 0;
 	};	/* class context_manager_iface */
 
 	namespace context_manager {

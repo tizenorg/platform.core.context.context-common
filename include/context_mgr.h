@@ -21,19 +21,20 @@ namespace ctx {
 	/* Forward Declaration */
 	class json;
 	class context_provider_iface;
+	class context_provider_info;
 
 	namespace context_manager {
 		/*
 		 */
-		bool register_provider(const char* subject, ctx::context_provider_iface* cp);
+		bool register_provider(const char *subject, context_provider_info &provider_info);
 
 		/*
 		 */
-		bool publish(const char* subject, ctx::json option, int error, ctx::json data_updated);
+		bool publish(const char *subject, ctx::json option, int error, ctx::json data_updated);
 
 		/*
 		 */
-		bool reply_to_read(const char* subject, ctx::json option, int error, ctx::json data_read);
+		bool reply_to_read(const char *subject, ctx::json option, int error, ctx::json data_read);
 
 	}	/* namespace ctx::context_manager */
 }	/* namespace ctx */

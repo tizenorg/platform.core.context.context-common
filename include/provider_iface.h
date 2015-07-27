@@ -23,22 +23,31 @@ namespace ctx {
 	class json;
 
 	class context_provider_iface {
-		public:
-			virtual ~context_provider_iface() {}
+	public:
+		virtual ~context_provider_iface() {}
+		virtual int subscribe(const char *subject, ctx::json option, ctx::json *request_result);
+		virtual int unsubscribe(const char *subject, ctx::json option);
+		virtual int read(const char *subject, ctx::json option, ctx::json *request_result);
+		virtual int write(const char *subject, ctx::json data, ctx::json *request_result);
 
-			virtual bool init() = 0;
-
-			virtual bool is_supported(const char* subject) = 0;
-
-			virtual int subscribe(const char* subject, ctx::json option, ctx::json* request_result) = 0;
-
-			virtual int unsubscribe(const char* subject, ctx::json option) = 0;
-
-			virtual int read(const char* subject, ctx::json option, ctx::json* request_result) = 0;
-
-			virtual int write(const char* subject, ctx::json data, ctx::json* request_result) = 0;
+	protected:
+		context_provider_iface() {}
 
 	};	/* class context_provider_iface */
+
+	class context_provider_info {
+		typedef context_provider_iface *(*creator_t)(void *data);
+		typedef void (*destroyer_t)(void *data);
+
+	public:
+		creator_t create;
+		destroyer_t destroy;
+		void *data;
+		const char *privilege;
+
+		context_provider_info();
+		context_provider_info(creator_t cr, destroyer_t des, void *dat = NULL, const char *priv = NULL);
+	};
 
 }	/* namespace ctx */
 

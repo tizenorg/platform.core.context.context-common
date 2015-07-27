@@ -27,10 +27,10 @@ void ctx::context_manager::set_instance(context_manager_iface* mgr)
 	_instance = mgr;
 }
 
-bool ctx::context_manager::register_provider(const char* subject, ctx::context_provider_iface* cp)
+bool ctx::context_manager::register_provider(const char* subject, ctx::context_provider_info &provider_info)
 {
 	IF_FAIL_RETURN_TAG(_instance, false, _E, "Not initialized");
-	return _instance->register_provider(subject, cp);
+	return _instance->register_provider(subject, provider_info);
 }
 
 bool ctx::context_manager::publish(const char* subject, ctx::json option, int error, ctx::json data_updated)
