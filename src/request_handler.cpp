@@ -112,13 +112,6 @@ int ctx::request_handler::subscribe(const char* subject, ctx::json* option, int*
 	return error;
 }
 
-int ctx::request_handler::unsubscribe(int req_id)
-{
-	IF_FAIL_RETURN_TAG(initialize(), false, _E, "Connection failed");
-	_I("[Unsubscribe] ReqId: %d", req_id);
-	return dbus_handle->request(REQ_UNSUBSCRIBE, req_id, NULL, NULL, NULL, NULL);
-}
-
 int ctx::request_handler::unsubscribe(const char* subject, int req_id)
 {
 	IF_FAIL_RETURN_TAG(initialize(), false, _E, "Connection failed");

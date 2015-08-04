@@ -35,7 +35,6 @@ namespace ctx { namespace request_handler {
 
 	/*
 	 */
-	int unsubscribe(int req_id);
 	int unsubscribe(const char* subject, int req_id);
 
 	/*
