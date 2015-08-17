@@ -88,7 +88,7 @@ bool ctx::dbus_client::init()
 	dbus_node_info = g_dbus_node_info_new_for_xml(introspection_xml, NULL);
 	IF_FAIL_RETURN_TAG(dbus_node_info != NULL, false, _E, "Initialization failed");
 
-	gchar *addr = g_dbus_address_get_for_bus_sync(G_BUS_TYPE_SYSTEM, NULL, &gerr);
+	gchar *addr = g_dbus_address_get_for_bus_sync(G_BUS_TYPE_SESSION, NULL, &gerr);
 	HANDLE_GERROR(gerr);
 	IF_FAIL_RETURN_TAG(addr != NULL, false, _E, "Getting address failed");
 	_SD("Address: %s", addr);
