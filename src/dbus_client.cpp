@@ -45,12 +45,9 @@ static void handle_response(const gchar *sender, GVariant *param, GDBusMethodInv
 	const gchar *data = NULL;
 
 	g_variant_get(param, "(i&si&s)", &req_id, &subject, &error, &data);
-
-	_I("[Response] ReqId: %d, Subject: %s, Error: %d", req_id, subject, error);
-	_D("Data: %s", data);
+	_D("[Response] ReqId: %d, Subject: %s, Error: %d", req_id, subject, error);
 
 	ctx::response_handler::deliver(subject, req_id, error, data);
-
 	g_dbus_method_invocation_return_value(invocation, NULL);
 }
 
@@ -136,7 +133,7 @@ int ctx::dbus_client::request(
 		int type, int req_id, const char* subject, const char* input,
 		std::string* req_result, std::string* data_read)
 {
-	_I("Requesting: %d, %d, %s, %s", type, req_id, subject, input);
+	_D("Requesting: %d, %d, %s", type, req_id, subject);
 
 	if (subject == NULL) {
 		subject = EMPTY_STRING;
@@ -177,7 +174,7 @@ int ctx::dbus_client::request(
 int ctx::dbus_client::request_with_no_reply(
 		int type, int req_id, const char* subject, const char* input)
 {
-	_I("Requesting: %d, %d, %s, %s", type, req_id, subject, input);
+	_D("Requesting: %d, %d, %s", type, req_id, subject);
 
 	if (subject == NULL) {
 		subject = EMPTY_STRING;

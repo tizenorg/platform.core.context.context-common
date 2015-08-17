@@ -61,7 +61,7 @@
 #define PURPLE(X)	"\033[0;35m" X "\033[0m"
 #define CYAN(X)		"\033[0;36m" X "\033[0m"
 
-
+#define REPLACE_NULL(X) ((X) ? (X) : "")
 #define STR_EQ(X, Y) (g_strcmp0((X), (Y)) == 0)
 
 #define IF_FAIL_RETURN_TAG(cond, ret, tag, fmt, arg...) \

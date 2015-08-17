@@ -23,10 +23,20 @@ namespace ctx {
 	class context_provider_iface;
 	class context_provider_info;
 
+	enum operation_type_e {
+		OPS_SUBSCRIBE	= 1,
+		OPS_READ		= 2,
+		OPS_WRITE		= 4,
+	};
+
 	namespace context_manager {
 		/*
 		 */
 		bool register_provider(const char *subject, context_provider_info &provider_info);
+
+		/*
+		 */
+		bool register_trigger_item(const char *subject, int operation, ctx::json attributes, ctx::json options);
 
 		/*
 		 */

@@ -90,14 +90,12 @@ ctx::json::~json()
 
 void ctx::json::parse(const char* s)
 {
-	_SD("Parsing %s", s);
-
 	gboolean result;
 	JsonParser *parser = NULL;
 	JsonNode *root = NULL;
 
 	parser = json_parser_new();
-	IF_FAIL_CATCH_TAG(parser, _E, "Memory allocation failed");
+	IF_FAIL_VOID_TAG(parser, _E, "Memory allocation failed");
 
 	result = json_parser_load_from_data(parser, s, -1, NULL);
 	IF_FAIL_CATCH_TAG(result, _E, "Parsing failed");
@@ -108,13 +106,9 @@ void ctx::json::parse(const char* s)
 	json_node = json_node_copy(root);
 	IF_FAIL_CATCH_TAG(json_node, _E, "Copying failed");
 
-	g_object_unref(parser);
-	return;
-
 CATCH:
-	if (parser) {
+	if (parser)
 		g_object_unref(parser);
-	}
 }
 
 void ctx::json::release()
@@ -138,14 +132,22 @@ ctx::json& ctx::json::operator=(const json& j)
 ctx::json& ctx::json::operator=(const char* s)
 {
 	release();
-	parse(s);
+	if (s) {
+		parse(s);
+	} else {
+		parse(EMPTY_JSON_OBJECT);
+	}
 	return *this;
 }
 
 ctx::json& ctx::json::operator=(const std::string& s)
 {
 	release();
-	parse(s.c_str());
+	if (s.empty()) {
+		parse(EMPTY_JSON_OBJECT);
+	} else {
+		parse(s.c_str());
+	}
 	return *this;
 }
 

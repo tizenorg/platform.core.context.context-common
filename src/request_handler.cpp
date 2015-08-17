@@ -96,7 +96,6 @@ int ctx::request_handler::subscribe(const char* subject, ctx::json* option, int*
 	}
 
 	_I("[Subscribe] ReqId: %d, Subject: %s", *req_id, subject);
-	_D("Option: %s", opt_str);
 
 	std::string result_str;
 	int error = dbus_handle->request(REQ_SUBSCRIBE, *req_id, subject, opt_str, &result_str, NULL);
@@ -106,14 +105,15 @@ int ctx::request_handler::subscribe(const char* subject, ctx::json* option, int*
 		*request_result = result_str;
 	}
 
-	_I("Error: %#x", error);
-	_SI("Result: %s", result_str.c_str());
+	_D("Error: %#x", error);
+	_SD("Result: %s", result_str.c_str());
 
 	return error;
 }
 
 int ctx::request_handler::unsubscribe(const char* subject, int req_id)
 {
+	ASSERT_NOT_NULL(subject);
 	IF_FAIL_RETURN_TAG(initialize(), false, _E, "Connection failed");
 	_I("[Unsubscribe] ReqId: %d, Subject: %s", req_id, subject);
 	return dbus_handle->request(REQ_UNSUBSCRIBE, req_id, subject, NULL, NULL, NULL);
@@ -134,7 +134,6 @@ int ctx::request_handler::read(const char* subject, ctx::json* option, int* req_
 	}
 
 	_I("[Read] ReqId: %d, Subject: %s", *req_id, subject);
-	_D("Option: %s", opt_str);
 
 	std::string result_str;
 	int error = dbus_handle->request(REQ_READ, *req_id, subject, opt_str, &result_str, NULL);
@@ -144,8 +143,8 @@ int ctx::request_handler::read(const char* subject, ctx::json* option, int* req_
 		*request_result = result_str;
 	}
 
-	_I("Error: %#x", error);
-	_SI("Result: %s", result_str.c_str());
+	_D("Error: %#x", error);
+	_SD("Result: %s", result_str.c_str());
 
 	return error;
 }
@@ -166,7 +165,6 @@ int ctx::request_handler::read_sync(const char* subject, ctx::json* option, int*
 	}
 
 	_I("[ReadSync] ReqId: %d, Subject: %s", *req_id, subject);
-	_D("Option: %s", opt_str);
 
 	std::string data_str;
 	int error = dbus_handle->request(REQ_READ_SYNC, *req_id, subject, opt_str, NULL, &data_str);
@@ -174,8 +172,8 @@ int ctx::request_handler::read_sync(const char* subject, ctx::json* option, int*
 
 	*data_read = data_str;
 
-	_I("Error: %#x", error);
-	_SI("Data: %s", data_str.c_str());
+	_D("Error: %#x", error);
+	_SD("Data: %s", data_str.c_str());
 
 	return error;
 }
@@ -196,7 +194,7 @@ int ctx::request_handler::write(const char* subject, ctx::json* data)
 	int error = dbus_handle->request_with_no_reply(REQ_WRITE, req_id, subject, data_str);
 	g_free(data_str);
 
-	_I("Error: %#x", error);
+	_D("Error: %#x", error);
 
 	return error;
 }
@@ -222,8 +220,8 @@ int ctx::request_handler::write_with_reply(const char* subject, ctx::json* data,
 		*request_result = result_str;
 	}
 
-	_I("Error: %#x", error);
-	_SI("Result: %s", result_str.c_str());
+	_D("Error: %#x", error);
+	_SD("Result: %s", result_str.c_str());
 
 	return error;
 }
@@ -240,7 +238,7 @@ bool ctx::request_handler::register_callback(const char* subject, subject_respon
 	IF_FAIL_RETURN_TAG(subject && callback, false, _E, "Invalid parameter");
 	IF_FAIL_RETURN_TAG(initialize(), false, _E, "Connection failed");
 
-	_I("Registering callback for subject '%s'", subject);
+	_D("Registering callback for subject '%s'", subject);
 
 	static GMutex cb_list_mutex;
 	ctx::scope_mutex sm(&cb_list_mutex);
