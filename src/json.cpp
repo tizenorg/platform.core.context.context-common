@@ -21,7 +21,9 @@
 #include <json-glib/json-glib.h>
 #include <json.h>
 
-#define PATH_DELIM '.'
+#define PATH_DELIM	'.'
+#define GVAR_VALUES	"values"
+#define GVAR_TYPES	"types"
 
 static double string_to_double(const char* in)
 {
@@ -387,6 +389,24 @@ bool ctx::json::set(const char* path, const char* key, std::string val)
 	return true;
 }
 
+bool ctx::json::set(const char* path, const char* key, GVariant *val)
+{
+	IF_FAIL_RETURN_TAG(this->json_node, false, _E, "Json object not initialized");
+	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
+
+	const gchar *type_str = g_variant_get_type_string(val);
+	IF_FAIL_RETURN_TAG(type_str, false, _E, "GVariant manipulation failed");
+
+	json_node_t *node = json_gvariant_serialize(val);
+	IF_FAIL_RETURN_TAG(node, false, _E, "GVariant manipulation failed");
+
+	json gvar_json;
+	gvar_json.set(NULL, GVAR_TYPES, type_str);
+	json_object_set_member(json_node_get_object(gvar_json.json_node), GVAR_VALUES, node);
+
+	return set(path, key, gvar_json);
+}
+
 bool ctx::json::get(const char* path, const char* key, json* val)
 {
 	IF_FAIL_RETURN_TAG(this->json_node, false, _E, "Json object not initialized");
@@ -502,6 +522,32 @@ bool ctx::json::get(const char* path, const char* key, std::string* val)
 	return true;
 }
 
+bool ctx::json::get(const char* path, const char* key, GVariant **val)
+{
+	IF_FAIL_RETURN_TAG(this->json_node, false, _E, "Json object not initialized");
+	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
+
+	bool ret;
+	json gvar_json;
+	ret = get(path, key, &gvar_json);
+	IF_FAIL_RETURN(ret, false);
+
+	std::string gvar_types;
+	ret = gvar_json.get(NULL, GVAR_TYPES, &gvar_types);
+	IF_FAIL_RETURN(ret, false);
+
+	json gvar_values;
+	ret = gvar_json.get(NULL, GVAR_VALUES, &gvar_values);
+	IF_FAIL_RETURN(ret, false);
+
+	GError *gerr = NULL;
+	*val = json_gvariant_deserialize(gvar_values.json_node, gvar_types.c_str(), &gerr);
+	HANDLE_GERROR(gerr);
+	IF_FAIL_RETURN(*val, false);
+
+	return true;
+}
+
 static JsonArray* search_array(JsonNode* jnode, const char* path, const char* key, bool force)
 {
 	JsonNode *node = NULL;
@@ -522,7 +568,7 @@ static JsonArray* search_array(JsonNode* jnode, const char* path, const char* ke
 	}
 	node = json_object_get_member(jobj, key);
 	IF_FAIL_RETURN_TAG(node && json_node_get_node_type(node) == JSON_NODE_ARRAY,
-			NULL, _E, "Type mismatched: %s", key);
+			NULL, _W, "Type mismatched: %s", key);
 
 	return json_node_get_array(node);
 }
@@ -598,7 +644,7 @@ bool ctx::json::array_append(const char* path, const char* key, std::string val)
 static JsonNode* search_array_elem(JsonNode* jnode, const char* path, const char* key, int index)
 {
 	JsonArray *jarr = search_array(jnode, path, key, false);
-	IF_FAIL_RETURN_TAG(jarr, NULL, _D, "Mismatched data type");
+	IF_FAIL_RETURN_TAG(jarr, NULL, _W, "Mismatched data type");
 
 	int size = json_array_get_length(jarr);
 	IF_FAIL_RETURN(size > index, NULL);

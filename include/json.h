@@ -36,7 +36,7 @@ namespace ctx {
 	class json {
 	private:
 		typedef struct _JsonNode json_node_t;
-		json_node_t * json_node;
+		json_node_t *json_node;
 
 		void parse(const char* s);
 		void release();
@@ -85,12 +85,14 @@ namespace ctx {
 		bool set(const char* path, const char* key, int64_t val);
 		bool set(const char* path, const char* key, double val, int prec = DEFAULT_PRECISION);
 		bool set(const char* path, const char* key, std::string val);
+		bool set(const char* path, const char* key, GVariant *val);
 
 		bool get(const char* path, const char* key, json* val);
 		bool get(const char* path, const char* key, int* val);
 		bool get(const char* path, const char* key, int64_t* val);
 		bool get(const char* path, const char* key, double* val);
 		bool get(const char* path, const char* key, std::string* val);
+		bool get(const char* path, const char* key, GVariant **val);
 
 		int array_get_size(const char* path, const char* key);
 
