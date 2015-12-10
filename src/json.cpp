@@ -47,6 +47,7 @@ static std::string double_to_string(double in, int prec)
 }
 
 ctx::json::json()
+	: json_node(NULL)
 {
 	JsonObject *obj = json_object_new();
 	IF_FAIL_VOID_TAG(obj, _E, "Json object construction failed");
@@ -62,12 +63,14 @@ ctx::json::json()
 }
 
 ctx::json::json(const json& j)
+	: json_node(NULL)
 {
 	json_node = json_node_copy(j.json_node);
 	IF_FAIL_VOID_TAG(json_node, _E, "Json object construction failed");
 }
 
 ctx::json::json(const char* s)
+	: json_node(NULL)
 {
 	if (s) {
 		parse(s);
@@ -77,6 +80,7 @@ ctx::json::json(const char* s)
 }
 
 ctx::json::json(const std::string& s)
+	: json_node(NULL)
 {
 	if (s.empty()) {
 		parse(EMPTY_JSON_OBJECT);
@@ -662,7 +666,6 @@ bool ctx::json::array_set_at(const char* path, const char* key, int index, json&
 
 	JsonNode *node = search_array_elem(json_node, path, key, index);
 	IF_FAIL_RETURN_TAG(node, false, _W, "Out of range");
-	IF_FAIL_RETURN_TAG(json_node_get_node_type(node) == JSON_NODE_OBJECT, false, _E, "Type mismatched: %s[%d]", key, index);
 
 	JsonObject *obj = json_node_get_object(val.json_node);
 	IF_FAIL_RETURN_TAG(obj, false, _E, "Getting object failed");
@@ -688,7 +691,6 @@ bool ctx::json::array_set_at(const char* path, const char* key, int index, int64
 	JsonNode *node = search_array_elem(json_node, path, key, index);
 	IF_FAIL_RETURN_TAG(node, false, _W, "Out of range");
 	IF_FAIL_RETURN_TAG(json_node_get_node_type(node) == JSON_NODE_VALUE, false, _E, "Type mismatched: %s[%d]", key, index);
-	IF_FAIL_RETURN_TAG(json_node_get_value_type(node) == G_TYPE_INT64, false, _E, "Type mismatched: %s[%d]", key, index);
 
 	json_node_set_int(node, val);
 	return true;
@@ -702,7 +704,6 @@ bool ctx::json::array_set_at(const char* path, const char* key, int index, doubl
 	JsonNode *node = search_array_elem(json_node, path, key, index);
 	IF_FAIL_RETURN_TAG(node, false, _W, "Out of range");
 	IF_FAIL_RETURN_TAG(json_node_get_node_type(node) == JSON_NODE_VALUE, false, _E, "Type mismatched: %s[%d]", key, index);
-	IF_FAIL_RETURN_TAG(json_node_get_value_type(node) == G_TYPE_STRING, false, _E, "Type mismatched: %s[%d]", key, index);
 
 	json_node_set_string(node, double_to_string(val, prec).c_str());
 	return true;
@@ -716,7 +717,6 @@ bool ctx::json::array_set_at(const char* path, const char* key, int index, std::
 	JsonNode *node = search_array_elem(json_node, path, key, index);
 	IF_FAIL_RETURN_TAG(node, false, _W, "Out of range");
 	IF_FAIL_RETURN_TAG(json_node_get_node_type(node) == JSON_NODE_VALUE, false, _E, "Type mismatched: %s[%d]", key, index);
-	IF_FAIL_RETURN_TAG(json_node_get_value_type(node) == G_TYPE_STRING, false, _E, "Type mismatched: %s[%d]", key, index);
 
 	json_node_set_string(node, val.c_str());
 	return true;
