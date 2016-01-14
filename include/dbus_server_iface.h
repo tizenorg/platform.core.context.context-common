@@ -26,8 +26,10 @@ namespace ctx {
 	class dbus_server_iface {
 		public:
 			virtual ~dbus_server_iface() {}
-			virtual int64_t signal_subscribe(const char* sender, const char* path, const char* iface, const char* name, dbus_listener_iface* listener) = 0;
-			virtual void signal_unsubscribe(int64_t subscription_id) = 0;
+			virtual int64_t subscribe_system_signal(const char* sender, const char* path, const char* iface, const char* name, dbus_listener_iface* listener) = 0;
+			virtual int64_t subscribe_session_signal(const char* sender, const char* path, const char* iface, const char* name, dbus_listener_iface* listener) = 0;
+			virtual void unsubscribe_system_signal(int64_t subscription_id) = 0;
+			virtual void unsubscribe_session_signal(int64_t subscription_id) = 0;
 	};	/* class ctx::dbus_server */
 
 	namespace dbus_server {
