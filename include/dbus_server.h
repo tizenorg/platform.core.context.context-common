@@ -34,12 +34,14 @@ namespace ctx {
 		 * @return	A subscription identifier that can be used with signal_unsubscribe().@n
 		 *			If failed, a negative value.
 		 */
-		int64_t signal_subscribe(const char* sender, const char* path, const char* iface, const char* name, dbus_listener_iface* listener);
+		int64_t subscribe_system_signal(const char* sender, const char* path, const char* iface, const char* name, dbus_listener_iface* listener);
+		int64_t subscribe_session_signal(const char* sender, const char* path, const char* iface, const char* name, dbus_listener_iface* listener);
 
 		/**
 		 * @brief	Unsubscribes from signals.
 		 */
-		void signal_unsubscribe(int64_t subscription_id);
+		void unsubscribe_system_signal(int64_t subscription_id);
+		void unsubscribe_session_signal(int64_t subscription_id);
 
 	}	/* namespace ctx::dbus_server */
 }	/* namespace ctx */

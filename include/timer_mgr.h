@@ -17,24 +17,13 @@
 #ifndef __CONTEXT_TIMER_MANAGER_H__
 #define __CONTEXT_TIMER_MANAGER_H__
 
+#include <timer_types.h>
+
 namespace ctx {
 	/* Forward Declaration */
 	class timer_listener_iface;
 
 	namespace timer_manager {
-
-		enum day_of_week_e {
-			SUN = 0x01,
-			MON = 0x02,
-			TUE = 0x04,
-			WED = 0x08,
-			THU = 0x10,
-			FRI = 0x20,
-			SAT = 0x40,
-			WEEKDAY = MON | TUE | WED | THU | FRI,
-			WEEKEND = SAT | SUN,
-			EVERYDAY = SUN | MON | TUE | WED | THU | FRI | SAT,
-		};
 
 		/**
 		 * @brief		Sets a repeated timer for a given interval of time (s).

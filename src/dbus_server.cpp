@@ -27,14 +27,26 @@ void ctx::dbus_server::set_instance(dbus_server_iface* svr)
 	_instance = svr;
 }
 
-int64_t ctx::dbus_server::signal_subscribe(const char* sender, const char* path, const char* iface, const char* name, dbus_listener_iface* listener)
+int64_t ctx::dbus_server::subscribe_system_signal(const char* sender, const char* path, const char* iface, const char* name, dbus_listener_iface* listener)
 {
 	IF_FAIL_RETURN_TAG(_instance, false, _E, "Not initialized");
-	return _instance->signal_subscribe(sender, path, iface, name, listener);
+	return _instance->subscribe_system_signal(sender, path, iface, name, listener);
 }
 
-void ctx::dbus_server::signal_unsubscribe(int64_t subscription_id)
+int64_t ctx::dbus_server::subscribe_session_signal(const char* sender, const char* path, const char* iface, const char* name, dbus_listener_iface* listener)
+{
+	IF_FAIL_RETURN_TAG(_instance, false, _E, "Not initialized");
+	return _instance->subscribe_session_signal(sender, path, iface, name, listener);
+}
+
+void ctx::dbus_server::unsubscribe_system_signal(int64_t subscription_id)
 {
 	IF_FAIL_VOID_TAG(_instance, _E, "Not initialized");
-	_instance->signal_unsubscribe(subscription_id);
+	_instance->unsubscribe_system_signal(subscription_id);
+}
+
+void ctx::dbus_server::unsubscribe_session_signal(int64_t subscription_id)
+{
+	IF_FAIL_VOID_TAG(_instance, _E, "Not initialized");
+	_instance->unsubscribe_session_signal(subscription_id);
 }
