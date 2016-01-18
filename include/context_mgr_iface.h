@@ -27,7 +27,9 @@ namespace ctx {
 	public:
 		virtual ~context_manager_iface() {}
 		virtual bool register_provider(const char *subject, context_provider_info &provider_info) = 0;
-		virtual bool register_trigger_item(const char *subject, int operation, ctx::json attributes, ctx::json options) = 0;
+		virtual bool unregister_provider(const char *subject) = 0;
+		virtual bool register_trigger_item(const char *subject, int operation, ctx::json attributes, ctx::json options, const char* owner = NULL) = 0;
+		virtual bool unregister_trigger_item(const char *subject) = 0;
 		virtual bool publish(const char *subject, ctx::json &option, int error, ctx::json &data_updated) = 0;
 		virtual bool reply_to_read(const char *subject, ctx::json &option, int error, ctx::json &data_read) = 0;
 	};	/* class context_manager_iface */

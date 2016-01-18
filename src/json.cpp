@@ -125,6 +125,11 @@ void ctx::json::release()
 	}
 }
 
+bool ctx::json::valid()
+{
+	return (json_node != NULL);
+}
+
 ctx::json& ctx::json::operator=(const json& j)
 {
 	release();

@@ -36,7 +36,15 @@ namespace ctx {
 
 		/*
 		 */
-		bool register_trigger_item(const char *subject, int operation, ctx::json attributes, ctx::json options);
+		bool unregister_provider(const char *subject);
+
+		/*
+		 */
+		bool register_trigger_item(const char *subject, int operation, ctx::json attributes, ctx::json options, const char* owner = NULL);
+
+		/*
+		 */
+		bool unregister_trigger_item(const char *subject);
 
 		/*
 		 */

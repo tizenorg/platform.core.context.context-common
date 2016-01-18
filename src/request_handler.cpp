@@ -226,11 +226,20 @@ int ctx::request_handler::write_with_reply(const char* subject, ctx::json* data,
 	return error;
 }
 
-int ctx::request_handler::is_supported(const char* subject)
+int ctx::request_handler::is_supported(const char* subject, ctx::json* request_result)
 {
 	ASSERT_NOT_NULL(subject);
 	IF_FAIL_RETURN_TAG(initialize(), false, _E, "Connection failed");
-	return dbus_handle->request(REQ_SUPPORT, generate_req_id(), subject, NULL, NULL, NULL);
+
+	std::string data_str;
+	int error = dbus_handle->request((request_result)? REQ_SUPPORT_CUSTOM : REQ_SUPPORT, generate_req_id(), subject, NULL, (request_result)? &data_str : NULL, NULL);
+
+	if (request_result) {
+		*request_result = data_str;
+	}
+
+	_D("Error: %#x", error);
+	return error;
 }
 
 bool ctx::request_handler::register_callback(const char* subject, subject_response_cb callback)
