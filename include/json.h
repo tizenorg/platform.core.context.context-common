@@ -79,6 +79,7 @@ namespace ctx {
 		std::string str();
 
 		bool get_keys(std::list<std::string>* list);
+		bool valid();
 
 		bool set(const char* path, const char* key, json& val);
 		bool set(const char* path, const char* key, int val);
