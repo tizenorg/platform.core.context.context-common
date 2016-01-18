@@ -55,7 +55,7 @@ namespace ctx { namespace request_handler {
 
 	/*
 	 */
-	int is_supported(const char* subject);
+	int is_supported(const char* subject, ctx::json* request_result = NULL);
 
 } }	/* namespace ctx::request_handler */
 
