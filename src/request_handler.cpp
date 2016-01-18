@@ -230,7 +230,10 @@ int ctx::request_handler::is_supported(const char* subject)
 {
 	ASSERT_NOT_NULL(subject);
 	IF_FAIL_RETURN_TAG(initialize(), false, _E, "Connection failed");
-	return dbus_handle->request(REQ_SUPPORT, generate_req_id(), subject, NULL, NULL, NULL);
+
+	int error = dbus_handle->request(REQ_SUPPORT, generate_req_id(), subject, NULL, NULL, NULL);
+	_D("Error: %#x", error);
+	return error;
 }
 
 bool ctx::request_handler::register_callback(const char* subject, subject_response_cb callback)
