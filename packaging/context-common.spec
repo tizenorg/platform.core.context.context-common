@@ -31,6 +31,8 @@ export CXXFLAGS+=" -Wno-unused-parameter -Wno-empty-body"
 export   CFLAGS+=" -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-strict-aliasing -fno-unroll-loops -fsigned-char -fstrict-overflow -fno-common"
 export CXXFLAGS+=" -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-strict-aliasing -fno-unroll-loops -fsigned-char -fstrict-overflow"
 
+export CXXFLAGS+=" -std=c++11 -Wno-c++11-compat"
+
 export   CFLAGS+=" -DTIZEN_ENGINEER_MODE"
 export CXXFLAGS+=" -DTIZEN_ENGINEER_MODE"
 export   FFLAGS+=" -DTIZEN_ENGINEER_MODE"
