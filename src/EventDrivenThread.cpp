@@ -137,14 +137,10 @@ void EventDrivenThread::__run()
 		event = static_cast<event_message_s*>(g_async_queue_pop(__threadInfo->eventQueue));
 
 		if (event) {
-			if (event->term){
-				delete event;
-				break;
-			} else {
+			if (!event->term) {
 				onEvent(event->type, event->data);
-				delete event;
 			}
+			delete event;
 		}
-
 	}
 }
