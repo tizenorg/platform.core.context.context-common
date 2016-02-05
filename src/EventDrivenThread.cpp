@@ -52,7 +52,7 @@ bool EventDrivenThread::start()
 
 	IF_FAIL_RETURN_TAG(__threadInfo, false, _E, "Memory allocation failed");
 
-	if (!__threadInfo->isRunning.load()) {
+	if (!isRunning()) {
 
 		__threadInfo->eventQueue = g_async_queue_new();
 
@@ -80,22 +80,14 @@ bool EventDrivenThread::start()
 
 bool EventDrivenThread::stop()
 {
-	if (__threadInfo->isRunning.load()) {
+	if (isRunning()) {
 		event_message_s* event = new(std::nothrow) event_message_s;
 		IF_FAIL_RETURN_TAG(event, false, _E, "Memory allocation failed");
 
 		event->term = true;
 		g_async_queue_push(__threadInfo->eventQueue, event);
-		__threadInfo->isRunning = false;
 		g_thread_join(__threadInfo->thread);
 
-		/* Free the memory allocated for the event queue */
-		while ((event = static_cast<event_message_s*>(g_async_queue_try_pop(__threadInfo->eventQueue)))) {
-			if (event->data) {
-				deleteEvent(event->type, event->data);
-			}
-			delete event;
-		}
 		g_async_queue_unref(__threadInfo->eventQueue);
 	}
 
@@ -109,7 +101,7 @@ bool EventDrivenThread::isRunning()
 
 bool EventDrivenThread::pushEvent(int type, void* data)
 {
-	if (__threadInfo->isRunning.load()) {
+	if (isRunning()) {
 		event_message_s* event = new(std::nothrow) event_message_s;
 		IF_FAIL_RETURN_TAG(event, false, _E, "Memory allocation failed");
 
@@ -132,15 +124,13 @@ void EventDrivenThread::__run()
 {
 	event_message_s *event = NULL;
 
-	while (__threadInfo->isRunning.load()) {
-
+	while (isRunning()) {
 		event = static_cast<event_message_s*>(g_async_queue_pop(__threadInfo->eventQueue));
-
-		if (event) {
-			if (!event->term) {
-				onEvent(event->type, event->data);
-			}
-			delete event;
+		if (event->term) {
+			__threadInfo->isRunning = false;
+		} else {
+			onEvent(event->type, event->data);
 		}
+		delete event;
 	}
 }

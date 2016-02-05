@@ -34,7 +34,6 @@ protected:
 	EventDrivenThread();
 
 	virtual void onEvent(int type, void* data) = 0;
-	virtual void deleteEvent(int type, void* data) = 0;
 
 	bool pushEvent(int type, void* data);
 
