@@ -14,16 +14,25 @@
  * limitations under the License.
  */
 
-#ifndef __CONTEXT_DBUS_SERVER_H__
-#define __CONTEXT_DBUS_SERVER_H__
+#ifndef _CONTEXT_DBUS_SIGNAL_WATCHER_H_
+#define _CONTEXT_DBUS_SIGNAL_WATCHER_H_
 
 #include <sys/types.h>
+#include <gio/gio.h>
+#include <IDBusSignalListener.h>
 
 namespace ctx {
-	/* Forward Declaration */
-	class dbus_listener_iface;
 
-	namespace dbus_server {
+	enum class DBusType {
+		SYSTEM,
+		SESSION
+	};
+
+	class DBusSignalWatcher {
+	public:
+		DBusSignalWatcher(DBusType type);
+		~DBusSignalWatcher();
+
 		/**
 		 * @brief	Subscribes to signals.
 		 * @param[in]	sender		Sensor name to match on. NULL to listen from all senders.
@@ -31,19 +40,25 @@ namespace ctx {
 		 * @param[in]	iface		D-Bus interface name to match on. NULL to match on all interfaces.
 		 * @param[in]	name		D-Bus signal name to match on. NULL to match on all signals.
 		 * @param[in]	listener	Listener object to receive matching signals.
-		 * @return	A subscription identifier that can be used with signal_unsubscribe().@n
+		 * @return	A subscription identifier that can be used with signal_unsubscribe().
 		 *			If failed, a negative value.
 		 */
-		int64_t subscribe_system_signal(const char* sender, const char* path, const char* iface, const char* name, dbus_listener_iface* listener);
-		int64_t subscribe_session_signal(const char* sender, const char* path, const char* iface, const char* name, dbus_listener_iface* listener);
+		int64_t watch(const char *sender, const char *path, const char *iface, const char *name, IDBusSignalListener *listener);
+		void unwatch(int64_t signal_id);
 
-		/**
-		 * @brief	Unsubscribes from signals.
-		 */
-		void unsubscribe_system_signal(int64_t subscription_id);
-		void unsubscribe_session_signal(int64_t subscription_id);
+	private:
+		void __openBus(GBusType type, GDBusConnection *&bus);
+		void __closeBus(GDBusConnection *&bus);
 
-	}	/* namespace ctx::dbus_server */
+		static GMutex __mutex;
+		static unsigned int __systemBusCnt;
+		static unsigned int __sessionBusCnt;
+		static GDBusConnection *__systemBus;
+		static GDBusConnection *__sessionBus;
+
+		DBusType __busType;
+	};
+
 }	/* namespace ctx */
 
-#endif	/* End of __CONTEXT_DBUS_SERVER_H__ */
+#endif	/* End of _CONTEXT_DBUS_SIGNAL_WATCHER_H_ */
