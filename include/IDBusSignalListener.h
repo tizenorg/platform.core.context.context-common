@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-#ifndef __CONTEXT_DBUS_LISTENER_INTERFACE_H__
-#define __CONTEXT_DBUS_LISTENER_INTERFACE_H__
+#ifndef _CONTEXT_I_DBUS_SIGNAL_LISTENER_H_
+#define _CONTEXT_I_DBUS_SIGNAL_LISTENER_H_
 
 #include <glib.h>
 
 namespace ctx {
 
-	class dbus_listener_iface {
+	class IDBusSignalListener {
 		public:
-			virtual ~dbus_listener_iface() {}
+			virtual ~IDBusSignalListener() {}
 
 			/**
 			 * @brief	Called when receiving a signal.
@@ -33,9 +33,9 @@ namespace ctx {
 			 * @param[in]	name	The name of the signal.
 			 * @param[in]	param	A GVariant tuple with parameters of the signal.
 			 */
-			virtual void on_signal_received(const char* sender, const char* path, const char* iface, const char* name, GVariant* param) = 0;
+			virtual void onSignal(const char *sender, const char *path, const char *iface, const char *name, GVariant *param) = 0;
 	};
 
 }	/* namespace ctx */
 
-#endif	/* End of __CONTEXT_DBUS_LISTENER_INTERFACE_H__ */
+#endif	/* End of _CONTEXT_I_DBUS_SIGNAL_LISTENER_H_ */

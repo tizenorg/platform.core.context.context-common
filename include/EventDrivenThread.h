@@ -19,26 +19,31 @@
 
 #include <glib.h>
 
-class event_driven_thread {
-	private:
-		typedef struct thread_info_s* thread_info_t;
-		thread_info_t thread_info;
+class EventDrivenThread {
 
-		static gpointer thread_func_wrapper(gpointer data);
-		void process_event_queue();
-		virtual void on_thread_event_popped(int type, void* data) = 0;
-		virtual void delete_thread_event(int type, void* data) = 0;
+	typedef struct thread_info_s* thread_info_t;
 
-	protected:
-		event_driven_thread();
-		bool push_thread_event(int type, void* data = NULL);
+public:
+	virtual ~EventDrivenThread();
 
-	public:
-		virtual ~event_driven_thread();
-		bool start();
-		bool stop();
-		bool is_running();
+	bool start();
+	bool stop();
+	bool isRunning();
 
-};	/* class event_driven_thread */
+protected:
+	EventDrivenThread();
+
+	virtual void onEvent(int type, void* data) = 0;
+
+	bool pushEvent(int type, void* data);
+
+private:
+	static gpointer __threadFunc(gpointer data);
+
+	void __run();
+
+	thread_info_t __threadInfo;
+
+};	/* class EventDrivenThread */
 
 #endif /* _EVENT_DRIVEN_THREAD_H_ */
