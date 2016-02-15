@@ -35,8 +35,8 @@ static void __signal_cb(GDBusConnection *conn, const gchar *sender,
 	listener->onSignal(sender, path, iface, name, param);
 }
 
-DBusSignalWatcher::DBusSignalWatcher(DBusType type)
-	: __busType(type)
+DBusSignalWatcher::DBusSignalWatcher(DBusType type) :
+	__busType(type)
 {
 	ScopeMutex sm(&__mutex);
 
