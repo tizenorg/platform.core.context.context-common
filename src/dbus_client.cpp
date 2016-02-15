@@ -18,7 +18,7 @@
 #include <gio/gio.h>
 
 #include <types_internal.h>
-#include <scope_mutex.h>
+#include <ScopeMutex.h>
 #include "response_handler.h"
 #include "dbus_client.h"
 
@@ -77,7 +77,7 @@ ctx::dbus_client::~dbus_client()
 bool ctx::dbus_client::init()
 {
 	static GMutex connection_mutex;
-	ctx::scope_mutex sm(&connection_mutex);
+	ctx::ScopeMutex sm(&connection_mutex);
 
 	if (dbus_connection) {
 		return true;

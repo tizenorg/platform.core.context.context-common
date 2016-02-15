@@ -20,7 +20,7 @@
 #include <string>
 
 #include <types_internal.h>
-#include <scope_mutex.h>
+#include <ScopeMutex.h>
 #include <request_handler.h>
 #include "response_handler.h"
 #include "dbus_client.h"
@@ -45,7 +45,7 @@ static int generate_req_id()
 	static GMutex rid_mutex;
 	static int req_id = 0;
 
-	ctx::scope_mutex sm(&rid_mutex);
+	ctx::ScopeMutex sm(&rid_mutex);
 
 	// Overflow handling
 	if (++req_id < 0) {
@@ -58,7 +58,7 @@ static int generate_req_id()
 static bool initialize()
 {
 	static GMutex init_mutex;
-	ctx::scope_mutex sm(&init_mutex);
+	ctx::ScopeMutex sm(&init_mutex);
 
 	if (dbus_handle) {
 		return true;
@@ -241,7 +241,7 @@ bool ctx::request_handler::register_callback(const char* subject, subject_respon
 	_D("Registering callback for subject '%s'", subject);
 
 	static GMutex cb_list_mutex;
-	ctx::scope_mutex sm(&cb_list_mutex);
+	ctx::ScopeMutex sm(&cb_list_mutex);
 
 	(*response_cb_map)[subject] = callback;
 

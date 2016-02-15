@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-#ifndef __CONTEXT_SCOPE_MUTEX_H__
-#define __CONTEXT_SCOPE_MUTEX_H__
+#include <ScopeMutex.h>
 
-#include <glib.h>
-#include <types_internal.h>
+ctx::ScopeMutex::ScopeMutex(GMutex *m) :
+	__mutex(m)
+{
+	g_mutex_lock(__mutex);
+}
 
-namespace ctx {
-	// RAII Class implementing the mutex helper on the base of GLib mutex,
-	// which automatically locks mutex during its creation and unlocks while exiting the scope.
-	class scope_mutex
-	{
-		private:
-			GMutex *mutex;
-
-		public:
-			scope_mutex(GMutex *m);
-			~scope_mutex();
-	};
-}	/* namespace ctx */
-
-#endif // __CONTEXT_SCOPE_MUTEX_H__
+ctx::ScopeMutex::~ScopeMutex()
+{
+	g_mutex_unlock(__mutex);
+}

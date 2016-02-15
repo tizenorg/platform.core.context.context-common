@@ -14,14 +14,22 @@
  * limitations under the License.
  */
 
-#include <scope_mutex.h>
+#ifndef _CONTEXT_SCOPE_MUTEX_H_
+#define _CONTEXT_SCOPE_MUTEX_H_
 
-ctx::scope_mutex::scope_mutex(GMutex *m) : mutex(m)
-{
-	g_mutex_lock(mutex);
-}
+#include <glib.h>
 
-ctx::scope_mutex::~scope_mutex()
-{
-	g_mutex_unlock(mutex);
-}
+namespace ctx {
+
+	class ScopeMutex {
+	private:
+		GMutex *__mutex;
+
+	public:
+		ScopeMutex(GMutex *m);
+		~ScopeMutex();
+	};
+
+}	/* namespace ctx */
+
+#endif // _CONTEXT_SCOPE_MUTEX_H_

@@ -15,7 +15,7 @@
  */
 
 #include <types_internal.h>
-#include <scope_mutex.h>
+#include <ScopeMutex.h>
 #include <DBusSignalWatcher.h>
 
 using namespace ctx;
@@ -38,7 +38,7 @@ static void __signal_cb(GDBusConnection *conn, const gchar *sender,
 DBusSignalWatcher::DBusSignalWatcher(DBusType type)
 	: __busType(type)
 {
-	scope_mutex sm(&__mutex);
+	ScopeMutex sm(&__mutex);
 
 	if (__busType == DBusType::SYSTEM) {
 		if (__systemBusCnt++ == 0)
@@ -51,7 +51,7 @@ DBusSignalWatcher::DBusSignalWatcher(DBusType type)
 
 DBusSignalWatcher::~DBusSignalWatcher()
 {
-	scope_mutex sm(&__mutex);
+	ScopeMutex sm(&__mutex);
 
 	if (__busType == DBusType::SYSTEM) {
 		if (--__systemBusCnt == 0)
