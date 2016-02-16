@@ -75,4 +75,4 @@ Context-Service Shared Library (DEV)
 %files devel
 %defattr(-,root,root,-)
 %{_includedir}/context-service/internal/*.h
-%{_libdir}/pkgconfig/%{name}.pc
+%{_libdir}/pkgconfig/*.pc
