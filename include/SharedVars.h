@@ -14,15 +14,37 @@
  * limitations under the License.
  */
 
-#ifndef __CONTEXT_SHARED_VARS_H__
-#define __CONTEXT_SHARED_VARS_H__
+#ifndef _CONTEXT_SHARED_VARS_H_
+#define _CONTEXT_SHARED_VARS_H_
 
+#include <glib.h>
 #include <string>
+#include <map>
 
 namespace ctx {
-	namespace shared {
-		extern std::string wifi_bssid;
-	}
+
+	/*
+	 * TODO: Maybe later, it would be possible to extend this to support a sort of
+	 *       'update observation' feature, i.e., getting notifications when a variable is updated.
+	 */
+	class SharedVars {
+	public:
+		enum VarName {
+			WIFI_BSSID,
+		};
+
+		SharedVars();
+		~SharedVars();
+
+		const std::string& set(VarName name, std::string value) const;
+		std::string get(VarName name);
+		void clear(VarName name);
+
+	private:
+		static GMutex __mutex;
+		static std::map<VarName, std::string> __varsMap;
+	};
+
 }
 
 #endif
