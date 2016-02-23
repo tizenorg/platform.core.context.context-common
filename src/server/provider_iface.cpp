@@ -15,25 +15,25 @@
  */
 
 #include <types_internal.h>
-#include <json.h>
+#include <Json.h>
 #include <provider_iface.h>
 
-int ctx::context_provider_iface::subscribe(const char *subject, ctx::json option, ctx::json *request_result)
+int ctx::context_provider_iface::subscribe(const char *subject, ctx::Json option, ctx::Json *request_result)
 {
 	return ERR_NOT_SUPPORTED;
 }
 
-int ctx::context_provider_iface::unsubscribe(const char *subject, ctx::json option)
+int ctx::context_provider_iface::unsubscribe(const char *subject, ctx::Json option)
 {
 	return ERR_NOT_SUPPORTED;
 }
 
-int ctx::context_provider_iface::read(const char *subject, ctx::json option, ctx::json *request_result)
+int ctx::context_provider_iface::read(const char *subject, ctx::Json option, ctx::Json *request_result)
 {
 	return ERR_NOT_SUPPORTED;
 }
 
-int ctx::context_provider_iface::write(const char *subject, ctx::json data, ctx::json *request_result)
+int ctx::context_provider_iface::write(const char *subject, ctx::Json data, ctx::Json *request_result)
 {
 	return ERR_NOT_SUPPORTED;
 }
