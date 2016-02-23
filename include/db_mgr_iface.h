@@ -21,17 +21,17 @@
 
 namespace ctx {
 	/* Forward Declaration */
-	class json;
+	class Json;
 	class db_listener_iface;
 
 	class db_manager_iface {
 		public:
 			virtual ~db_manager_iface() {}
 			virtual bool create_table(unsigned int query_id, const char* table_name, const char* columns, const char* option = NULL, db_listener_iface* listener = NULL) = 0;
-			virtual bool insert(unsigned int query_id, const char* table_name, json& record, db_listener_iface* listener = NULL) = 0;
+			virtual bool insert(unsigned int query_id, const char* table_name, Json& record, db_listener_iface* listener = NULL) = 0;
 			virtual bool execute(unsigned int query_id, const char* query, db_listener_iface* listener) = 0;
-			virtual bool insert_sync(const char* table_name, json& record, int64_t* row_id) = 0;
-			virtual bool execute_sync(const char* query, std::vector<json>* records) = 0;
+			virtual bool insert_sync(const char* table_name, Json& record, int64_t* row_id) = 0;
+			virtual bool execute_sync(const char* query, std::vector<Json>* records) = 0;
 	};	/* class db_manager */
 
 	namespace db_manager {

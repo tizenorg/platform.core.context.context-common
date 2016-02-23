@@ -21,7 +21,7 @@
 
 namespace ctx {
 	/* Forward Declaration */
-	class json;
+	class Json;
 
 	class db_listener_iface {
 		public:
@@ -48,7 +48,7 @@ namespace ctx {
 			 * @param[in]	error		Error code. If success, 0. Otherwise, a negative value.
 			 * @param[in]	records		Data records retreived.
 			 */
-			virtual void on_query_result_received(unsigned int query_id, int error, std::vector<json>& records) = 0;
+			virtual void on_query_result_received(unsigned int query_id, int error, std::vector<Json>& records) = 0;
 	};
 
 }	/* namespace ctx */

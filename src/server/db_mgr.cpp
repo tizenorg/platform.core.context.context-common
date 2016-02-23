@@ -15,7 +15,7 @@
  */
 
 #include <types_internal.h>
-#include <json.h>
+#include <Json.h>
 #include <db_listener_iface.h>
 #include <db_mgr.h>
 #include <db_mgr_iface.h>
@@ -33,7 +33,7 @@ bool ctx::db_manager::create_table(unsigned int query_id, const char* table_name
 	return _instance->create_table(query_id, table_name, columns, option, listener);
 }
 
-bool ctx::db_manager::insert(unsigned int query_id, const char* table_name, json& record, db_listener_iface* listener)
+bool ctx::db_manager::insert(unsigned int query_id, const char* table_name, Json& record, db_listener_iface* listener)
 {
 	IF_FAIL_RETURN_TAG(_instance, false, _E, "Not initialized");
 	return _instance->insert(query_id, table_name, record, listener);
@@ -45,13 +45,13 @@ bool ctx::db_manager::execute(unsigned int query_id, const char* query, db_liste
 	return _instance->execute(query_id, query, listener);
 }
 
-bool ctx::db_manager::insert_sync(const char* table_name, json& record, int64_t* row_id)
+bool ctx::db_manager::insert_sync(const char* table_name, Json& record, int64_t* row_id)
 {
 	IF_FAIL_RETURN_TAG(_instance, false, _E, "Not initialized");
 	return _instance->insert_sync(table_name, record, row_id);
 }
 
-bool ctx::db_manager::execute_sync(const char* query, std::vector<json>* records)
+bool ctx::db_manager::execute_sync(const char* query, std::vector<Json>* records)
 {
 	IF_FAIL_RETURN_TAG(_instance, false, _E, "Not initialized");
 	return _instance->execute_sync(query, records);
