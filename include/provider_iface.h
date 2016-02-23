@@ -20,15 +20,15 @@
 namespace ctx {
 
 	/* Forward Declaration */
-	class json;
+	class Json;
 
 	class context_provider_iface {
 	public:
 		virtual ~context_provider_iface() {}
-		virtual int subscribe(const char *subject, ctx::json option, ctx::json *request_result);
-		virtual int unsubscribe(const char *subject, ctx::json option);
-		virtual int read(const char *subject, ctx::json option, ctx::json *request_result);
-		virtual int write(const char *subject, ctx::json data, ctx::json *request_result);
+		virtual int subscribe(const char *subject, ctx::Json option, ctx::Json *request_result);
+		virtual int unsubscribe(const char *subject, ctx::Json option);
+		virtual int read(const char *subject, ctx::Json option, ctx::Json *request_result);
+		virtual int write(const char *subject, ctx::Json data, ctx::Json *request_result);
 
 	protected:
 		context_provider_iface() {}

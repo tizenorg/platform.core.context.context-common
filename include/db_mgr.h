@@ -23,7 +23,7 @@
 
 namespace ctx {
 	/* Forward Declaration */
-	class json;
+	class Json;
 	class db_listener_iface;
 
 	namespace db_manager {
@@ -46,7 +46,7 @@ namespace ctx {
 		 * @param[in]	record		A json object containing key, value pairs.
 		 * @param[in]	listener	A listner object to receive the result. Allows NULL.
 		 */
-		bool insert(unsigned int query_id, const char* table_name, json& record, db_listener_iface* listener = NULL);
+		bool insert(unsigned int query_id, const char* table_name, Json& record, db_listener_iface* listener = NULL);
 
 		/**
 		 * @brief		Execute a SQL query. Async.
@@ -63,7 +63,7 @@ namespace ctx {
 		 * @param[in]	record		A json object containing key, value pairs.
 		 * @param[out]	row_id		The row id of the inserted record. If fails, a negative integer.
 		 */
-		bool insert_sync(const char* table_name, json& record, int64_t* row_id);
+		bool insert_sync(const char* table_name, Json& record, int64_t* row_id);
 
 		/**
 		 * @brief		Execute a SQL query. Sync.
@@ -71,7 +71,7 @@ namespace ctx {
 		 * @param[in]	query		A query to be executed.
 		 * @param[out]	records		Query result.
 		 */
-		bool execute_sync(const char* query, std::vector<json>* records);
+		bool execute_sync(const char* query, std::vector<Json>* records);
 
 	}	/* namespace ctx::db_manager */
 }	/* namespace ctx */
