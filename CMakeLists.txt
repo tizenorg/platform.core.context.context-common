@@ -3,7 +3,7 @@ PROJECT(context-common)
 INCLUDE(GNUInstallDirs)
 
 # Dependencies
-SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 dlog capi-base-common")
+SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 dlog capi-base-common alarm-service")
 
 INCLUDE(FindPkgConfig)
 INCLUDE_DIRECTORIES(
