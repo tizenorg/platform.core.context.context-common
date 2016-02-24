@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-#ifndef __CONTEXT_TIMER_UTIL_H__
-#define __CONTEXT_TIMER_UTIL_H__
-
-#include <string>
-#include <timer_types.h>
+#ifndef _CONTEXT_I_TIMER_LISTENER_H_
+#define _CONTEXT_I_TIMER_LISTENER_H_
 
 namespace ctx {
 
-	namespace timer_util {
+	class ITimerListener {
+	public:
+		virtual ~ITimerListener() {}
 
-		std::string convert_day_of_week_int_to_string(int d);
-		int convert_day_of_week_string_to_int(std::string d);
+		/**
+		 * @brief		Called when a timer is expired.
+		 * @param[in]	timer_id	The expired timers' ID
+		 * @return		@c true, if the timer needs to be repeated.@n
+		 *				@c false, if the timer does not need to be repeated anymore.
+		 */
+		virtual bool onTimerExpired(int timerId) = 0;
+	};
 
-	}
 }	/* namespace ctx */
 
-#endif	/* __CONTEXT_TIMER_UTIL_H__ */
+#endif	/* _CONTEXT_I_TIMER_LISTENER_H_ */
