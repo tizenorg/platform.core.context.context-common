@@ -2,56 +2,17 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 PROJECT(context-common)
 INCLUDE(GNUInstallDirs)
 
-# Dependencies
-SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 dlog capi-base-common alarm-service")
-
 INCLUDE(FindPkgConfig)
 INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 ADD_DEFINITIONS(-g -O2 -Wall -fPIC -Wl,--as-needed)
 
-# Build flags
-pkg_check_modules(lib_pkg REQUIRED ${DEPS})
-
-FOREACH(flag ${lib_pkg_CFLAGS})
-   SET(LIB_EXTRA_CFLAGS "${LIB_EXTRA_CFLAGS} ${flag}")
-ENDFOREACH(flag)
-
 # Install
 INSTALL(
 	DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/context-service/internal
 	FILES_MATCHING PATTERN "*.h"
-)
-
-SET(VERSION ${FULLVER})
-SET(PREFIX ${CMAKE_INSTALL_PREFIX})
-SET(PC_NAME ${PROJECT_NAME})
-SET(PC_INCLUDE "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/context-service/internal")
-SET(PC_LIBDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
-SET(PC_DESCRIPTION "Tizen Context-Service Shared Library")
-SET(PC_REQUIRED ${DEPS})
-SET(PC_CFLAGS -I\${includedir}/context-service/internal)
-
-SET(PC_LDFLAGS "-lctx-server")
-CONFIGURE_FILE(
-	${PROJECT_NAME}.pc.in
-	${CMAKE_CURRENT_SOURCE_DIR}/libcontext-server.pc
-	@ONLY
-)
-
-SET(PC_LDFLAGS "-lctx-shared")
-CONFIGURE_FILE(
-	${PROJECT_NAME}.pc.in
-	${CMAKE_CURRENT_SOURCE_DIR}/libcontext-shared.pc
-	@ONLY
-)
-
-INSTALL(
-	DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
-	FILES_MATCHING PATTERN "*.pc"
 )
 
 ADD_SUBDIRECTORY(src/shared)
