@@ -37,7 +37,7 @@ static std::string __double_to_hex(double in)
 	const unsigned char *pch = reinterpret_cast<const unsigned char*>(&in);
 	for (unsigned int i = 0; i < sizeof(in); ++i) {
 		char buf[3];
-		sprintf(buf, "%02x", static_cast<unsigned int>(*pch));
+		snprintf(buf, 2, "%02x", static_cast<unsigned int>(*pch));
 		hex = hex + buf;
 		pch++;
 	}
