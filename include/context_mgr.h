@@ -17,9 +17,11 @@
 #ifndef __CONTEXT_MANAGER_H__
 #define __CONTEXT_MANAGER_H__
 
+#include <stdlib.h>
+
 namespace ctx {
 	/* Forward Declaration */
-	class json;
+	class Json;
 	class context_provider_iface;
 	class context_provider_info;
 
@@ -36,15 +38,23 @@ namespace ctx {
 
 		/*
 		 */
-		bool register_trigger_item(const char *subject, int operation, ctx::json attributes, ctx::json options);
+		bool unregister_provider(const char *subject);
 
 		/*
 		 */
-		bool publish(const char *subject, ctx::json option, int error, ctx::json data_updated);
+		bool register_trigger_item(const char *subject, int operation, ctx::Json attributes, ctx::Json options, const char* owner = NULL);
 
 		/*
 		 */
-		bool reply_to_read(const char *subject, ctx::json option, int error, ctx::json data_read);
+		bool unregister_trigger_item(const char *subject);
+
+		/*
+		 */
+		bool publish(const char *subject, ctx::Json option, int error, ctx::Json data_updated);
+
+		/*
+		 */
+		bool reply_to_read(const char *subject, ctx::Json option, int error, ctx::Json data_read);
 
 	}	/* namespace ctx::context_manager */
 }	/* namespace ctx */

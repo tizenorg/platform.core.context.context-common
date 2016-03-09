@@ -12,6 +12,7 @@ BuildRequires: pkgconfig(gio-2.0)
 BuildRequires: pkgconfig(json-glib-1.0)
 BuildRequires: pkgconfig(dlog)
 BuildRequires: pkgconfig(capi-base-common)
+BuildRequires: pkgconfig(alarm-service)
 
 %description
 Context-Service Shared Library
@@ -75,4 +76,4 @@ Context-Service Shared Library (DEV)
 %files devel
 %defattr(-,root,root,-)
 %{_includedir}/context-service/internal/*.h
-%{_libdir}/pkgconfig/%{name}.pc
+%{_libdir}/pkgconfig/*.pc

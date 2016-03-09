@@ -14,24 +14,37 @@
  * limitations under the License.
  */
 
-#ifndef __CONTEXT_SCOPE_MUTEX_H__
-#define __CONTEXT_SCOPE_MUTEX_H__
+#ifndef _CONTEXT_SHARED_VARS_H_
+#define _CONTEXT_SHARED_VARS_H_
 
 #include <glib.h>
-#include <types_internal.h>
+#include <string>
+#include <map>
 
 namespace ctx {
-	// RAII Class implementing the mutex helper on the base of GLib mutex,
-	// which automatically locks mutex during its creation and unlocks while exiting the scope.
-	class scope_mutex
-	{
-		private:
-			GMutex *mutex;
 
-		public:
-			scope_mutex(GMutex *m);
-			~scope_mutex();
+	/*
+	 * TODO: Maybe later, it would be possible to extend this to support a sort of
+	 *       'update observation' feature, i.e., getting notifications when a variable is updated.
+	 */
+	class SharedVars {
+	public:
+		enum VarId {
+			WIFI_BSSID,
+		};
+
+		SharedVars();
+		~SharedVars();
+
+		const std::string& set(VarId id, std::string value) const;
+		std::string get(VarId id);
+		void clear(VarId id);
+
+	private:
+		static GMutex __mutex;
+		static std::map<VarId, std::string> __varsMap;
 	};
-}	/* namespace ctx */
 
-#endif // __CONTEXT_SCOPE_MUTEX_H__
+}
+
+#endif

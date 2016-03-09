@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-#ifndef __CONTEXT_LIB_DBUS_HANDLER_H__
-#define __CONTEXT_LIB_DBUS_HANDLER_H__
-
-#include <string>
+#ifndef _CONTEXT_I_TIMER_LISTENER_H_
+#define _CONTEXT_I_TIMER_LISTENER_H_
 
 namespace ctx {
 
-	class dbus_client {
-		public:
-			dbus_client();
-			~dbus_client();
+	class ITimerListener {
+	public:
+		virtual ~ITimerListener() {}
 
-			bool init();
-			void release();
-
-			int request(int type, int req_id, const char* subject, const char* input, std::string* req_result, std::string* data_read);
-			int request_with_no_reply(int type, int req_id, const char* subject, const char* input);
-
-	};	/* classs ctx::dbus_client */
+		/**
+		 * @brief		Called when a timer is expired.
+		 * @param[in]	timer_id	The expired timers' ID
+		 * @return		@c true, if the timer needs to be repeated.@n
+		 *				@c false, if the timer does not need to be repeated anymore.
+		 */
+		virtual bool onTimerExpired(int timerId) = 0;
+	};
 
 }	/* namespace ctx */
 
-#endif // __CONTEXT_LIB_DBUS_HANDLER_H__
+#endif	/* _CONTEXT_I_TIMER_LISTENER_H_ */

@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-#ifndef __CONTEXT_TIMER_UTIL_H__
-#define __CONTEXT_TIMER_UTIL_H__
+#ifndef _CONTEXT_SCOPE_MUTEX_H_
+#define _CONTEXT_SCOPE_MUTEX_H_
 
-#include <string>
-#include <timer_types.h>
+#include <glib.h>
 
 namespace ctx {
 
-	namespace timer_util {
+	class ScopeMutex {
+	private:
+		GMutex *__mutex;
 
-		std::string convert_day_of_week_int_to_string(int d);
-		int convert_day_of_week_string_to_int(std::string d);
+	public:
+		ScopeMutex(GMutex *m);
+		~ScopeMutex();
+	};
 
-	}
 }	/* namespace ctx */
 
-#endif	/* __CONTEXT_TIMER_UTIL_H__ */
+#endif // _CONTEXT_SCOPE_MUTEX_H_

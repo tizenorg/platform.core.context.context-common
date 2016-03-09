@@ -33,8 +33,8 @@ struct event_message_s {
 	event_message_s() : type(-1), data(NULL), term(false) {}
 };
 
-EventDrivenThread::EventDrivenThread()
-	: __threadInfo(NULL)
+EventDrivenThread::EventDrivenThread() :
+	__threadInfo(NULL)
 {
 }
 

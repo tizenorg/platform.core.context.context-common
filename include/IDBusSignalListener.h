@@ -22,18 +22,18 @@
 namespace ctx {
 
 	class IDBusSignalListener {
-		public:
-			virtual ~IDBusSignalListener() {}
+	public:
+		virtual ~IDBusSignalListener() {}
 
-			/**
-			 * @brief	Called when receiving a signal.
-			 * @param[in]	sender	The unique bus name of the sender of the signal.
-			 * @param[in]	path	The object path that the signal was emitted on.
-			 * @param[in]	iface	The name of the interface.
-			 * @param[in]	name	The name of the signal.
-			 * @param[in]	param	A GVariant tuple with parameters of the signal.
-			 */
-			virtual void onSignal(const char *sender, const char *path, const char *iface, const char *name, GVariant *param) = 0;
+		/**
+		 * @brief	Called when receiving a signal.
+		 * @param[in]	sender	The unique bus name of the sender of the signal.
+		 * @param[in]	path	The object path that the signal was emitted on.
+		 * @param[in]	iface	The name of the interface.
+		 * @param[in]	name	The name of the signal.
+		 * @param[in]	param	A GVariant tuple with parameters of the signal.
+		 */
+		virtual void onSignal(const char *sender, const char *path, const char *iface, const char *name, GVariant *param) = 0;
 	};
 
 }	/* namespace ctx */

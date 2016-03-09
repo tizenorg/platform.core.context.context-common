@@ -14,6 +14,15 @@
  * limitations under the License.
  */
 
-#include <shared_vars.h>
+#include <ScopeMutex.h>
 
-std::string ctx::shared::wifi_bssid = "";
+ctx::ScopeMutex::ScopeMutex(GMutex *m) :
+	__mutex(m)
+{
+	g_mutex_lock(__mutex);
+}
+
+ctx::ScopeMutex::~ScopeMutex()
+{
+	g_mutex_unlock(__mutex);
+}
