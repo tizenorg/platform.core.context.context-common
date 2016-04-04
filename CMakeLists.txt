@@ -6,7 +6,8 @@ INCLUDE(FindPkgConfig)
 INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-ADD_DEFINITIONS(-g -O2 -Wall -fPIC -Wl,--as-needed)
+ADD_DEFINITIONS(-O2 -Wall -fPIC -fdata-sections -ffunction-sections)
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fPIC -Wl,--as-needed -Wl,--gc-section -Wl,--print-gc-section")
 
 # Install
 INSTALL(

@@ -14,6 +14,8 @@ BuildRequires: pkgconfig(dlog)
 BuildRequires: pkgconfig(capi-base-common)
 BuildRequires: pkgconfig(alarm-service)
 
+%define keepstatic 1
+
 %description
 Context-Service Shared Library
 
@@ -26,8 +28,8 @@ MAJORVER=`echo %{version} | awk 'BEGIN {FS="."}{print $1}'`
 export   CFLAGS+=" -Wextra -Wcast-align -Wshadow -Wwrite-strings -Wswitch-default -Wno-unused-parameter"
 export CXXFLAGS+=" -Wextra -Wcast-align -Wshadow -Wwrite-strings -Wswitch-default -Wno-unused-parameter"
 
-export   CFLAGS+=" -Wno-empty-body -fno-omit-frame-pointer -fno-optimize-sibling-calls"
-export CXXFLAGS+=" -Wno-empty-body -fno-omit-frame-pointer -fno-optimize-sibling-calls"
+export   CFLAGS+=" -Wno-empty-body -fomit-frame-pointer -fno-optimize-sibling-calls"
+export CXXFLAGS+=" -Wno-empty-body -fomit-frame-pointer -fno-optimize-sibling-calls"
 
 export   CFLAGS+=" -fno-strict-aliasing -fno-unroll-loops -fsigned-char -fstrict-overflow"
 export CXXFLAGS+=" -fno-strict-aliasing -fno-unroll-loops -fsigned-char -fstrict-overflow"
@@ -76,4 +78,5 @@ Context-Service Shared Library (DEV)
 %files devel
 %defattr(-,root,root,-)
 %{_includedir}/context-service/internal/*.h
+%{_libdir}/libctx-server.a
 %{_libdir}/pkgconfig/*.pc
