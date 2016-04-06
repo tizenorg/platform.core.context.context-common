@@ -19,7 +19,11 @@
 
 #include <glib.h>
 
-class EventDrivenThread {
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
+class CTX_COMMON_EXPORT_API EventDrivenThread {
 
 	typedef struct thread_info_s* thread_info_t;
 

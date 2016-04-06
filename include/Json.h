@@ -30,9 +30,13 @@ do { \
 
 #define EMPTY_JSON_OBJECT	"{}"
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 
-	class Json {
+	class CTX_COMMON_EXPORT_API Json {
 	public:
 		Json();
 		Json(const char *s);

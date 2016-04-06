@@ -6,7 +6,9 @@ INCLUDE(FindPkgConfig)
 INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-ADD_DEFINITIONS(-g -O2 -Wall -fPIC -Wl,--as-needed)
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O2 -Wall -fPIC -Wl,--as-needed -fvisibility=hidden -flto")
+ADD_DEFINITIONS("-DCTX_COMMON_EXPORT_API=__attribute__((visibility(\"default\")))")
 
 # Install
 INSTALL(

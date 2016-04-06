@@ -21,6 +21,10 @@
 #include <sys/types.h>
 #include <vector>
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 	/* Forward Declaration */
 	class Json;
@@ -37,7 +41,7 @@ namespace ctx {
 		 * @param[in]	option		Additional options. Allows NULL.
 		 * @param[in]	listener	A listner object to receive the result. Allows NULL.
 		 */
-		bool create_table(unsigned int query_id, const char* table_name, const char* columns, const char* option = NULL, db_listener_iface* listener = NULL);
+		CTX_COMMON_EXPORT_API bool create_table(unsigned int query_id, const char* table_name, const char* columns, const char* option = NULL, db_listener_iface* listener = NULL);
 
 		/**
 		 * @brief		Insert a record to a table. Async.
@@ -46,7 +50,7 @@ namespace ctx {
 		 * @param[in]	record		A json object containing key, value pairs.
 		 * @param[in]	listener	A listner object to receive the result. Allows NULL.
 		 */
-		bool insert(unsigned int query_id, const char* table_name, Json& record, db_listener_iface* listener = NULL);
+		CTX_COMMON_EXPORT_API bool insert(unsigned int query_id, const char* table_name, Json& record, db_listener_iface* listener = NULL);
 
 		/**
 		 * @brief		Execute a SQL query. Async.
@@ -54,7 +58,7 @@ namespace ctx {
 		 * @param[in]	query		A query to be executed.
 		 * @param[in]	listener	A listner object to receive the result.
 		 */
-		bool execute(unsigned int query_id, const char* query, db_listener_iface* listener);
+		CTX_COMMON_EXPORT_API bool execute(unsigned int query_id, const char* query, db_listener_iface* listener);
 
 		/**
 		 * @brief		Insert a record to a table. Sync.
@@ -63,7 +67,7 @@ namespace ctx {
 		 * @param[in]	record		A json object containing key, value pairs.
 		 * @param[out]	row_id		The row id of the inserted record. If fails, a negative integer.
 		 */
-		bool insert_sync(const char* table_name, Json& record, int64_t* row_id);
+		CTX_COMMON_EXPORT_API bool insert_sync(const char* table_name, Json& record, int64_t* row_id);
 
 		/**
 		 * @brief		Execute a SQL query. Sync.
@@ -71,7 +75,7 @@ namespace ctx {
 		 * @param[in]	query		A query to be executed.
 		 * @param[out]	records		Query result.
 		 */
-		bool execute_sync(const char* query, std::vector<Json>* records);
+		CTX_COMMON_EXPORT_API bool execute_sync(const char* query, std::vector<Json>* records);
 
 	}	/* namespace ctx::db_manager */
 }	/* namespace ctx */

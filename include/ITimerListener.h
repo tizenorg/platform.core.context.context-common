@@ -17,9 +17,13 @@
 #ifndef _CONTEXT_I_TIMER_LISTENER_H_
 #define _CONTEXT_I_TIMER_LISTENER_H_
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 
-	class ITimerListener {
+	class CTX_COMMON_EXPORT_API ITimerListener {
 	public:
 		virtual ~ITimerListener() {}
 

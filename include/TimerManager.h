@@ -35,9 +35,13 @@
 #define DOW_WEEKEND	"Weekend"
 #define DOW_EVERYDAY	"Everyday"
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 
-	enum class DayOfWeek {
+	enum class CTX_COMMON_EXPORT_API DayOfWeek {
 		SUN = 0x01,
 		MON = 0x02,
 		TUE = 0x04,
@@ -50,7 +54,7 @@ namespace ctx {
 		EVERYDAY = SUN | MON | TUE | WED | THU | FRI | SAT
 	};
 
-	class TimerManager {
+	class CTX_COMMON_EXPORT_API TimerManager {
 	public:
 		TimerManager();
 		~TimerManager();

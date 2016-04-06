@@ -21,13 +21,17 @@
 #include <string>
 #include <map>
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 
 	/*
 	 * TODO: Maybe later, it would be possible to extend this to support a sort of
 	 *       'update observation' feature, i.e., getting notifications when a variable is updated.
 	 */
-	class SharedVars {
+	class CTX_COMMON_EXPORT_API SharedVars {
 	public:
 		enum VarId {
 			WIFI_BSSID,

@@ -21,14 +21,18 @@
 #include <gio/gio.h>
 #include <IDBusSignalListener.h>
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 
-	enum class DBusType {
+	enum class CTX_COMMON_EXPORT_API DBusType {
 		SYSTEM,
 		SESSION
 	};
 
-	class DBusSignalWatcher {
+	class CTX_COMMON_EXPORT_API DBusSignalWatcher {
 	public:
 		DBusSignalWatcher(DBusType type);
 		~DBusSignalWatcher();

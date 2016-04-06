@@ -19,9 +19,13 @@
 
 #include <glib.h>
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 
-	class IDBusSignalListener {
+	class CTX_COMMON_EXPORT_API IDBusSignalListener {
 	public:
 		virtual ~IDBusSignalListener() {}
 

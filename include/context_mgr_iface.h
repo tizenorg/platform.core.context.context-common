@@ -17,13 +17,17 @@
 #ifndef __CONTEXT_MANAGER_INTERFACE_H__
 #define __CONTEXT_MANAGER_INTERFACE_H__
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 	/* Forward Declaration */
 	class Json;
 	class context_provider_iface;
 	class context_provider_info;
 
-	class context_manager_iface {
+	class CTX_COMMON_EXPORT_API context_manager_iface {
 	public:
 		virtual ~context_manager_iface() {}
 		virtual bool register_provider(const char *subject, context_provider_info &provider_info) = 0;
@@ -35,7 +39,7 @@ namespace ctx {
 	};	/* class context_manager_iface */
 
 	namespace context_manager {
-		void set_instance(context_manager_iface* mgr);
+		CTX_COMMON_EXPORT_API void set_instance(context_manager_iface* mgr);
 	}	/* namespace ctx::context_manager */
 
 }	/* namespace ctx */

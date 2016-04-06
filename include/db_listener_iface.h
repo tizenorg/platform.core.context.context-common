@@ -19,11 +19,15 @@
 
 #include <vector>
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 	/* Forward Declaration */
 	class Json;
 
-	class db_listener_iface {
+	class CTX_COMMON_EXPORT_API db_listener_iface {
 		public:
 			virtual ~db_listener_iface() {}
 

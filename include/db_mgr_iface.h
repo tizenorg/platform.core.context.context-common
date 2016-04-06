@@ -19,12 +19,16 @@
 
 #include <sys/types.h>
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 	/* Forward Declaration */
 	class Json;
 	class db_listener_iface;
 
-	class db_manager_iface {
+	class CTX_COMMON_EXPORT_API db_manager_iface {
 		public:
 			virtual ~db_manager_iface() {}
 			virtual bool create_table(unsigned int query_id, const char* table_name, const char* columns, const char* option = NULL, db_listener_iface* listener = NULL) = 0;
@@ -35,7 +39,7 @@ namespace ctx {
 	};	/* class db_manager */
 
 	namespace db_manager {
-		void set_instance(db_manager_iface* mgr);
+		CTX_COMMON_EXPORT_API void set_instance(db_manager_iface* mgr);
 	}	/* namespace ctx::db_manager */
 }	/* namespace ctx */
 

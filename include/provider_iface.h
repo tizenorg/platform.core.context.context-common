@@ -17,12 +17,16 @@
 #ifndef __CONTEXT_PROVIDER_INTERFACE_H__
 #define __CONTEXT_PROVIDER_INTERFACE_H__
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 
 	/* Forward Declaration */
 	class Json;
 
-	class context_provider_iface {
+	class CTX_COMMON_EXPORT_API context_provider_iface {
 	public:
 		virtual ~context_provider_iface() {}
 		virtual int subscribe(const char *subject, ctx::Json option, ctx::Json *request_result);
@@ -35,7 +39,7 @@ namespace ctx {
 
 	};	/* class context_provider_iface */
 
-	class context_provider_info {
+	class CTX_COMMON_EXPORT_API context_provider_info {
 		typedef context_provider_iface *(*creator_t)(void *data);
 		typedef void (*destroyer_t)(void *data);
 

@@ -19,13 +19,17 @@
 
 #include <stdlib.h>
 
+#ifndef CTX_COMMON_EXPORT_API
+#define CTX_COMMON_EXPORT_API
+#endif
+
 namespace ctx {
 	/* Forward Declaration */
 	class Json;
 	class context_provider_iface;
 	class context_provider_info;
 
-	enum operation_type_e {
+	enum CTX_COMMON_EXPORT_API operation_type_e {
 		OPS_SUBSCRIBE	= 1,
 		OPS_READ		= 2,
 		OPS_WRITE		= 4,
@@ -34,27 +38,27 @@ namespace ctx {
 	namespace context_manager {
 		/*
 		 */
-		bool register_provider(const char *subject, context_provider_info &provider_info);
+		CTX_COMMON_EXPORT_API bool register_provider(const char *subject, context_provider_info &provider_info);
 
 		/*
 		 */
-		bool unregister_provider(const char *subject);
+		CTX_COMMON_EXPORT_API bool unregister_provider(const char *subject);
 
 		/*
 		 */
-		bool register_trigger_item(const char *subject, int operation, ctx::Json attributes, ctx::Json options, const char* owner = NULL);
+		CTX_COMMON_EXPORT_API bool register_trigger_item(const char *subject, int operation, ctx::Json attributes, ctx::Json options, const char* owner = NULL);
 
 		/*
 		 */
-		bool unregister_trigger_item(const char *subject);
+		CTX_COMMON_EXPORT_API bool unregister_trigger_item(const char *subject);
 
 		/*
 		 */
-		bool publish(const char *subject, ctx::Json option, int error, ctx::Json data_updated);
+		CTX_COMMON_EXPORT_API bool publish(const char *subject, ctx::Json option, int error, ctx::Json data_updated);
 
 		/*
 		 */
-		bool reply_to_read(const char *subject, ctx::Json option, int error, ctx::Json data_read);
+		CTX_COMMON_EXPORT_API bool reply_to_read(const char *subject, ctx::Json option, int error, ctx::Json data_read);
 
 	}	/* namespace ctx::context_manager */
 }	/* namespace ctx */
