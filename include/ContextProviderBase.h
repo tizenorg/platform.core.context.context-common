@@ -14,41 +14,41 @@
  * limitations under the License.
  */
 
-#ifndef __CONTEXT_PROVIDER_INTERFACE_H__
-#define __CONTEXT_PROVIDER_INTERFACE_H__
+#ifndef _CONTEXT_PROVIDER_BASE_H_
+#define _CONTEXT_PROVIDER_BASE_H_
 
 namespace ctx {
 
 	/* Forward Declaration */
 	class Json;
 
-	class context_provider_iface {
+	class ContextProviderBase {
 	public:
-		virtual ~context_provider_iface() {}
-		virtual int subscribe(const char *subject, ctx::Json option, ctx::Json *request_result);
+		virtual ~ContextProviderBase() {}
+		virtual int subscribe(const char *subject, ctx::Json option, ctx::Json *requestResult);
 		virtual int unsubscribe(const char *subject, ctx::Json option);
-		virtual int read(const char *subject, ctx::Json option, ctx::Json *request_result);
-		virtual int write(const char *subject, ctx::Json data, ctx::Json *request_result);
+		virtual int read(const char *subject, ctx::Json option, ctx::Json *requestResult);
+		virtual int write(const char *subject, ctx::Json data, ctx::Json *requestResult);
 
 	protected:
-		context_provider_iface() {}
+		ContextProviderBase() {}
 
-	};	/* class context_provider_iface */
+	};	/* class ContextProviderBase */
 
-	class context_provider_info {
-		typedef context_provider_iface *(*creator_t)(void *data);
-		typedef void (*destroyer_t)(void *data);
+	class ContextProviderInfo {
+		typedef ContextProviderBase *(*Creator)(void *data);
+		typedef void (*Destroyer)(void *data);
 
 	public:
-		creator_t create;
-		destroyer_t destroy;
+		Creator create;
+		Destroyer destroy;
 		void *data;
 		const char *privilege;
 
-		context_provider_info();
-		context_provider_info(creator_t cr, destroyer_t des, void *dat = NULL, const char *priv = NULL);
+		ContextProviderInfo();
+		ContextProviderInfo(Creator cr, Destroyer des, void *dat = NULL, const char *priv = NULL);
 	};
 
 }	/* namespace ctx */
 
-#endif	/* End of __CONTEXT_PROVIDER_INTERFACE_H__ */
+#endif	/* End of _CONTEXT_PROVIDER_BASE_H_ */

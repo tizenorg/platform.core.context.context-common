@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-#ifndef __CONTEXT_MANAGER_H__
-#define __CONTEXT_MANAGER_H__
+#ifndef _CONTEXT_MANAGER_H_
+#define _CONTEXT_MANAGER_H_
 
 #include <stdlib.h>
 
 namespace ctx {
 	/* Forward Declaration */
 	class Json;
-	class context_provider_iface;
-	class context_provider_info;
+	class ContextProviderBase;
+	class ContextProviderInfo;
 
-	enum operation_type_e {
+	enum OperationType {
 		OPS_SUBSCRIBE	= 1,
 		OPS_READ		= 2,
 		OPS_WRITE		= 4,
@@ -34,29 +34,29 @@ namespace ctx {
 	namespace context_manager {
 		/*
 		 */
-		bool register_provider(const char *subject, context_provider_info &provider_info);
+		bool registerProvider(const char *subject, ContextProviderInfo &providerInfo);
 
 		/*
 		 */
-		bool unregister_provider(const char *subject);
+		bool unregisterProvider(const char *subject);
 
 		/*
 		 */
-		bool register_trigger_item(const char *subject, int operation, ctx::Json attributes, ctx::Json options, const char* owner = NULL);
+		bool registerTriggerItem(const char *subject, int operation, ctx::Json attributes, ctx::Json options, const char* owner = NULL);
 
 		/*
 		 */
-		bool unregister_trigger_item(const char *subject);
+		bool unregisterTriggerItem(const char *subject);
 
 		/*
 		 */
-		bool publish(const char *subject, ctx::Json option, int error, ctx::Json data_updated);
+		bool publish(const char *subject, ctx::Json option, int error, ctx::Json dataUpdated);
 
 		/*
 		 */
-		bool reply_to_read(const char *subject, ctx::Json option, int error, ctx::Json data_read);
+		bool replyToRead(const char *subject, ctx::Json option, int error, ctx::Json dataRead);
 
-	}	/* namespace ctx::context_manager */
+	}	/* namespace context_manager */
 }	/* namespace ctx */
 
-#endif	/* End of __CONTEXT_MANAGER_H__ */
+#endif	/* End of _CONTEXT_MANAGER_H_ */

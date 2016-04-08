@@ -16,42 +16,42 @@
 
 #include <types_internal.h>
 #include <Json.h>
-#include <provider_iface.h>
+#include <ContextProviderBase.h>
 
-int ctx::context_provider_iface::subscribe(const char *subject, ctx::Json option, ctx::Json *request_result)
+int ctx::ContextProviderBase::subscribe(const char *subject, ctx::Json option, ctx::Json *requestResult)
 {
 	return ERR_NOT_SUPPORTED;
 }
 
-int ctx::context_provider_iface::unsubscribe(const char *subject, ctx::Json option)
+int ctx::ContextProviderBase::unsubscribe(const char *subject, ctx::Json option)
 {
 	return ERR_NOT_SUPPORTED;
 }
 
-int ctx::context_provider_iface::read(const char *subject, ctx::Json option, ctx::Json *request_result)
+int ctx::ContextProviderBase::read(const char *subject, ctx::Json option, ctx::Json *requestResult)
 {
 	return ERR_NOT_SUPPORTED;
 }
 
-int ctx::context_provider_iface::write(const char *subject, ctx::Json data, ctx::Json *request_result)
+int ctx::ContextProviderBase::write(const char *subject, ctx::Json data, ctx::Json *requestResult)
 {
 	return ERR_NOT_SUPPORTED;
 }
 
-ctx::context_provider_info::context_provider_info()
-	: create(NULL)
-	, destroy(NULL)
-	, data(NULL)
-	, privilege(NULL)
+ctx::ContextProviderInfo::ContextProviderInfo() :
+	create(NULL),
+	destroy(NULL),
+	data(NULL),
+	privilege(NULL)
 {
 }
 
-ctx::context_provider_info::context_provider_info(
-		ctx::context_provider_info::creator_t cr,
-		ctx::context_provider_info::destroyer_t des, void *dat, const char *priv)
-	: create(cr)
-	, destroy(des)
-	, data(dat)
-	, privilege(priv)
+ctx::ContextProviderInfo::ContextProviderInfo(
+		ctx::ContextProviderInfo::Creator cr,
+		ctx::ContextProviderInfo::Destroyer des, void *dat, const char *priv) :
+	create(cr),
+	destroy(des),
+	data(dat),
+	privilege(priv)
 {
 }
