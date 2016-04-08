@@ -38,20 +38,20 @@ int ctx::ContextProviderBase::write(const char *subject, ctx::Json data, ctx::Js
 	return ERR_NOT_SUPPORTED;
 }
 
-ctx::ContextProviderInfo::ContextProviderInfo()
-	: create(NULL)
-	, destroy(NULL)
-	, data(NULL)
-	, privilege(NULL)
+ctx::ContextProviderInfo::ContextProviderInfo()	:
+	create(NULL),
+	destroy(NULL),
+	data(NULL),
+	privilege(NULL)
 {
 }
 
 ctx::ContextProviderInfo::ContextProviderInfo(
 		ctx::ContextProviderInfo::Creator cr,
-		ctx::ContextProviderInfo::Destroyer des, void *dat, const char *priv)
-	: create(cr)
-	, destroy(des)
-	, data(dat)
-	, privilege(priv)
+		ctx::ContextProviderInfo::Destroyer des, void *dat, const char *priv) :
+	create(cr),
+	destroy(des),
+	data(dat),
+	privilege(priv)
 {
 }
