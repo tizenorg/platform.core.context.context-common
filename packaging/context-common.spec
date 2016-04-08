@@ -1,6 +1,6 @@
 Name:       context-common
 Summary:    Context-Service Shared Library
-Version:    0.7.3
+Version:    0.7.5
 Release:    1
 Group:      Service/Context
 License:    Apache-2.0
