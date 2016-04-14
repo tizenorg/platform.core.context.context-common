@@ -10,8 +10,10 @@ BuildRequires: cmake
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(gio-2.0)
 BuildRequires: pkgconfig(json-glib-1.0)
+BuildRequires: pkgconfig(sqlite3)
 BuildRequires: pkgconfig(dlog)
 BuildRequires: pkgconfig(capi-base-common)
+BuildRequires: pkgconfig(libtzplatform-config)
 BuildRequires: pkgconfig(alarm-service)
 
 %define keepstatic 1

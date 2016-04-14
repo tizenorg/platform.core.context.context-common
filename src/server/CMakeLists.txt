@@ -5,7 +5,7 @@ FILE(GLOB_RECURSE SRCS *.cpp)
 MESSAGE("Sources: ${SRCS}")
 
 # Dependencies
-SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 capi-base-common dlog alarm-service")
+SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 sqlite3 capi-base-common libtzplatform-config dlog alarm-service")
 
 # Build flags
 pkg_check_modules(lib_pkg REQUIRED ${DEPS})
