@@ -22,42 +22,42 @@
 
 static ctx::IContextManager *__instance = NULL;
 
-void ctx::context_manager::setInstance(IContextManager* mgr)
+VISIBLE void ctx::context_manager::setInstance(IContextManager* mgr)
 {
 	__instance = mgr;
 }
 
-bool ctx::context_manager::registerProvider(const char* subject, ctx::ContextProviderInfo &providerInfo)
+VISIBLE bool ctx::context_manager::registerProvider(const char* subject, ctx::ContextProviderInfo &providerInfo)
 {
 	IF_FAIL_RETURN_TAG(__instance, false, _E, "Not initialized");
 	return __instance->registerProvider(subject, providerInfo);
 }
 
-bool ctx::context_manager::unregisterProvider(const char* subject)
+VISIBLE bool ctx::context_manager::unregisterProvider(const char* subject)
 {
 	IF_FAIL_RETURN_TAG(__instance, false, _E, "Not initialized");
 	return __instance->unregisterProvider(subject);
 }
 
-bool ctx::context_manager::registerTriggerItem(const char *subject, int operation, ctx::Json attributes, ctx::Json options, const char* owner)
+VISIBLE bool ctx::context_manager::registerTriggerItem(const char *subject, int operation, ctx::Json attributes, ctx::Json options, const char* owner)
 {
 	IF_FAIL_RETURN_TAG(__instance, false, _E, "Not initialized");
 	return __instance->registerTriggerItem(subject, operation, attributes, options, owner);
 }
 
-bool ctx::context_manager::unregisterTriggerItem(const char *subject)
+VISIBLE bool ctx::context_manager::unregisterTriggerItem(const char *subject)
 {
 	IF_FAIL_RETURN_TAG(__instance, false, _E, "Not initialized");
 	return __instance->unregisterTriggerItem(subject);
 }
 
-bool ctx::context_manager::publish(const char* subject, ctx::Json option, int error, ctx::Json dataUpdated)
+VISIBLE bool ctx::context_manager::publish(const char* subject, ctx::Json option, int error, ctx::Json dataUpdated)
 {
 	IF_FAIL_RETURN_TAG(__instance, false, _E, "Not initialized");
 	return __instance->publish(subject, option, error, dataUpdated);
 }
 
-bool ctx::context_manager::replyToRead(const char* subject, ctx::Json option, int error, ctx::Json dataRead)
+VISIBLE bool ctx::context_manager::replyToRead(const char* subject, ctx::Json option, int error, ctx::Json dataRead)
 {
 	IF_FAIL_RETURN_TAG(__instance, false, _E, "Not initialized");
 	return __instance->replyToRead(subject, option, error, dataRead);

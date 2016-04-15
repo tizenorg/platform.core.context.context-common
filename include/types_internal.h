@@ -20,7 +20,9 @@
 #include <tizen_error.h>
 #include <dlog.h>
 
-#define EXTAPI __attribute__ ((visibility("default")))
+#define VISIBLE __attribute__ ((visibility("default")))
+#define EXTAPI VISIBLE
+
 #define EMPTY_STRING	""
 
 /* Internal Error Codes
