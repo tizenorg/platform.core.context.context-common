@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-#include <types_internal.h>
 #include <Json.h>
 #include <ContextProviderBase.h>
+
+ctx::ContextProviderBase::ContextProviderBase()
+{
+}
+
+ctx::ContextProviderBase::~ContextProviderBase()
+{
+}
+
 
 int ctx::ContextProviderBase::subscribe(const char *subject, ctx::Json option, ctx::Json *requestResult)
 {
@@ -38,7 +46,7 @@ int ctx::ContextProviderBase::write(const char *subject, ctx::Json data, ctx::Js
 	return ERR_NOT_SUPPORTED;
 }
 
-ctx::ContextProviderInfo::ContextProviderInfo() :
+EXTAPI ctx::ContextProviderInfo::ContextProviderInfo() :
 	create(NULL),
 	destroy(NULL),
 	data(NULL),
@@ -46,7 +54,7 @@ ctx::ContextProviderInfo::ContextProviderInfo() :
 {
 }
 
-ctx::ContextProviderInfo::ContextProviderInfo(
+EXTAPI ctx::ContextProviderInfo::ContextProviderInfo(
 		ctx::ContextProviderInfo::Creator cr,
 		ctx::ContextProviderInfo::Destroyer des, void *dat, const char *priv) :
 	create(cr),

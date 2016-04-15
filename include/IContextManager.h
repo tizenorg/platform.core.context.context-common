@@ -17,15 +17,17 @@
 #ifndef _CONTEXT_MANAGER_INTERFACE_H_
 #define _CONTEXT_MANAGER_INTERFACE_H_
 
+#include <types_internal.h>
+
 namespace ctx {
 	/* Forward Declaration */
 	class Json;
 	class ContextProviderBase;
 	class ContextProviderInfo;
 
-	class IContextManager {
+	class VISIBLE IContextManager {
 	public:
-		virtual ~IContextManager() {}
+		virtual ~IContextManager();
 		virtual bool registerProvider(const char *subject, ContextProviderInfo &providerInfo) = 0;
 		virtual bool unregisterProvider(const char *subject) = 0;
 		virtual bool registerTriggerItem(const char *subject, int operation, ctx::Json attributes, ctx::Json options, const char* owner = NULL) = 0;

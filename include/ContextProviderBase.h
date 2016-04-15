@@ -17,21 +17,23 @@
 #ifndef _CONTEXT_PROVIDER_BASE_H_
 #define _CONTEXT_PROVIDER_BASE_H_
 
+#include <types_internal.h>
+
 namespace ctx {
 
 	/* Forward Declaration */
 	class Json;
 
-	class ContextProviderBase {
+	class VISIBLE ContextProviderBase {
 	public:
-		virtual ~ContextProviderBase() {}
+		virtual ~ContextProviderBase();
 		virtual int subscribe(const char *subject, ctx::Json option, ctx::Json *requestResult);
 		virtual int unsubscribe(const char *subject, ctx::Json option);
 		virtual int read(const char *subject, ctx::Json option, ctx::Json *requestResult);
 		virtual int write(const char *subject, ctx::Json data, ctx::Json *requestResult);
 
 	protected:
-		ContextProviderBase() {}
+		ContextProviderBase();
 
 	};	/* class ContextProviderBase */
 

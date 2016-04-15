@@ -17,11 +17,13 @@
 #ifndef _CONTEXT_I_TIMER_LISTENER_H_
 #define _CONTEXT_I_TIMER_LISTENER_H_
 
+#include <types_internal.h>
+
 namespace ctx {
 
-	class ITimerListener {
+	class VISIBLE ITimerListener {
 	public:
-		virtual ~ITimerListener() {}
+		virtual ~ITimerListener();
 
 		/**
 		 * @brief		Called when a timer is expired.

@@ -29,7 +29,7 @@ unsigned int TimerManager::__instanceCnt = 0;
 GMutex TimerManager::__mutex;
 std::map<int, std::pair<ITimerListener*, TimerManager*>> TimerManager::__listenerMap;
 
-TimerManager::TimerManager()
+EXTAPI TimerManager::TimerManager()
 {
 	ScopeMutex sm(&__mutex);
 
@@ -37,7 +37,7 @@ TimerManager::TimerManager()
 		__init();
 }
 
-TimerManager::~TimerManager()
+EXTAPI TimerManager::~TimerManager()
 {
 	ScopeMutex sm(&__mutex);
 
@@ -49,7 +49,7 @@ TimerManager::~TimerManager()
 		__release();
 }
 
-std::string TimerManager::dowToStr(int dow)
+EXTAPI std::string TimerManager::dowToStr(int dow)
 {
 	static const char *dowStr[] = {
 		DOW_SUN, DOW_MON, DOW_TUE, DOW_WED, DOW_THU, DOW_FRI, DOW_SAT
@@ -71,7 +71,7 @@ std::string TimerManager::dowToStr(int dow)
 	return EMPTY_STRING;
 }
 
-int TimerManager::dowToInt(std::string dow)
+EXTAPI int TimerManager::dowToInt(std::string dow)
 {
 	if (dow == DOW_SUN)			return static_cast<int>(DayOfWeek::SUN);
 	if (dow == DOW_MON)			return static_cast<int>(DayOfWeek::MON);
@@ -86,7 +86,7 @@ int TimerManager::dowToInt(std::string dow)
 	return 0;
 }
 
-int TimerManager::setFor(int interval, ITimerListener *listener)
+EXTAPI int TimerManager::setFor(int interval, ITimerListener *listener)
 {
 	IF_FAIL_RETURN_TAG(interval > 0 && listener, -1, _E, "Invalid parameter");
 
@@ -104,7 +104,7 @@ int TimerManager::setFor(int interval, ITimerListener *listener)
 	return alarmId;
 }
 
-int TimerManager::setAt(int hour, int min, DayOfWeek dow, ITimerListener *listener)
+EXTAPI int TimerManager::setAt(int hour, int min, DayOfWeek dow, ITimerListener *listener)
 {
 	IF_FAIL_RETURN_TAG(
 			hour < 24 && hour >= 0 &&
@@ -164,7 +164,7 @@ int TimerManager::setAt(int hour, int min, DayOfWeek dow, ITimerListener *listen
 	return alarmId;
 }
 
-void TimerManager::remove(int timerId)
+EXTAPI void TimerManager::remove(int timerId)
 {
 	ScopeMutex sm(&__mutex);
 	auto it = __listenerMap.find(timerId);

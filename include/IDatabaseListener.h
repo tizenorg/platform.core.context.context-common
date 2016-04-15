@@ -19,12 +19,13 @@
 
 #include <vector>
 #include <Json.h>
+#include <types_internal.h>
 
 namespace ctx {
 
-	class IDatabaseListener {
+	class VISIBLE IDatabaseListener {
 	public:
-		virtual ~IDatabaseListener() {}
+		virtual ~IDatabaseListener();
 
 		/**
 		 * @brief	Called when a table creation is done.

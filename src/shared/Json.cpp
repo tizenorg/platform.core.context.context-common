@@ -85,7 +85,7 @@ static double __string_to_double(const char* in)
 	return out;
 }
 
-Json::Json() :
+EXTAPI Json::Json() :
 	__jsonNode(NULL)
 {
 	JsonObject *obj = json_object_new();
@@ -101,14 +101,14 @@ Json::Json() :
 	json_object_unref(obj);
 }
 
-Json::Json(const Json &j)
+EXTAPI Json::Json(const Json &j)
 	: __jsonNode(NULL)
 {
 	__jsonNode = json_node_copy(j.__jsonNode);
 	IF_FAIL_VOID_TAG(__jsonNode, _E, "Json object construction failed");
 }
 
-Json::Json(const char *s)
+EXTAPI Json::Json(const char *s)
 	: __jsonNode(NULL)
 {
 	if (s) {
@@ -118,7 +118,7 @@ Json::Json(const char *s)
 	}
 }
 
-Json::Json(const std::string &s)
+EXTAPI Json::Json(const std::string &s)
 	: __jsonNode(NULL)
 {
 	if (s.empty()) {
@@ -128,7 +128,7 @@ Json::Json(const std::string &s)
 	}
 }
 
-Json::~Json()
+EXTAPI Json::~Json()
 {
 	__release();
 }
@@ -164,12 +164,12 @@ void Json::__release()
 	}
 }
 
-bool Json::valid()
+EXTAPI bool Json::valid()
 {
 	return (__jsonNode != NULL);
 }
 
-Json& Json::operator=(const Json &j)
+EXTAPI Json& Json::operator=(const Json &j)
 {
 	__release();
 	__jsonNode = json_node_copy(j.__jsonNode);
@@ -179,7 +179,7 @@ Json& Json::operator=(const Json &j)
 	return *this;
 }
 
-Json& Json::operator=(const char *s)
+EXTAPI Json& Json::operator=(const char *s)
 {
 	__release();
 	if (s) {
@@ -190,7 +190,7 @@ Json& Json::operator=(const char *s)
 	return *this;
 }
 
-Json& Json::operator=(const std::string &s)
+EXTAPI Json& Json::operator=(const std::string &s)
 {
 	__release();
 	if (s.empty()) {
@@ -201,12 +201,12 @@ Json& Json::operator=(const std::string &s)
 	return *this;
 }
 
-bool Json::operator==(const Json &rhs)
+EXTAPI bool Json::operator==(const Json &rhs)
 {
 	return __nodeEq(__jsonNode, rhs.__jsonNode);
 }
 
-bool Json::operator!=(const Json &rhs)
+EXTAPI bool Json::operator!=(const Json &rhs)
 {
 	return !operator==(rhs);
 }
@@ -237,7 +237,7 @@ CATCH:
 	return NULL;
 }
 
-std::string Json::str()
+EXTAPI std::string Json::str()
 {
 	std::string output;
 	char *_s = __strDup();
@@ -300,7 +300,7 @@ static JsonObject* __traverse(JsonNode *jnode, const char *path, bool force)
 	return jobj;
 }
 
-bool Json::set(const char *path, const char *key, Json &val)
+EXTAPI bool Json::set(const char *path, const char *key, Json &val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val.__jsonNode, false, _E, "Invalid parameter");
@@ -318,12 +318,12 @@ bool Json::set(const char *path, const char *key, Json &val)
 	return true;
 }
 
-bool Json::set(const char *path, const char *key, int val)
+EXTAPI bool Json::set(const char *path, const char *key, int val)
 {
 	return set(path, key, static_cast<int64_t>(val));
 }
 
-bool Json::set(const char *path, const char *key, int64_t val)
+EXTAPI bool Json::set(const char *path, const char *key, int64_t val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key, false, _E, "Invalid parameter");
@@ -338,12 +338,12 @@ bool Json::set(const char *path, const char *key, int64_t val)
 	return true;
 }
 
-bool Json::set(const char *path, const char *key, double val)
+EXTAPI bool Json::set(const char *path, const char *key, double val)
 {
 	return set(path, key, __double_to_hex(val));
 }
 
-bool Json::set(const char *path, const char *key, std::string val)
+EXTAPI bool Json::set(const char *path, const char *key, std::string val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key, false, _E, "Invalid parameter");
@@ -359,7 +359,7 @@ bool Json::set(const char *path, const char *key, std::string val)
 	return true;
 }
 
-bool Json::set(const char *path, const char *key, GVariant *val)
+EXTAPI bool Json::set(const char *path, const char *key, GVariant *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -377,7 +377,7 @@ bool Json::set(const char *path, const char *key, GVariant *val)
 	return set(path, key, gvarJson);
 }
 
-bool Json::get(const char *path, const char *key, Json *val)
+EXTAPI bool Json::get(const char *path, const char *key, Json *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -415,7 +415,7 @@ static JsonNode* __get_value_node(JsonNode *jnode, const char *path, const char 
 	return node;
 }
 
-bool Json::get(const char *path, const char *key, int *val)
+EXTAPI bool Json::get(const char *path, const char *key, int *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -430,7 +430,7 @@ bool Json::get(const char *path, const char *key, int *val)
 	return false;
 }
 
-bool Json::get(const char *path, const char *key, int64_t *val)
+EXTAPI bool Json::get(const char *path, const char *key, int64_t *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -451,7 +451,7 @@ bool Json::get(const char *path, const char *key, int64_t *val)
 	return true;
 }
 
-bool Json::get(const char *path, const char *key, double *val)
+EXTAPI bool Json::get(const char *path, const char *key, double *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -473,7 +473,7 @@ bool Json::get(const char *path, const char *key, double *val)
 	return true;
 }
 
-bool Json::get(const char *path, const char *key, std::string *val)
+EXTAPI bool Json::get(const char *path, const char *key, std::string *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -491,7 +491,7 @@ bool Json::get(const char *path, const char *key, std::string *val)
 	return true;
 }
 
-bool Json::get(const char *path, const char *key, GVariant **val)
+EXTAPI bool Json::get(const char *path, const char *key, GVariant **val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -542,7 +542,7 @@ static JsonArray* __get_array(JsonNode *jnode, const char *path, const char *key
 	return json_node_get_array(node);
 }
 
-int Json::getSize(const char *path, const char *key)
+EXTAPI int Json::getSize(const char *path, const char *key)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, -1, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key, -1, _E, "Invalid parameter");
@@ -553,7 +553,7 @@ int Json::getSize(const char *path, const char *key)
 	return json_array_get_length(jarr);
 }
 
-bool Json::append(const char *path, const char *key, Json &val)
+EXTAPI bool Json::append(const char *path, const char *key, Json &val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val.__jsonNode, false, _E, "Invalid parameter");
@@ -568,12 +568,12 @@ bool Json::append(const char *path, const char *key, Json &val)
 	return true;
 }
 
-bool Json::append(const char *path, const char *key, int val)
+EXTAPI bool Json::append(const char *path, const char *key, int val)
 {
 	return append(path, key, static_cast<int64_t>(val));
 }
 
-bool Json::append(const char *path, const char *key, int64_t val)
+EXTAPI bool Json::append(const char *path, const char *key, int64_t val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key, false, _E, "Invalid parameter");
@@ -585,12 +585,12 @@ bool Json::append(const char *path, const char *key, int64_t val)
 	return true;
 }
 
-bool Json::append(const char *path, const char *key, double val)
+EXTAPI bool Json::append(const char *path, const char *key, double val)
 {
 	return append(path, key, __double_to_hex(val));
 }
 
-bool Json::append(const char *path, const char *key, std::string val)
+EXTAPI bool Json::append(const char *path, const char *key, std::string val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key, false, _E, "Invalid parameter");
@@ -616,7 +616,7 @@ static JsonNode* __get_array_elem(JsonNode *jnode, const char *path, const char 
 	return node;
 }
 
-bool Json::setAt(const char *path, const char *key, int index, Json &val)
+EXTAPI bool Json::setAt(const char *path, const char *key, int index, Json &val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(val.__jsonNode && key && index >= 0, false, _E, "Invalid parameter");
@@ -635,12 +635,12 @@ bool Json::setAt(const char *path, const char *key, int index, Json &val)
 	return true;
 }
 
-bool Json::setAt(const char *path, const char *key, int index, int val)
+EXTAPI bool Json::setAt(const char *path, const char *key, int index, int val)
 {
 	return setAt(path, key, index, static_cast<int64_t>(val));
 }
 
-bool Json::setAt(const char *path, const char *key, int index, int64_t val)
+EXTAPI bool Json::setAt(const char *path, const char *key, int index, int64_t val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && index >= 0, false, _E, "Invalid parameter");
@@ -653,12 +653,12 @@ bool Json::setAt(const char *path, const char *key, int index, int64_t val)
 	return true;
 }
 
-bool Json::setAt(const char *path, const char *key, int index, double val)
+EXTAPI bool Json::setAt(const char *path, const char *key, int index, double val)
 {
 	return setAt(path, key, index, __double_to_hex(val));
 }
 
-bool Json::setAt(const char *path, const char *key, int index, std::string val)
+EXTAPI bool Json::setAt(const char *path, const char *key, int index, std::string val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && index >= 0, false, _E, "Invalid parameter");
@@ -671,7 +671,7 @@ bool Json::setAt(const char *path, const char *key, int index, std::string val)
 	return true;
 }
 
-bool Json::getAt(const char *path, const char *key, int index, Json *val)
+EXTAPI bool Json::getAt(const char *path, const char *key, int index, Json *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val && index >= 0, false, _E, "Invalid parameter");
@@ -690,7 +690,7 @@ bool Json::getAt(const char *path, const char *key, int index, Json *val)
 	return true;
 }
 
-bool Json::getAt(const char *path, const char *key, int index, int *val)
+EXTAPI bool Json::getAt(const char *path, const char *key, int index, int *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val && index >= 0, false, _E, "Invalid parameter");
@@ -704,7 +704,7 @@ bool Json::getAt(const char *path, const char *key, int index, int *val)
 	return false;
 }
 
-bool Json::getAt(const char *path, const char *key, int index, int64_t *val)
+EXTAPI bool Json::getAt(const char *path, const char *key, int index, int64_t *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val && index >= 0, false, _E, "Invalid parameter");
@@ -728,7 +728,7 @@ bool Json::getAt(const char *path, const char *key, int index, int64_t *val)
 	return true;
 }
 
-bool Json::getAt(const char *path, const char *key, int index, double *val)
+EXTAPI bool Json::getAt(const char *path, const char *key, int index, double *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val && index >= 0, false, _E, "Invalid parameter");
@@ -754,7 +754,7 @@ bool Json::getAt(const char *path, const char *key, int index, double *val)
 	return true;
 }
 
-bool Json::getAt(const char *path, const char *key, int index, std::string *val)
+EXTAPI bool Json::getAt(const char *path, const char *key, int index, std::string *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val && index >= 0, false, _E, "Invalid parameter");
@@ -802,7 +802,7 @@ bool Json::__getMembers(json_node_t *node, std::list<std::string> &list)
 	return true;
 }
 
-bool Json::getKeys(std::list<std::string>* list)
+EXTAPI bool Json::getKeys(std::list<std::string>* list)
 {
 	IF_FAIL_RETURN_TAG(list, false, _E, "Invalid parameter");
 	return __getMembers(__jsonNode, *list);

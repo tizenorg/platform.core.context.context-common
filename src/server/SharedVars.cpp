@@ -23,15 +23,15 @@ using namespace ctx;
 GMutex SharedVars::__mutex;
 std::map<SharedVars::VarId, std::string> SharedVars::__varsMap;
 
-SharedVars::SharedVars()
+EXTAPI SharedVars::SharedVars()
 {
 }
 
-SharedVars::~SharedVars()
+EXTAPI SharedVars::~SharedVars()
 {
 }
 
-const std::string& SharedVars::set(SharedVars::VarId id, std::string value) const
+EXTAPI const std::string& SharedVars::set(SharedVars::VarId id, std::string value) const
 {
 	ScopeMutex sm(&__mutex);
 	_D("var[%d] = %s", id, value.c_str());
@@ -39,7 +39,7 @@ const std::string& SharedVars::set(SharedVars::VarId id, std::string value) cons
 	return __varsMap[id];
 }
 
-std::string SharedVars::get(SharedVars::VarId id)
+EXTAPI std::string SharedVars::get(SharedVars::VarId id)
 {
 	ScopeMutex sm(&__mutex);
 	auto it = __varsMap.find(id);
@@ -49,7 +49,7 @@ std::string SharedVars::get(SharedVars::VarId id)
 		return EMPTY_STRING;
 }
 
-void SharedVars::clear(SharedVars::VarId id)
+EXTAPI void SharedVars::clear(SharedVars::VarId id)
 {
 	ScopeMutex sm(&__mutex);
 	_D("Remove var[%d]", id);

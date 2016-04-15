@@ -28,7 +28,7 @@ static unsigned int __refCount = 0;
 static GMutex __mutex;
 static DatabaseThread *__databaseThread = NULL;
 
-DatabaseManager::DatabaseManager()
+EXTAPI DatabaseManager::DatabaseManager()
 {
 	ScopeMutex sm(&__mutex);
 
@@ -47,7 +47,7 @@ DatabaseManager::DatabaseManager()
 	}
 }
 
-DatabaseManager::~DatabaseManager()
+EXTAPI DatabaseManager::~DatabaseManager()
 {
 	ScopeMutex sm(&__mutex);
 
@@ -64,32 +64,32 @@ DatabaseManager::~DatabaseManager()
 	__databaseThread = NULL;
 }
 
-bool DatabaseManager::createTable(unsigned int queryId, const char *tableName, const char *columns, const char *option, IDatabaseListener *listener)
+EXTAPI bool DatabaseManager::createTable(unsigned int queryId, const char *tableName, const char *columns, const char *option, IDatabaseListener *listener)
 {
 	return __databaseThread->createTable(queryId, tableName, columns, option, listener);
 }
 
-bool DatabaseManager::insert(unsigned int queryId, const char *tableName, Json record, IDatabaseListener *listener)
+EXTAPI bool DatabaseManager::insert(unsigned int queryId, const char *tableName, Json record, IDatabaseListener *listener)
 {
 	return __databaseThread->insert(queryId, tableName, record, listener);
 }
 
-bool DatabaseManager::execute(unsigned int queryId, const char *query, IDatabaseListener *listener)
+EXTAPI bool DatabaseManager::execute(unsigned int queryId, const char *query, IDatabaseListener *listener)
 {
 	return __databaseThread->execute(queryId, query, listener);
 }
 
-bool DatabaseManager::createTableSync(const char *tableName, const char *columns, const char *option)
+EXTAPI bool DatabaseManager::createTableSync(const char *tableName, const char *columns, const char *option)
 {
 	return __databaseThread->createTableSync(tableName, columns, option);
 }
 
-bool DatabaseManager::insertSync(const char *tableName, Json record, int64_t *rowId)
+EXTAPI bool DatabaseManager::insertSync(const char *tableName, Json record, int64_t *rowId)
 {
 	return __databaseThread->insertSync(tableName, record, rowId);
 }
 
-bool DatabaseManager::executeSync(const char *query, std::vector<Json> *records)
+EXTAPI bool DatabaseManager::executeSync(const char *query, std::vector<Json> *records)
 {
 	return __databaseThread->executeSync(query, records);
 }
