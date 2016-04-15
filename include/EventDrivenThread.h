@@ -18,7 +18,7 @@
 #define _EVENT_DRIVEN_THREAD_H_
 
 #include <glib.h>
-#include <types_internal.h>
+#include <Types.h>
 
 class VISIBLE EventDrivenThread {
 

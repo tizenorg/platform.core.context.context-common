@@ -17,11 +17,12 @@
 #include <cmath>
 #include <map>
 #include <alarm.h>
-#include <types_internal.h>
+#include <Types.h>
 #include <ScopeMutex.h>
 #include <TimerManager.h>
 
 #define IDENTIFIER "contextd"
+#define EMPTY_STRING ""
 
 using namespace ctx;
 

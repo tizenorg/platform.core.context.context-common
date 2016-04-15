@@ -16,7 +16,7 @@
 
 #include <new>
 #include <atomic>
-#include <types_internal.h>
+#include <Types.h>
 #include <EventDrivenThread.h>
 
 struct thread_info_s {

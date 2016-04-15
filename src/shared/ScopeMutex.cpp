@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <types_internal.h>
+#include <Types.h>
 #include <ScopeMutex.h>
 
 VISIBLE ctx::ScopeMutex::ScopeMutex(GMutex *m) :

@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-#ifndef __CONTEXT_TYPES_INTERNAL_H__
-#define __CONTEXT_TYPES_INTERNAL_H__
+#ifndef _CONTEXT_TYPES_H_
+#define _CONTEXT_TYPES_H_
 
 #include <tizen_error.h>
 #include <dlog.h>
 
 #define VISIBLE __attribute__ ((visibility("default")))
 #define EXTAPI VISIBLE
-
-#define EMPTY_STRING	""
 
 /* Internal Error Codes
  * Please define the necessary error codes here.
@@ -94,35 +92,4 @@
 #define HANDLE_GERROR(Err) \
 	do { if ((Err)) { _E("GError: %s", Err->message); g_error_free(Err); Err = NULL; } } while (0)
 
-
-/* DBus */
-#define DBUS_DEST		"org.tizen.context"
-#define DBUS_PATH		"/org/tizen/context"
-#define DBUS_IFACE		"org.tizen.context"
-#define DBUS_TIMEOUT	3000000
-
-#define METHOD_REQUEST	"Request"
-#define METHOD_RESPOND	"Respond"
-#define SIGNAL_LAUNCHED	"Launched"
-
-enum request_type {
-	REQ_SUBSCRIBE = 1,
-	REQ_UNSUBSCRIBE,
-	REQ_READ,
-	REQ_READ_SYNC,
-	REQ_WRITE,
-	REQ_SUPPORT,
-};
-
-#define ARG_REQTYPE		"type"
-#define ARG_COOKIE		"cookie"
-#define ARG_REQID		"req_id"
-#define ARG_SUBJECT		"subject"
-#define ARG_INPUT		"input"
-
-#define ARG_RESULT_ERR	"r_err"
-#define ARG_RESULT_ADD	"r_add"
-#define ARG_OUTPUT		"output"
-
-
-#endif /* __CONTEXT_TYPES_INTERNAL_H__ */
+#endif /* _CONTEXT_TYPES_H_ */

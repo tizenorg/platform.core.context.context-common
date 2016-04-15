@@ -18,7 +18,7 @@
 #define _CONTEXT_I_DBUS_SIGNAL_LISTENER_H_
 
 #include <glib.h>
-#include <types_internal.h>
+#include <Types.h>
 
 namespace ctx {
 

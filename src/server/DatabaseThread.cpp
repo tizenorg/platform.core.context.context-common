@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <types_internal.h>
+#include <Types.h>
 #include <ScopeMutex.h>
 #include "DatabaseThread.h"
 

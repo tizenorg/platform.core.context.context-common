@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-#include <types_internal.h>
+#include <Types.h>
 #include <ScopeMutex.h>
 #include <SharedVars.h>
+
+#define EMPTY_STRING ""
 
 using namespace ctx;
 

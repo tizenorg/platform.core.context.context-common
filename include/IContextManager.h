@@ -17,7 +17,7 @@
 #ifndef _CONTEXT_MANAGER_INTERFACE_H_
 #define _CONTEXT_MANAGER_INTERFACE_H_
 
-#include <types_internal.h>
+#include <Types.h>
 
 namespace ctx {
 	/* Forward Declaration */

@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-#include <types_internal.h>
+#include <Types.h>
+#include <DBusTypes.h>
 #include <ScopeMutex.h>
 #include <DBusSignalWatcher.h>
 
