@@ -16,8 +16,6 @@ BuildRequires: pkgconfig(capi-base-common)
 BuildRequires: pkgconfig(libtzplatform-config)
 BuildRequires: pkgconfig(alarm-service)
 
-%define keepstatic 1
-
 %description
 Context-Service Shared Library
 
@@ -80,5 +78,4 @@ Context-Service Shared Library (DEV)
 %files devel
 %defattr(-,root,root,-)
 %{_includedir}/context-service/internal/*.h
-%{_libdir}/libctx-server.a
 %{_libdir}/pkgconfig/*.pc
