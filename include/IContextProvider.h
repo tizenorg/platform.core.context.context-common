@@ -14,43 +14,27 @@
  * limitations under the License.
  */
 
-#ifndef _CONTEXT_PROVIDER_BASE_H_
-#define _CONTEXT_PROVIDER_BASE_H_
+#ifndef _CONTEXT_I_CONTEXT_PROVIDER_H_
+#define _CONTEXT_I_CONTEXT_PROVIDER_H_
 
 #include <Types.h>
+#include <Json.h>
 
 namespace ctx {
 
-	/* Forward Declaration */
-	class Json;
-
-	class SO_EXPORT ContextProviderBase {
+	class SO_EXPORT IContextProvider {
 	public:
-		virtual ~ContextProviderBase();
+		virtual ~IContextProvider();
 		virtual int subscribe(const char *subject, ctx::Json option, ctx::Json *requestResult);
 		virtual int unsubscribe(const char *subject, ctx::Json option);
 		virtual int read(const char *subject, ctx::Json option, ctx::Json *requestResult);
 		virtual int write(const char *subject, ctx::Json data, ctx::Json *requestResult);
 
 	protected:
-		ContextProviderBase();
+		IContextProvider();
 
-	};	/* class ContextProviderBase */
-
-	class ContextProviderInfo {
-		typedef ContextProviderBase *(*Creator)(void *data);
-		typedef void (*Destroyer)(void *data);
-
-	public:
-		Creator create;
-		Destroyer destroy;
-		void *data;
-		const char *privilege;
-
-		ContextProviderInfo();
-		ContextProviderInfo(Creator cr, Destroyer des, void *dat = NULL, const char *priv = NULL);
-	};
+	};	/* class IContextProvider */
 
 }	/* namespace ctx */
 
-#endif	/* End of _CONTEXT_PROVIDER_BASE_H_ */
+#endif	/* _CONTEXT_I_CONTEXT_PROVIDER_H_ */

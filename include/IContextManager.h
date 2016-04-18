@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-#ifndef _CONTEXT_MANAGER_INTERFACE_H_
-#define _CONTEXT_MANAGER_INTERFACE_H_
+#ifndef _CONTEXT_I_CONTEXT_MANAGER_H_
+#define _CONTEXT_I_CONTEXT_MANAGER_H_
 
 #include <Types.h>
+#include <Json.h>
+#include <IContextProvider.h>
 
 namespace ctx {
-	/* Forward Declaration */
-	class Json;
-	class ContextProviderBase;
-	class ContextProviderInfo;
+
+	enum class OperationType {
+		SUBSCRIBE	= 1,
+		READ		= 2,
+		WRITE		= 4
+	};
 
 	class SO_EXPORT IContextManager {
 	public:
 		virtual ~IContextManager();
-		virtual bool registerProvider(const char *subject, ContextProviderInfo &providerInfo) = 0;
+		virtual bool registerProvider(const char *subject, const char *privilege, IContextProvider *provider) = 0;
 		virtual bool unregisterProvider(const char *subject) = 0;
 		virtual bool registerTriggerItem(const char *subject, int operation, ctx::Json attributes, ctx::Json options, const char* owner = NULL) = 0;
 		virtual bool unregisterTriggerItem(const char *subject) = 0;
@@ -36,10 +40,6 @@ namespace ctx {
 		virtual bool replyToRead(const char *subject, ctx::Json &option, int error, ctx::Json &dataRead) = 0;
 	};	/* class IContextManager */
 
-	namespace context_manager {
-		void setInstance(IContextManager* mgr);
-	}	/* namespace context_manager */
-
 }	/* namespace ctx */
 
-#endif	/* End of _CONTEXT_MANAGER_INTERFACE_H_ */
+#endif	/* _CONTEXT_I_CONTEXT_MANAGER_H_ */
