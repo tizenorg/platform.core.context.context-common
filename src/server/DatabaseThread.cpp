@@ -22,10 +22,12 @@ using namespace ctx;
 
 DatabaseThread::DatabaseThread()
 {
+	g_mutex_init(&__execMutex);
 }
 
 DatabaseThread::~DatabaseThread()
 {
+	g_mutex_clear(&__execMutex);
 }
 
 bool DatabaseThread::open(const char *dbPath)
