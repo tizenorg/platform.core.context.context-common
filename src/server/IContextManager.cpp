@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <ContextProvider.h>
 #include <IContextManager.h>
 
 ctx::IContextManager::~IContextManager()
