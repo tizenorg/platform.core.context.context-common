@@ -46,7 +46,7 @@ int ctx::ContextProviderBase::write(const char *subject, ctx::Json data, ctx::Js
 	return ERR_NOT_SUPPORTED;
 }
 
-VISIBLE ctx::ContextProviderInfo::ContextProviderInfo() :
+SO_EXPORT ctx::ContextProviderInfo::ContextProviderInfo() :
 	create(NULL),
 	destroy(NULL),
 	data(NULL),
@@ -54,7 +54,7 @@ VISIBLE ctx::ContextProviderInfo::ContextProviderInfo() :
 {
 }
 
-VISIBLE ctx::ContextProviderInfo::ContextProviderInfo(
+SO_EXPORT ctx::ContextProviderInfo::ContextProviderInfo(
 		ctx::ContextProviderInfo::Creator cr,
 		ctx::ContextProviderInfo::Destroyer des, void *dat, const char *priv) :
 	create(cr),

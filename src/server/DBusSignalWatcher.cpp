@@ -36,7 +36,7 @@ static void __signal_cb(GDBusConnection *conn, const gchar *sender,
 	listener->onSignal(sender, path, iface, name, param);
 }
 
-VISIBLE DBusSignalWatcher::DBusSignalWatcher(DBusType type) :
+SO_EXPORT DBusSignalWatcher::DBusSignalWatcher(DBusType type) :
 	__busType(type)
 {
 	ScopeMutex sm(&__mutex);
@@ -50,7 +50,7 @@ VISIBLE DBusSignalWatcher::DBusSignalWatcher(DBusType type) :
 	}
 }
 
-VISIBLE DBusSignalWatcher::~DBusSignalWatcher()
+SO_EXPORT DBusSignalWatcher::~DBusSignalWatcher()
 {
 	ScopeMutex sm(&__mutex);
 
@@ -63,7 +63,7 @@ VISIBLE DBusSignalWatcher::~DBusSignalWatcher()
 	}
 }
 
-VISIBLE int64_t DBusSignalWatcher::watch(const char *sender, const char *path, const char *iface, const char *name, IDBusSignalListener *listener)
+SO_EXPORT int64_t DBusSignalWatcher::watch(const char *sender, const char *path, const char *iface, const char *name, IDBusSignalListener *listener)
 {
 	GDBusConnection *bus = (__busType == DBusType::SYSTEM ? __systemBus : __sessionBus);
 	IF_FAIL_RETURN_TAG(bus, -1, _E, "Dbus not connected");
@@ -75,7 +75,7 @@ VISIBLE int64_t DBusSignalWatcher::watch(const char *sender, const char *path, c
 	return static_cast<int64_t>(sid);
 }
 
-VISIBLE void DBusSignalWatcher::unwatch(int64_t signal_id)
+SO_EXPORT void DBusSignalWatcher::unwatch(int64_t signal_id)
 {
 	IF_FAIL_VOID_TAG(signal_id >= 0, _W, "Invalid parameter");
 	GDBusConnection *bus = (__busType == DBusType::SYSTEM ? __systemBus : __sessionBus);

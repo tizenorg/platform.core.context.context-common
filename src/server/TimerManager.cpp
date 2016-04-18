@@ -30,7 +30,7 @@ unsigned int TimerManager::__instanceCnt = 0;
 GMutex TimerManager::__mutex;
 std::map<int, std::pair<ITimerListener*, TimerManager*>> TimerManager::__listenerMap;
 
-VISIBLE TimerManager::TimerManager()
+SO_EXPORT TimerManager::TimerManager()
 {
 	ScopeMutex sm(&__mutex);
 
@@ -38,7 +38,7 @@ VISIBLE TimerManager::TimerManager()
 		__init();
 }
 
-VISIBLE TimerManager::~TimerManager()
+SO_EXPORT TimerManager::~TimerManager()
 {
 	ScopeMutex sm(&__mutex);
 
@@ -50,7 +50,7 @@ VISIBLE TimerManager::~TimerManager()
 		__release();
 }
 
-VISIBLE std::string TimerManager::dowToStr(int dow)
+SO_EXPORT std::string TimerManager::dowToStr(int dow)
 {
 	static const char *dowStr[] = {
 		DOW_SUN, DOW_MON, DOW_TUE, DOW_WED, DOW_THU, DOW_FRI, DOW_SAT
@@ -72,7 +72,7 @@ VISIBLE std::string TimerManager::dowToStr(int dow)
 	return EMPTY_STRING;
 }
 
-VISIBLE int TimerManager::dowToInt(std::string dow)
+SO_EXPORT int TimerManager::dowToInt(std::string dow)
 {
 	if (dow == DOW_SUN)			return static_cast<int>(DayOfWeek::SUN);
 	if (dow == DOW_MON)			return static_cast<int>(DayOfWeek::MON);
@@ -87,7 +87,7 @@ VISIBLE int TimerManager::dowToInt(std::string dow)
 	return 0;
 }
 
-VISIBLE int TimerManager::setFor(int interval, ITimerListener *listener)
+SO_EXPORT int TimerManager::setFor(int interval, ITimerListener *listener)
 {
 	IF_FAIL_RETURN_TAG(interval > 0 && listener, -1, _E, "Invalid parameter");
 
@@ -105,7 +105,7 @@ VISIBLE int TimerManager::setFor(int interval, ITimerListener *listener)
 	return alarmId;
 }
 
-VISIBLE int TimerManager::setAt(int hour, int min, DayOfWeek dow, ITimerListener *listener)
+SO_EXPORT int TimerManager::setAt(int hour, int min, DayOfWeek dow, ITimerListener *listener)
 {
 	IF_FAIL_RETURN_TAG(
 			hour < 24 && hour >= 0 &&
@@ -165,7 +165,7 @@ VISIBLE int TimerManager::setAt(int hour, int min, DayOfWeek dow, ITimerListener
 	return alarmId;
 }
 
-VISIBLE void TimerManager::remove(int timerId)
+SO_EXPORT void TimerManager::remove(int timerId)
 {
 	ScopeMutex sm(&__mutex);
 	auto it = __listenerMap.find(timerId);

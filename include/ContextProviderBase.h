@@ -24,7 +24,7 @@ namespace ctx {
 	/* Forward Declaration */
 	class Json;
 
-	class VISIBLE ContextProviderBase {
+	class SO_EXPORT ContextProviderBase {
 	public:
 		virtual ~ContextProviderBase();
 		virtual int subscribe(const char *subject, ctx::Json option, ctx::Json *requestResult);

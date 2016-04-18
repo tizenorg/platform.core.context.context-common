@@ -25,7 +25,7 @@ namespace ctx {
 	class ContextProviderBase;
 	class ContextProviderInfo;
 
-	class VISIBLE IContextManager {
+	class SO_EXPORT IContextManager {
 	public:
 		virtual ~IContextManager();
 		virtual bool registerProvider(const char *subject, ContextProviderInfo &providerInfo) = 0;

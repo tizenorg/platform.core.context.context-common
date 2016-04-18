@@ -23,7 +23,7 @@
 
 namespace ctx {
 
-	class VISIBLE IDatabaseListener {
+	class SO_EXPORT IDatabaseListener {
 	public:
 		virtual ~IDatabaseListener();
 

@@ -22,7 +22,7 @@
 
 namespace ctx {
 
-	class VISIBLE IDBusSignalListener {
+	class SO_EXPORT IDBusSignalListener {
 	public:
 		virtual ~IDBusSignalListener();
 

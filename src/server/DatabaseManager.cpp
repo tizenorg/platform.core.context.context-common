@@ -28,7 +28,7 @@ static unsigned int __refCount = 0;
 static GMutex __mutex;
 static DatabaseThread *__databaseThread = NULL;
 
-VISIBLE DatabaseManager::DatabaseManager()
+SO_EXPORT DatabaseManager::DatabaseManager()
 {
 	ScopeMutex sm(&__mutex);
 
@@ -47,7 +47,7 @@ VISIBLE DatabaseManager::DatabaseManager()
 	}
 }
 
-VISIBLE DatabaseManager::~DatabaseManager()
+SO_EXPORT DatabaseManager::~DatabaseManager()
 {
 	ScopeMutex sm(&__mutex);
 
@@ -64,32 +64,32 @@ VISIBLE DatabaseManager::~DatabaseManager()
 	__databaseThread = NULL;
 }
 
-VISIBLE bool DatabaseManager::createTable(unsigned int queryId, const char *tableName, const char *columns, const char *option, IDatabaseListener *listener)
+SO_EXPORT bool DatabaseManager::createTable(unsigned int queryId, const char *tableName, const char *columns, const char *option, IDatabaseListener *listener)
 {
 	return __databaseThread->createTable(queryId, tableName, columns, option, listener);
 }
 
-VISIBLE bool DatabaseManager::insert(unsigned int queryId, const char *tableName, Json record, IDatabaseListener *listener)
+SO_EXPORT bool DatabaseManager::insert(unsigned int queryId, const char *tableName, Json record, IDatabaseListener *listener)
 {
 	return __databaseThread->insert(queryId, tableName, record, listener);
 }
 
-VISIBLE bool DatabaseManager::execute(unsigned int queryId, const char *query, IDatabaseListener *listener)
+SO_EXPORT bool DatabaseManager::execute(unsigned int queryId, const char *query, IDatabaseListener *listener)
 {
 	return __databaseThread->execute(queryId, query, listener);
 }
 
-VISIBLE bool DatabaseManager::createTableSync(const char *tableName, const char *columns, const char *option)
+SO_EXPORT bool DatabaseManager::createTableSync(const char *tableName, const char *columns, const char *option)
 {
 	return __databaseThread->createTableSync(tableName, columns, option);
 }
 
-VISIBLE bool DatabaseManager::insertSync(const char *tableName, Json record, int64_t *rowId)
+SO_EXPORT bool DatabaseManager::insertSync(const char *tableName, Json record, int64_t *rowId)
 {
 	return __databaseThread->insertSync(tableName, record, rowId);
 }
 
-VISIBLE bool DatabaseManager::executeSync(const char *query, std::vector<Json> *records)
+SO_EXPORT bool DatabaseManager::executeSync(const char *query, std::vector<Json> *records)
 {
 	return __databaseThread->executeSync(query, records);
 }

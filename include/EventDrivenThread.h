@@ -20,7 +20,7 @@
 #include <glib.h>
 #include <Types.h>
 
-class VISIBLE EventDrivenThread {
+class SO_EXPORT EventDrivenThread {
 
 	typedef struct thread_info_s* thread_info_t;
 

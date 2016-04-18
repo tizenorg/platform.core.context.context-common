@@ -17,13 +17,13 @@
 #include <Types.h>
 #include <ScopeMutex.h>
 
-VISIBLE ctx::ScopeMutex::ScopeMutex(GMutex *m) :
+SO_EXPORT ctx::ScopeMutex::ScopeMutex(GMutex *m) :
 	__mutex(m)
 {
 	g_mutex_lock(__mutex);
 }
 
-VISIBLE ctx::ScopeMutex::~ScopeMutex()
+SO_EXPORT ctx::ScopeMutex::~ScopeMutex()
 {
 	g_mutex_unlock(__mutex);
 }

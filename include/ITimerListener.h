@@ -21,7 +21,7 @@
 
 namespace ctx {
 
-	class VISIBLE ITimerListener {
+	class SO_EXPORT ITimerListener {
 	public:
 		virtual ~ITimerListener();
 

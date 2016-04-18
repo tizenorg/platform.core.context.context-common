@@ -85,7 +85,7 @@ static double __string_to_double(const char* in)
 	return out;
 }
 
-VISIBLE Json::Json() :
+SO_EXPORT Json::Json() :
 	__jsonNode(NULL)
 {
 	JsonObject *obj = json_object_new();
@@ -101,14 +101,14 @@ VISIBLE Json::Json() :
 	json_object_unref(obj);
 }
 
-VISIBLE Json::Json(const Json &j)
+SO_EXPORT Json::Json(const Json &j)
 	: __jsonNode(NULL)
 {
 	__jsonNode = json_node_copy(j.__jsonNode);
 	IF_FAIL_VOID_TAG(__jsonNode, _E, "Json object construction failed");
 }
 
-VISIBLE Json::Json(const char *s)
+SO_EXPORT Json::Json(const char *s)
 	: __jsonNode(NULL)
 {
 	if (s) {
@@ -118,7 +118,7 @@ VISIBLE Json::Json(const char *s)
 	}
 }
 
-VISIBLE Json::Json(const std::string &s)
+SO_EXPORT Json::Json(const std::string &s)
 	: __jsonNode(NULL)
 {
 	if (s.empty()) {
@@ -128,7 +128,7 @@ VISIBLE Json::Json(const std::string &s)
 	}
 }
 
-VISIBLE Json::~Json()
+SO_EXPORT Json::~Json()
 {
 	__release();
 }
@@ -164,12 +164,12 @@ void Json::__release()
 	}
 }
 
-VISIBLE bool Json::valid()
+SO_EXPORT bool Json::valid()
 {
 	return (__jsonNode != NULL);
 }
 
-VISIBLE Json& Json::operator=(const Json &j)
+SO_EXPORT Json& Json::operator=(const Json &j)
 {
 	__release();
 	__jsonNode = json_node_copy(j.__jsonNode);
@@ -179,7 +179,7 @@ VISIBLE Json& Json::operator=(const Json &j)
 	return *this;
 }
 
-VISIBLE Json& Json::operator=(const char *s)
+SO_EXPORT Json& Json::operator=(const char *s)
 {
 	__release();
 	if (s) {
@@ -190,7 +190,7 @@ VISIBLE Json& Json::operator=(const char *s)
 	return *this;
 }
 
-VISIBLE Json& Json::operator=(const std::string &s)
+SO_EXPORT Json& Json::operator=(const std::string &s)
 {
 	__release();
 	if (s.empty()) {
@@ -201,12 +201,12 @@ VISIBLE Json& Json::operator=(const std::string &s)
 	return *this;
 }
 
-VISIBLE bool Json::operator==(const Json &rhs)
+SO_EXPORT bool Json::operator==(const Json &rhs)
 {
 	return __nodeEq(__jsonNode, rhs.__jsonNode);
 }
 
-VISIBLE bool Json::operator!=(const Json &rhs)
+SO_EXPORT bool Json::operator!=(const Json &rhs)
 {
 	return !operator==(rhs);
 }
@@ -237,7 +237,7 @@ CATCH:
 	return NULL;
 }
 
-VISIBLE std::string Json::str()
+SO_EXPORT std::string Json::str()
 {
 	std::string output;
 	char *_s = __strDup();
@@ -300,7 +300,7 @@ static JsonObject* __traverse(JsonNode *jnode, const char *path, bool force)
 	return jobj;
 }
 
-VISIBLE bool Json::set(const char *path, const char *key, Json &val)
+SO_EXPORT bool Json::set(const char *path, const char *key, Json &val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val.__jsonNode, false, _E, "Invalid parameter");
@@ -318,12 +318,12 @@ VISIBLE bool Json::set(const char *path, const char *key, Json &val)
 	return true;
 }
 
-VISIBLE bool Json::set(const char *path, const char *key, int val)
+SO_EXPORT bool Json::set(const char *path, const char *key, int val)
 {
 	return set(path, key, static_cast<int64_t>(val));
 }
 
-VISIBLE bool Json::set(const char *path, const char *key, int64_t val)
+SO_EXPORT bool Json::set(const char *path, const char *key, int64_t val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key, false, _E, "Invalid parameter");
@@ -338,12 +338,12 @@ VISIBLE bool Json::set(const char *path, const char *key, int64_t val)
 	return true;
 }
 
-VISIBLE bool Json::set(const char *path, const char *key, double val)
+SO_EXPORT bool Json::set(const char *path, const char *key, double val)
 {
 	return set(path, key, __double_to_hex(val));
 }
 
-VISIBLE bool Json::set(const char *path, const char *key, std::string val)
+SO_EXPORT bool Json::set(const char *path, const char *key, std::string val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key, false, _E, "Invalid parameter");
@@ -359,7 +359,7 @@ VISIBLE bool Json::set(const char *path, const char *key, std::string val)
 	return true;
 }
 
-VISIBLE bool Json::set(const char *path, const char *key, GVariant *val)
+SO_EXPORT bool Json::set(const char *path, const char *key, GVariant *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -377,7 +377,7 @@ VISIBLE bool Json::set(const char *path, const char *key, GVariant *val)
 	return set(path, key, gvarJson);
 }
 
-VISIBLE bool Json::get(const char *path, const char *key, Json *val)
+SO_EXPORT bool Json::get(const char *path, const char *key, Json *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -415,7 +415,7 @@ static JsonNode* __get_value_node(JsonNode *jnode, const char *path, const char 
 	return node;
 }
 
-VISIBLE bool Json::get(const char *path, const char *key, int *val)
+SO_EXPORT bool Json::get(const char *path, const char *key, int *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -430,7 +430,7 @@ VISIBLE bool Json::get(const char *path, const char *key, int *val)
 	return false;
 }
 
-VISIBLE bool Json::get(const char *path, const char *key, int64_t *val)
+SO_EXPORT bool Json::get(const char *path, const char *key, int64_t *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -451,7 +451,7 @@ VISIBLE bool Json::get(const char *path, const char *key, int64_t *val)
 	return true;
 }
 
-VISIBLE bool Json::get(const char *path, const char *key, double *val)
+SO_EXPORT bool Json::get(const char *path, const char *key, double *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -473,7 +473,7 @@ VISIBLE bool Json::get(const char *path, const char *key, double *val)
 	return true;
 }
 
-VISIBLE bool Json::get(const char *path, const char *key, std::string *val)
+SO_EXPORT bool Json::get(const char *path, const char *key, std::string *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -491,7 +491,7 @@ VISIBLE bool Json::get(const char *path, const char *key, std::string *val)
 	return true;
 }
 
-VISIBLE bool Json::get(const char *path, const char *key, GVariant **val)
+SO_EXPORT bool Json::get(const char *path, const char *key, GVariant **val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
@@ -542,7 +542,7 @@ static JsonArray* __get_array(JsonNode *jnode, const char *path, const char *key
 	return json_node_get_array(node);
 }
 
-VISIBLE int Json::getSize(const char *path, const char *key)
+SO_EXPORT int Json::getSize(const char *path, const char *key)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, -1, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key, -1, _E, "Invalid parameter");
@@ -553,7 +553,7 @@ VISIBLE int Json::getSize(const char *path, const char *key)
 	return json_array_get_length(jarr);
 }
 
-VISIBLE bool Json::append(const char *path, const char *key, Json &val)
+SO_EXPORT bool Json::append(const char *path, const char *key, Json &val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val.__jsonNode, false, _E, "Invalid parameter");
@@ -568,12 +568,12 @@ VISIBLE bool Json::append(const char *path, const char *key, Json &val)
 	return true;
 }
 
-VISIBLE bool Json::append(const char *path, const char *key, int val)
+SO_EXPORT bool Json::append(const char *path, const char *key, int val)
 {
 	return append(path, key, static_cast<int64_t>(val));
 }
 
-VISIBLE bool Json::append(const char *path, const char *key, int64_t val)
+SO_EXPORT bool Json::append(const char *path, const char *key, int64_t val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key, false, _E, "Invalid parameter");
@@ -585,12 +585,12 @@ VISIBLE bool Json::append(const char *path, const char *key, int64_t val)
 	return true;
 }
 
-VISIBLE bool Json::append(const char *path, const char *key, double val)
+SO_EXPORT bool Json::append(const char *path, const char *key, double val)
 {
 	return append(path, key, __double_to_hex(val));
 }
 
-VISIBLE bool Json::append(const char *path, const char *key, std::string val)
+SO_EXPORT bool Json::append(const char *path, const char *key, std::string val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key, false, _E, "Invalid parameter");
@@ -616,7 +616,7 @@ static JsonNode* __get_array_elem(JsonNode *jnode, const char *path, const char 
 	return node;
 }
 
-VISIBLE bool Json::setAt(const char *path, const char *key, int index, Json &val)
+SO_EXPORT bool Json::setAt(const char *path, const char *key, int index, Json &val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(val.__jsonNode && key && index >= 0, false, _E, "Invalid parameter");
@@ -635,12 +635,12 @@ VISIBLE bool Json::setAt(const char *path, const char *key, int index, Json &val
 	return true;
 }
 
-VISIBLE bool Json::setAt(const char *path, const char *key, int index, int val)
+SO_EXPORT bool Json::setAt(const char *path, const char *key, int index, int val)
 {
 	return setAt(path, key, index, static_cast<int64_t>(val));
 }
 
-VISIBLE bool Json::setAt(const char *path, const char *key, int index, int64_t val)
+SO_EXPORT bool Json::setAt(const char *path, const char *key, int index, int64_t val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && index >= 0, false, _E, "Invalid parameter");
@@ -653,12 +653,12 @@ VISIBLE bool Json::setAt(const char *path, const char *key, int index, int64_t v
 	return true;
 }
 
-VISIBLE bool Json::setAt(const char *path, const char *key, int index, double val)
+SO_EXPORT bool Json::setAt(const char *path, const char *key, int index, double val)
 {
 	return setAt(path, key, index, __double_to_hex(val));
 }
 
-VISIBLE bool Json::setAt(const char *path, const char *key, int index, std::string val)
+SO_EXPORT bool Json::setAt(const char *path, const char *key, int index, std::string val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && index >= 0, false, _E, "Invalid parameter");
@@ -671,7 +671,7 @@ VISIBLE bool Json::setAt(const char *path, const char *key, int index, std::stri
 	return true;
 }
 
-VISIBLE bool Json::getAt(const char *path, const char *key, int index, Json *val)
+SO_EXPORT bool Json::getAt(const char *path, const char *key, int index, Json *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val && index >= 0, false, _E, "Invalid parameter");
@@ -690,7 +690,7 @@ VISIBLE bool Json::getAt(const char *path, const char *key, int index, Json *val
 	return true;
 }
 
-VISIBLE bool Json::getAt(const char *path, const char *key, int index, int *val)
+SO_EXPORT bool Json::getAt(const char *path, const char *key, int index, int *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val && index >= 0, false, _E, "Invalid parameter");
@@ -704,7 +704,7 @@ VISIBLE bool Json::getAt(const char *path, const char *key, int index, int *val)
 	return false;
 }
 
-VISIBLE bool Json::getAt(const char *path, const char *key, int index, int64_t *val)
+SO_EXPORT bool Json::getAt(const char *path, const char *key, int index, int64_t *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val && index >= 0, false, _E, "Invalid parameter");
@@ -728,7 +728,7 @@ VISIBLE bool Json::getAt(const char *path, const char *key, int index, int64_t *
 	return true;
 }
 
-VISIBLE bool Json::getAt(const char *path, const char *key, int index, double *val)
+SO_EXPORT bool Json::getAt(const char *path, const char *key, int index, double *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val && index >= 0, false, _E, "Invalid parameter");
@@ -754,7 +754,7 @@ VISIBLE bool Json::getAt(const char *path, const char *key, int index, double *v
 	return true;
 }
 
-VISIBLE bool Json::getAt(const char *path, const char *key, int index, std::string *val)
+SO_EXPORT bool Json::getAt(const char *path, const char *key, int index, std::string *val)
 {
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val && index >= 0, false, _E, "Invalid parameter");
@@ -802,7 +802,7 @@ bool Json::__getMembers(json_node_t *node, std::list<std::string> &list)
 	return true;
 }
 
-VISIBLE bool Json::getKeys(std::list<std::string>* list)
+SO_EXPORT bool Json::getKeys(std::list<std::string>* list)
 {
 	IF_FAIL_RETURN_TAG(list, false, _E, "Invalid parameter");
 	return __getMembers(__jsonNode, *list);

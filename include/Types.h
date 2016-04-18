@@ -20,8 +20,7 @@
 #include <tizen_error.h>
 #include <dlog.h>
 
-#define VISIBLE __attribute__ ((visibility("default")))
-#define EXTAPI VISIBLE
+#define SO_EXPORT __attribute__ ((visibility("default")))
 
 /* Internal Error Codes
  * Please define the necessary error codes here.
