@@ -6,6 +6,12 @@ Group:      Service/Context
 License:    Apache-2.0
 Source0:    %{name}-%{version}.tar.gz
 
+%define BUILD_PROFILE %{?profile}%{!?profile:%{?tizen_profile_name}}
+
+%if "%{?BUILD_PROFILE}" == "tv"
+ExcludeArch: %{arm} aarch64 %ix86 x86_64
+%endif
+
 BuildRequires: cmake
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(gio-2.0)
