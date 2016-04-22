@@ -60,24 +60,9 @@ int ContextProvider::write(Json data, Json *requestResult)
 	return ERR_NOT_SUPPORTED;
 }
 
-bool ContextProvider::registerProvider(const char *privilege, ContextProvider *provider)
+int ContextProvider::getPrivilege(std::vector<const char*> &privilege)
 {
-	return __contextMgr->registerProvider(__subject, privilege, provider);
-}
-
-bool ContextProvider::unregisterProvider()
-{
-	return __contextMgr->unregisterProvider(__subject);
-}
-
-bool ContextProvider::registerTriggerItem(int operation, Json attributes, Json options, const char *owner)
-{
-	return __contextMgr->registerTriggerItem(__subject, operation, attributes, options, owner);
-}
-
-bool ContextProvider::unregisterTriggerItem()
-{
-	return __contextMgr->unregisterTriggerItem(__subject);
+	return 0;
 }
 
 bool ContextProvider::publish(Json option, int error, Json dataUpdated)
