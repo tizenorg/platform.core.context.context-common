@@ -27,10 +27,7 @@ namespace ctx {
 	class SO_EXPORT IContextManager {
 	public:
 		virtual ~IContextManager();
-		virtual bool registerProvider(const char *subject, const char *privilege, ContextProvider *provider) = 0;
-		virtual bool unregisterProvider(const char *subject) = 0;
-		virtual bool registerTriggerItem(const char *subject, int operation, Json attributes, Json options, const char *owner) = 0;
-		virtual bool unregisterTriggerItem(const char *subject) = 0;
+
 		virtual bool publish(const char *subject, Json &option, int error, Json &dataUpdated) = 0;
 		virtual bool replyToRead(const char *subject, Json &option, int error, Json &dataRead) = 0;
 	};	/* class IContextManager */

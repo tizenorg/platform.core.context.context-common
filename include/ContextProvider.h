@@ -17,6 +17,7 @@
 #ifndef _CONTEXT_CONTEXT_PROVIDER_H_
 #define _CONTEXT_CONTEXT_PROVIDER_H_
 
+#include <vector>
 #include <Types.h>
 #include <Json.h>
 
@@ -40,11 +41,8 @@ namespace ctx {
 		virtual int read(Json option, Json *requestResult);
 		virtual int write(Json data, Json *requestResult);
 
-		/* TODO: Most of these functions will be removed later */
-		bool registerProvider(const char *privilege, ContextProvider *provider);
-		bool unregisterProvider();
-		bool registerTriggerItem(int operation, Json attributes, Json options, const char* owner = NULL);
-		bool unregisterTriggerItem();
+		virtual int getPrivilege(std::vector<const char*> &privilege);
+
 		bool publish(Json option, int error, Json dataUpdated);
 		bool replyToRead(Json option, int error, Json dataRead);
 
