@@ -60,10 +60,8 @@ int ContextProvider::write(Json data, Json *requestResult)
 	return ERR_NOT_SUPPORTED;
 }
 
-int ContextProvider::getPrivilege(std::vector<const char*> &privilege)
+void ContextProvider::getPrivilege(std::vector<const char*> &privilege)
 {
-	privilege.clear();
-	return 0;
 }
 
 bool ContextProvider::publish(Json option, int error, Json dataUpdated)
