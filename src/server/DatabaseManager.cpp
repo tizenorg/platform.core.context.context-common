@@ -39,6 +39,7 @@ SO_EXPORT DatabaseManager::DatabaseManager()
 	if (!__databaseThread) {
 		_E("Memory allocation failed");
 		raise(SIGTERM);
+		return;
 	}
 
 	if (!__databaseThread->open(CONTEXT_DB_PATH) || !__databaseThread->start()) {
