@@ -64,6 +64,11 @@ void ContextProvider::getPrivilege(std::vector<const char*> &privilege)
 {
 }
 
+bool ContextProvider::unloadable()
+{
+	return true;
+}
+
 bool ContextProvider::publish(Json option, int error, Json dataUpdated)
 {
 	return __contextMgr->publish(__subject, option, error, dataUpdated);

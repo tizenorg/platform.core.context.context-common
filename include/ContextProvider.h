@@ -43,6 +43,8 @@ namespace ctx {
 
 		virtual void getPrivilege(std::vector<const char*> &privilege);
 
+		virtual bool unloadable();
+
 		bool publish(Json option, int error, Json dataUpdated);
 		bool replyToRead(Json option, int error, Json dataRead);
 
