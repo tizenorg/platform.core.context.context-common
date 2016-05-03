@@ -18,12 +18,13 @@
 #define _CONTEXT_I_DBUS_SIGNAL_LISTENER_H_
 
 #include <glib.h>
+#include <Types.h>
 
 namespace ctx {
 
-	class IDBusSignalListener {
+	class SO_EXPORT IDBusSignalListener {
 	public:
-		virtual ~IDBusSignalListener() {}
+		virtual ~IDBusSignalListener();
 
 		/**
 		 * @brief	Called when receiving a signal.

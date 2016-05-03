@@ -5,7 +5,7 @@ FILE(GLOB_RECURSE SRCS *.cpp)
 MESSAGE("Sources: ${SRCS}")
 
 # Dependencies
-SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 capi-base-common dlog alarm-service")
+SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 sqlite3 capi-base-common libtzplatform-config dlog alarm-service")
 
 # Build flags
 pkg_check_modules(lib_pkg REQUIRED ${DEPS})
@@ -14,8 +14,9 @@ FOREACH(flag ${lib_pkg_CFLAGS})
    SET(LIB_EXTRA_CFLAGS "${LIB_EXTRA_CFLAGS} ${flag}")
 ENDFOREACH(flag)
 
-ADD_LIBRARY(${target} STATIC ${SRCS})
+ADD_LIBRARY(${target} SHARED ${SRCS})
 TARGET_LINK_LIBRARIES(${target} ${lib_pkg_LDFLAGS})
+TARGET_LINK_LIBRARIES(${target} ctx-shared)
 SET_TARGET_PROPERTIES(${target} PROPERTIES COMPILE_FLAGS ${LIB_EXTRA_CFLAGS})
 SET_TARGET_PROPERTIES(${target} PROPERTIES COMPILE_DEFINITIONS "LOG_TAG=\"CONTEXT\"")
 SET_TARGET_PROPERTIES(${target} PROPERTIES SOVERSION ${MAJORVER})
@@ -29,7 +30,7 @@ SET(PREFIX ${CMAKE_INSTALL_PREFIX})
 SET(PC_INCLUDE "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/context-service/internal")
 SET(PC_LIBDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 SET(PC_DESCRIPTION "Tizen Context-Service Shared Library")
-SET(PC_REQUIRED ${DEPS})
+SET(PC_REQUIRED "${DEPS} libcontext-shared")
 SET(PC_CFLAGS -I\${includedir}/context-service/internal)
 SET(PC_LDFLAGS "-l${target}")
 CONFIGURE_FILE(

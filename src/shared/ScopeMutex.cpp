@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
+#include <Types.h>
 #include <ScopeMutex.h>
 
-ctx::ScopeMutex::ScopeMutex(GMutex *m) :
+SO_EXPORT ctx::ScopeMutex::ScopeMutex(GMutex *m) :
 	__mutex(m)
 {
 	g_mutex_lock(__mutex);
 }
 
-ctx::ScopeMutex::~ScopeMutex()
+SO_EXPORT ctx::ScopeMutex::~ScopeMutex()
 {
 	g_mutex_unlock(__mutex);
 }

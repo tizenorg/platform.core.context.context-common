@@ -1,20 +1,26 @@
 Name:       context-common
 Summary:    Context-Service Shared Library
-Version:    0.7.5
+Version:    0.8.0
 Release:    1
 Group:      Service/Context
 License:    Apache-2.0
 Source0:    %{name}-%{version}.tar.gz
 
+%define BUILD_PROFILE %{?profile}%{!?profile:%{?tizen_profile_name}}
+
+%if "%{?BUILD_PROFILE}" == "tv"
+ExcludeArch: %{arm} aarch64 %ix86 x86_64
+%endif
+
 BuildRequires: cmake
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(gio-2.0)
 BuildRequires: pkgconfig(json-glib-1.0)
+BuildRequires: pkgconfig(sqlite3)
 BuildRequires: pkgconfig(dlog)
 BuildRequires: pkgconfig(capi-base-common)
+BuildRequires: pkgconfig(libtzplatform-config)
 BuildRequires: pkgconfig(alarm-service)
-
-%define keepstatic 1
 
 %description
 Context-Service Shared Library
@@ -78,5 +84,4 @@ Context-Service Shared Library (DEV)
 %files devel
 %defattr(-,root,root,-)
 %{_includedir}/context-service/internal/*.h
-%{_libdir}/libctx-server.a
 %{_libdir}/pkgconfig/*.pc

@@ -21,7 +21,7 @@
 #include <glib.h>
 #include <string>
 #include <list>
-#include <types_internal.h>
+#include <Types.h>
 
 #define _J(cmt, jobj) \
 do { \

@@ -18,8 +18,9 @@
 #define _EVENT_DRIVEN_THREAD_H_
 
 #include <glib.h>
+#include <Types.h>
 
-class EventDrivenThread {
+class SO_EXPORT EventDrivenThread {
 
 	typedef struct thread_info_s* thread_info_t;
 

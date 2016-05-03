@@ -14,24 +14,26 @@
  * limitations under the License.
  */
 
-#include <types_internal.h>
+#include <Types.h>
 #include <ScopeMutex.h>
 #include <SharedVars.h>
+
+#define EMPTY_STRING ""
 
 using namespace ctx;
 
 GMutex SharedVars::__mutex;
 std::map<SharedVars::VarId, std::string> SharedVars::__varsMap;
 
-SharedVars::SharedVars()
+SO_EXPORT SharedVars::SharedVars()
 {
 }
 
-SharedVars::~SharedVars()
+SO_EXPORT SharedVars::~SharedVars()
 {
 }
 
-const std::string& SharedVars::set(SharedVars::VarId id, std::string value) const
+SO_EXPORT const std::string& SharedVars::set(SharedVars::VarId id, std::string value) const
 {
 	ScopeMutex sm(&__mutex);
 	_D("var[%d] = %s", id, value.c_str());
@@ -39,7 +41,7 @@ const std::string& SharedVars::set(SharedVars::VarId id, std::string value) cons
 	return __varsMap[id];
 }
 
-std::string SharedVars::get(SharedVars::VarId id)
+SO_EXPORT std::string SharedVars::get(SharedVars::VarId id)
 {
 	ScopeMutex sm(&__mutex);
 	auto it = __varsMap.find(id);
@@ -49,7 +51,7 @@ std::string SharedVars::get(SharedVars::VarId id)
 		return EMPTY_STRING;
 }
 
-void SharedVars::clear(SharedVars::VarId id)
+SO_EXPORT void SharedVars::clear(SharedVars::VarId id)
 {
 	ScopeMutex sm(&__mutex);
 	_D("Remove var[%d]", id);
