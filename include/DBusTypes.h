@@ -26,6 +26,11 @@
 #define METHOD_RESPOND	"Respond"
 #define SIGNAL_LAUNCHED	"Launched"
 
+#define METHOD_CHK_PRIV	"ChkPriv"
+#define METHOD_CHK_PRIV_APPLAUNCH	METHOD_CHK_PRIV "AppLaunch"
+#define METHOD_CHK_PRIV_CALL		METHOD_CHK_PRIV "Call"
+#define METHOD_CHK_PRIV_NOTIFICATION	METHOD_CHK_PRIV "Notification"
+
 #define ARG_REQTYPE		"type"
 #define ARG_COOKIE		"cookie"
 #define ARG_REQID		"req_id"
