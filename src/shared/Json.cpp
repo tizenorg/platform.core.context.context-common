@@ -361,6 +361,7 @@ SO_EXPORT bool Json::set(const char *path, const char *key, std::string val)
 
 SO_EXPORT bool Json::set(const char *path, const char *key, GVariant *val)
 {
+#if JSON_CHECK_VERSION(0, 14, 0)
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
 
@@ -375,6 +376,10 @@ SO_EXPORT bool Json::set(const char *path, const char *key, GVariant *val)
 	json_object_set_member(json_node_get_object(gvarJson.__jsonNode), GVAR_VALUES, node);
 
 	return set(path, key, gvarJson);
+#else
+	_E("Insufficient version of json-glib(" JSON_VERSION_S ")");
+	return false;
+#endif
 }
 
 SO_EXPORT bool Json::get(const char *path, const char *key, Json *val)
@@ -493,6 +498,7 @@ SO_EXPORT bool Json::get(const char *path, const char *key, std::string *val)
 
 SO_EXPORT bool Json::get(const char *path, const char *key, GVariant **val)
 {
+#if JSON_CHECK_VERSION(0, 14, 0)
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
 
@@ -515,6 +521,11 @@ SO_EXPORT bool Json::get(const char *path, const char *key, GVariant **val)
 	IF_FAIL_RETURN(*val, false);
 
 	return true;
+#else
+	_E("Insufficient version of json-glib(" JSON_VERSION_S ")");
+	*val = NULL;
+	return false;
+#endif
 }
 
 static JsonArray* __get_array(JsonNode *jnode, const char *path, const char *key, bool force)
