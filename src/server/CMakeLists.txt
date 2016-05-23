@@ -5,7 +5,17 @@ FILE(GLOB_RECURSE SRCS *.cpp)
 MESSAGE("Sources: ${SRCS}")
 
 # Dependencies
-SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 sqlite3 capi-base-common libtzplatform-config dlog alarm-service")
+SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 sqlite3 capi-base-common dlog alarm-service")
+
+IF(${LEGACY_FILE_PATH})
+	ADD_DEFINITIONS(-DLEGACY_FILE_PATH)
+ELSE(${LEGACY_FILE_PATH})
+	SET(DEPS "${DEPS} libtzplatform-config")
+ENDIF(${LEGACY_FILE_PATH})
+
+IF(${LEGACY_PERIODIC_ALARM})
+	ADD_DEFINITIONS(-DLEGACY_PERIODIC_ALARM)
+ENDIF(${LEGACY_PERIODIC_ALARM})
 
 # Build flags
 pkg_check_modules(lib_pkg REQUIRED ${DEPS})

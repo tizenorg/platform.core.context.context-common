@@ -8,6 +8,9 @@ Source0:    %{name}-%{version}.tar.gz
 
 %define BUILD_PROFILE %{?profile}%{!?profile:%{?tizen_profile_name}}
 
+%define LEGACY_FILE_PATH		0
+%define LEGACY_PERIODIC_ALARM	0
+
 %if "%{?BUILD_PROFILE}" == "tv"
 ExcludeArch: %{arm} aarch64 %ix86 x86_64
 %endif
@@ -19,8 +22,11 @@ BuildRequires: pkgconfig(json-glib-1.0)
 BuildRequires: pkgconfig(sqlite3)
 BuildRequires: pkgconfig(dlog)
 BuildRequires: pkgconfig(capi-base-common)
-BuildRequires: pkgconfig(libtzplatform-config)
 BuildRequires: pkgconfig(alarm-service)
+
+%if ! %{LEGACY_FILE_PATH}
+BuildRequires: pkgconfig(libtzplatform-config)
+%endif
 
 %description
 Context-Service Shared Library
@@ -42,7 +48,7 @@ export CXXFLAGS+=" -fno-strict-aliasing -fno-unroll-loops -fsigned-char -fstrict
 
 export   CFLAGS+=" -fno-common"
 export CXXFLAGS+=" -Wnon-virtual-dtor"
-export CXXFLAGS+=" -std=c++11 -Wno-c++11-compat"
+export CXXFLAGS+=" -std=c++0x"
 
 #export   CFLAGS+=" -Wcast-qual"
 #export CXXFLAGS+=" -Wcast-qual"
@@ -51,7 +57,9 @@ export CXXFLAGS+=" -std=c++11 -Wno-c++11-compat"
 #export CXXFLAGS+=" -DTIZEN_ENGINEER_MODE"
 #export   FFLAGS+=" -DTIZEN_ENGINEER_MODE"
 
-cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix} -DMAJORVER=${MAJORVER} -DFULLVER=%{version}
+cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix} -DMAJORVER=${MAJORVER} -DFULLVER=%{version} \
+							   -DLEGACY_FILE_PATH=%{LEGACY_FILE_PATH} \
+							   -DLEGACY_PERIODIC_ALARM=%{LEGACY_PERIODIC_ALARM}
 make %{?jobs:-j%jobs}
 
 %install
