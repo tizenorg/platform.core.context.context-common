@@ -15,57 +15,36 @@
  */
 
 #include <cstdio>
+#include <cmath>
 #include <string>
 #include <vector>
 #include <sstream>
 #include <locale>
 #include <iomanip>
-#include <regex>
 #include <json-glib/json-glib.h>
 #include <Json.h>
 
 #define PATH_DELIM	'.'
-#define HEX_PREFIX	"0x"
+#define MAX_NUM_DIGITS	17
 #define GVAR_VALUES	"values"
 #define GVAR_TYPES	"types"
 
 using namespace ctx;
 
-static std::string __double_to_hex(double in)
+static int __count_fraction_digits(double in)
 {
-	std::string hex(HEX_PREFIX);
-	const unsigned char *pch = reinterpret_cast<const unsigned char*>(&in);
-	for (unsigned int i = 0; i < sizeof(in); ++i) {
-		char buf[3];
-		snprintf(buf, 3, "%02x", static_cast<unsigned int>(*pch));
-		hex = hex + buf;
-		pch++;
-	}
-
-	_D("Converted %f to '%s'", in, hex.c_str());
-	return hex;
+	int cnt;
+	for (cnt = 0; in != rint(in) && cnt < MAX_NUM_DIGITS; in += in, ++cnt);
+	return cnt;
 }
 
-static double __hex_to_double(const char *in)
+static std::string __double_to_string(double in)
 {
-	IF_FAIL_RETURN(in, 0);
-	_D("Revert '%s'", in);
-
-	double out;
-	unsigned int u;
-	unsigned char *pch = reinterpret_cast<unsigned char*>(&out);
-
-	IF_FAIL_RETURN_TAG(strlen(in) == sizeof(out) * 2 + 2, 0, _W, "Type mismatched");
-	in += 2;
-
-	for (unsigned int i = 0; i < sizeof(out); ++i) {
-		IF_FAIL_RETURN_TAG(sscanf(in, "%2x", &u) == 1, 0, _W, "Type mismatched");
-		*pch++ = u;
-		in += 2;
-	}
-
-	_D("Reverted to %f" ,  out);
-	return out;
+	/* Locale-independent double-to-string conversion */
+	std::ostringstream ostr;
+	ostr.imbue(std::locale("C"));
+	ostr << std::fixed << std::setprecision(__count_fraction_digits(in)) << in;
+	return ostr.str();
 }
 
 static double __string_to_double(const char* in)
@@ -73,9 +52,6 @@ static double __string_to_double(const char* in)
 	IF_FAIL_RETURN_TAG(in, 0, _E, "Parameter NULL");
 
 	double out;
-
-	if (std::regex_match(in, std::regex(HEX_PREFIX "[0-9a-f]+")))
-		return __hex_to_double(in);
 
 	/* Locale-independent string-to-double conversion */
 	std::istringstream istr(in);
@@ -340,7 +316,7 @@ SO_EXPORT bool Json::set(const char *path, const char *key, int64_t val)
 
 SO_EXPORT bool Json::set(const char *path, const char *key, double val)
 {
-	return set(path, key, __double_to_hex(val));
+	return set(path, key, __double_to_string(val));
 }
 
 SO_EXPORT bool Json::set(const char *path, const char *key, std::string val)
@@ -598,7 +574,7 @@ SO_EXPORT bool Json::append(const char *path, const char *key, int64_t val)
 
 SO_EXPORT bool Json::append(const char *path, const char *key, double val)
 {
-	return append(path, key, __double_to_hex(val));
+	return append(path, key, __double_to_string(val));
 }
 
 SO_EXPORT bool Json::append(const char *path, const char *key, std::string val)
@@ -666,7 +642,7 @@ SO_EXPORT bool Json::setAt(const char *path, const char *key, int index, int64_t
 
 SO_EXPORT bool Json::setAt(const char *path, const char *key, int index, double val)
 {
-	return setAt(path, key, index, __double_to_hex(val));
+	return setAt(path, key, index, __double_to_string(val));
 }
 
 SO_EXPORT bool Json::setAt(const char *path, const char *key, int index, std::string val)
