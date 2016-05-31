@@ -18,6 +18,7 @@
 #define _CONTEXT_MYPLACE_TYPES_H_
 
 #include <string>
+#include <map>
 #include <ctime>
 
 #define PLACE_DETECTION_SUBJECT      "place/pattern/personal_poi"
@@ -64,7 +65,7 @@ namespace ctx {
 		std::string name; // for now: "work"/"home"/"other"
 		bool locationValid;
 		Location location; // makes sense if locationValid == true;
-		std::string wifiAps; // WiFi APs MAC addresses separated by ","
+		std::map<std::string, std::string> wifiAps; // WiFi APs MAC addresses to corresponding network name map
 		time_t createDate; // The last update time of this place
 
 	};	/* class Place */
