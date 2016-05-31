@@ -14,11 +14,26 @@
  * limitations under the License.
  */
 
-#ifndef _MYPLACE_TYPES_H_
-#define _MYPLACE_TYPES_H_
+#ifndef _CONTEXT_MYPLACE_TYPES_H_
+#define _CONTEXT_MYPLACE_TYPES_H_
 
 #include <string>
 #include <ctime>
+
+#define PLACE_DETECTION_SUBJECT      "place/pattern/personal_poi"
+
+#define PLACE_DATA_READ              "PlacesList"
+#define PLACE_CATEG_ID               "CategId"
+#define PLACE_CATEG_CONFIDENCE       "CategConfidence"
+#define PLACE_NAME                   "Name"
+#define PLACE_LOCATION               "Location"
+#define PLACE_LOCATION_LATITUDE      "Latitude"
+#define PLACE_LOCATION_LONGITUDE     "Longitude"
+#define PLACE_LOCATION_ACCURACY      "Accuracy"
+#define PLACE_WIFI_APS               "WifiAPs"
+#define PLACE_WIFI_AP_MAC            "Mac"
+#define PLACE_WIFI_AP_NETWORK_NAME   "Network"
+#define PLACE_CREATE_DATE            "CreateDate"
 
 namespace ctx {
 
@@ -58,4 +73,4 @@ namespace ctx {
 
 }	/* namespace ctx */
 
-#endif /* End of _MYPLACE_TYPES_H_ */
+#endif /* End of _CONTEXT_MYPLACE_TYPES_H_ */
