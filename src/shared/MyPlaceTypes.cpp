@@ -22,14 +22,19 @@ SO_EXPORT bool ctx::operator==(const ctx::Place &p1, const ctx::Place &p2)
 	bool ret = p1.categId == p2.categId
 			&& p1.categConfidence == p2.categConfidence
 			&& p1.name == p2.name
-			&& p1.locationValid == p2.locationValid
-			&& p1.location.latitude == p2.location.latitude
-			&& p1.location.longitude == p2.location.longitude
-			&& p1.location.accuracy == p2.location.accuracy
-			&& p1.wifiAps == p2.wifiAps
-			&& p1.createDate == p2.createDate;
+			&& p1.createDate == p2.createDate
+			&& p1.locationValid == p2.locationValid;
+	if (ret && p1.locationValid) {
+		// Check location only if it is valid / filled
+		if (p1.location.latitude != p2.location.latitude
+				|| p1.location.longitude != p2.location.longitude
+				|| p1.location.accuracy != p2.location.accuracy) {
+			ret = false;
+		}
+	}
 	if (ret) {
 		for (std::pair<std::string, std::string> ap : p1.wifiAps) {
+			// Check only MAC addresses because network names are only addition.
 			if (p2.wifiAps.find(ap.first) == p2.wifiAps.end()) {
 				ret = false;
 				break;
@@ -37,5 +42,4 @@ SO_EXPORT bool ctx::operator==(const ctx::Place &p1, const ctx::Place &p2)
 		}
 	}
 	return ret;
-
 }
