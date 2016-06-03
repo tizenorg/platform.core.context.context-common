@@ -13,6 +13,10 @@ SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fPIC -Wl,--as-needed -Wl,
 # Dependencies
 SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 sqlite3 capi-base-common dlog alarm-service")
 
+IF(${SYSTEM_SERVICE})
+	ADD_DEFINITIONS(-DSYSTEM_SERVICE)
+ENDIF(${SYSTEM_SERVICE})
+
 IF(${LEGACY_SECURITY})
 	SET(DEPS "${DEPS} security-server")
 	ADD_DEFINITIONS(-DLEGACY_SECURITY)
