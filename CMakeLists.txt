@@ -7,13 +7,54 @@ INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 ADD_DEFINITIONS(-O2 -Wall -fPIC -fdata-sections -ffunction-sections -fvisibility=hidden)
+ADD_DEFINITIONS(-DLOG_TAG="CONTEXT")
 SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fPIC -Wl,--as-needed -Wl,--gc-section -Wl,--print-gc-section")
+
+# Dependencies
+SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 sqlite3 capi-base-common dlog alarm-service")
+
+IF(${LEGACY_FILE_PATH})
+	ADD_DEFINITIONS(-DLEGACY_FILE_PATH)
+ELSE(${LEGACY_FILE_PATH})
+	SET(DEPS "${DEPS} libtzplatform-config")
+ENDIF(${LEGACY_FILE_PATH})
+
+IF(${LEGACY_PERIODIC_ALARM})
+	ADD_DEFINITIONS(-DLEGACY_PERIODIC_ALARM)
+ENDIF(${LEGACY_PERIODIC_ALARM})
+
+# Build flags
+pkg_check_modules(LIB_PKG REQUIRED ${DEPS})
+
+FOREACH(flag ${LIB_PKG_CFLAGS})
+   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${flag}")
+ENDFOREACH(flag)
 
 # Install
 INSTALL(
 	DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/context-service/internal
 	FILES_MATCHING PATTERN "*.h"
+)
+
+SET(PC_NAME ${PROJECT_NAME})
+SET(VERSION ${FULLVER})
+SET(PREFIX ${CMAKE_INSTALL_PREFIX})
+SET(PC_INCLUDE "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/context-service/internal")
+SET(PC_LIBDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+SET(PC_DESCRIPTION "Tizen Context-Service Shared Library")
+SET(PC_REQUIRED "${DEPS}")
+SET(PC_CFLAGS -I\${includedir}/context-service/internal)
+SET(PC_LDFLAGS "-lctx-shared -lctx-server")
+CONFIGURE_FILE(
+	${PROJECT_NAME}.pc.in
+	${CMAKE_CURRENT_SOURCE_DIR}/${PC_NAME}.pc
+	@ONLY
+)
+
+INSTALL(
+	FILES ${CMAKE_CURRENT_SOURCE_DIR}/${PC_NAME}.pc
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
 
 ADD_SUBDIRECTORY(src/shared)
