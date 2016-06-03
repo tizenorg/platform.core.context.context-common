@@ -8,6 +8,7 @@ Source0:    %{name}-%{version}.tar.gz
 
 %define BUILD_PROFILE %{?profile}%{!?profile:%{?tizen_profile_name}}
 
+%define LEGACY_SECURITY			0
 %define LEGACY_FILE_PATH		0
 %define LEGACY_PERIODIC_ALARM	0
 
@@ -23,6 +24,10 @@ BuildRequires: pkgconfig(sqlite3)
 BuildRequires: pkgconfig(dlog)
 BuildRequires: pkgconfig(capi-base-common)
 BuildRequires: pkgconfig(alarm-service)
+
+%if %{LEGACY_SECURITY}
+BuildRequires: pkgconfig(security-server)
+%endif
 
 %if ! %{LEGACY_FILE_PATH}
 BuildRequires: pkgconfig(libtzplatform-config)
@@ -58,6 +63,7 @@ export CXXFLAGS+=" -std=c++0x"
 #export   FFLAGS+=" -DTIZEN_ENGINEER_MODE"
 
 cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix} -DMAJORVER=${MAJORVER} -DFULLVER=%{version} \
+							   -DLEGACY_SECURITY=%{LEGACY_SECURITY} \
 							   -DLEGACY_FILE_PATH=%{LEGACY_FILE_PATH} \
 							   -DLEGACY_PERIODIC_ALARM=%{LEGACY_PERIODIC_ALARM}
 make %{?jobs:-j%jobs}

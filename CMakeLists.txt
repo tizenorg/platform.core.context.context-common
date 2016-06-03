@@ -13,6 +13,11 @@ SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fPIC -Wl,--as-needed -Wl,
 # Dependencies
 SET(DEPS "glib-2.0 gio-2.0 json-glib-1.0 sqlite3 capi-base-common dlog alarm-service")
 
+IF(${LEGACY_SECURITY})
+	SET(DEPS "${DEPS} security-server")
+	ADD_DEFINITIONS(-DLEGACY_SECURITY)
+ENDIF(${LEGACY_SECURITY})
+
 IF(${LEGACY_FILE_PATH})
 	ADD_DEFINITIONS(-DLEGACY_FILE_PATH)
 ELSE(${LEGACY_FILE_PATH})
@@ -45,7 +50,7 @@ SET(PC_LIBDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 SET(PC_DESCRIPTION "Tizen Context-Service Shared Library")
 SET(PC_REQUIRED "${DEPS}")
 SET(PC_CFLAGS -I\${includedir}/context-service/internal)
-SET(PC_LDFLAGS "-lctx-shared -lctx-server")
+SET(PC_LDFLAGS "-lctx-shared -lctx-server -lctx-client")
 CONFIGURE_FILE(
 	${PROJECT_NAME}.pc.in
 	${CMAKE_CURRENT_SOURCE_DIR}/${PC_NAME}.pc
@@ -59,3 +64,4 @@ INSTALL(
 
 ADD_SUBDIRECTORY(src/shared)
 ADD_SUBDIRECTORY(src/server)
+ADD_SUBDIRECTORY(src/client)
