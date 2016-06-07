@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-SET(target "ctx-server")
+SET(target "ctx-client")
 
 FILE(GLOB_RECURSE SRCS *.cpp)
 MESSAGE("Sources: ${SRCS}")

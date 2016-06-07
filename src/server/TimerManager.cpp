@@ -94,7 +94,14 @@ SO_EXPORT int TimerManager::setFor(int interval, ITimerListener *listener)
 	int alarmId;
 	int result;
 
+#ifdef LEGACY_PERIODIC_ALARM
+	time_t startTime;
+	time(&startTime);
+	startTime += (interval * 60);
+	result = alarmmgr_add_alarm(ALARM_TYPE_VOLATILE, startTime, interval * 60, NULL, &alarmId);
+#else
 	result = alarmmgr_add_periodic_alarm_withcb(interval, QUANTUMIZE, __onAlarmExpired, NULL, &alarmId);
+#endif
 	IF_FAIL_RETURN_TAG(result == ALARMMGR_RESULT_SUCCESS, -1, _E, "Alarm setting failed");
 
 	ScopeMutex sm(&__mutex);

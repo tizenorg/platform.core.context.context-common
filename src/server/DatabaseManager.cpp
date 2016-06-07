@@ -15,12 +15,16 @@
  */
 
 #include <signal.h>
-#include <tzplatform_config.h>
 #include <ScopeMutex.h>
 #include <DatabaseManager.h>
 #include "DatabaseThread.h"
 
+#ifdef LEGACY_FILE_PATH
+#define CONTEXT_DB_PATH "/opt/usr/dbspace/.context-service.db"
+#else
+#include <tzplatform_config.h>
 #define CONTEXT_DB_PATH tzplatform_mkpath(TZ_USER_DB, ".context-service.db")
+#endif
 
 using namespace ctx;
 

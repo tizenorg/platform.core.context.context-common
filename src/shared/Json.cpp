@@ -20,51 +20,54 @@
 #include <sstream>
 #include <locale>
 #include <iomanip>
-#include <regex>
 #include <json-glib/json-glib.h>
 #include <Json.h>
 
 #define PATH_DELIM	'.'
-#define HEX_PREFIX	"0x"
+#define MAX_PRECISION 15
 #define GVAR_VALUES	"values"
 #define GVAR_TYPES	"types"
 
 using namespace ctx;
 
-static std::string __double_to_hex(double in)
+static std::string __double_to_string(double in)
 {
-	std::string hex(HEX_PREFIX);
-	const unsigned char *pch = reinterpret_cast<const unsigned char*>(&in);
-	for (unsigned int i = 0; i < sizeof(in); ++i) {
-		char buf[3];
-		snprintf(buf, 3, "%02x", static_cast<unsigned int>(*pch));
-		hex = hex + buf;
-		pch++;
+	/* Locale-independent double-to-string conversion */
+	int prec = MAX_PRECISION;
+	std::string out;
+	std::ostringstream ostr;
+
+	ostr.imbue(std::locale("C"));
+	ostr << std::setprecision(prec) << in;
+	out = ostr.str();
+
+	if (out.find('e') == std::string::npos)
+		return out;
+
+	/* If 'out' is in scientific notation */
+	ostr.clear();
+	ostr.str(std::string());
+	ostr.imbue(std::locale("C"));
+
+	/* Get the number of fraction digits to precisely print the number */
+	double number = in * 10;
+	while (static_cast<int>(number) == 0) {
+		number *= 10;
+		++prec;
 	}
 
-	_D("Converted %f to '%s'", in, hex.c_str());
-	return hex;
-}
+	ostr << std::fixed << std::setprecision(prec) << in;
+	out = ostr.str();
 
-static double __hex_to_double(const char *in)
-{
-	IF_FAIL_RETURN(in, 0);
-	_D("Revert '%s'", in);
+	/* Remove trailing '0' */
+	std::size_t found = out.find_last_not_of("0");
+	if (found != std::string::npos)
+		out.erase(found + 1);
 
-	double out;
-	unsigned int u;
-	unsigned char *pch = reinterpret_cast<unsigned char*>(&out);
+	/* If 'out' ends with '.' */
+	if (out.back() == '.')
+		out.erase(out.end() - 1);
 
-	IF_FAIL_RETURN_TAG(strlen(in) == sizeof(out) * 2 + 2, 0, _W, "Type mismatched");
-	in += 2;
-
-	for (unsigned int i = 0; i < sizeof(out); ++i) {
-		IF_FAIL_RETURN_TAG(sscanf(in, "%2x", &u) == 1, 0, _W, "Type mismatched");
-		*pch++ = u;
-		in += 2;
-	}
-
-	_D("Reverted to %f" ,  out);
 	return out;
 }
 
@@ -73,9 +76,6 @@ static double __string_to_double(const char* in)
 	IF_FAIL_RETURN_TAG(in, 0, _E, "Parameter NULL");
 
 	double out;
-
-	if (std::regex_match(in, std::regex(HEX_PREFIX "[0-9a-f]+")))
-		return __hex_to_double(in);
 
 	/* Locale-independent string-to-double conversion */
 	std::istringstream istr(in);
@@ -340,7 +340,7 @@ SO_EXPORT bool Json::set(const char *path, const char *key, int64_t val)
 
 SO_EXPORT bool Json::set(const char *path, const char *key, double val)
 {
-	return set(path, key, __double_to_hex(val));
+	return set(path, key, __double_to_string(val));
 }
 
 SO_EXPORT bool Json::set(const char *path, const char *key, std::string val)
@@ -361,6 +361,7 @@ SO_EXPORT bool Json::set(const char *path, const char *key, std::string val)
 
 SO_EXPORT bool Json::set(const char *path, const char *key, GVariant *val)
 {
+#if JSON_CHECK_VERSION(0, 14, 0)
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
 
@@ -375,6 +376,10 @@ SO_EXPORT bool Json::set(const char *path, const char *key, GVariant *val)
 	json_object_set_member(json_node_get_object(gvarJson.__jsonNode), GVAR_VALUES, node);
 
 	return set(path, key, gvarJson);
+#else
+	_E("Insufficient version of json-glib(" JSON_VERSION_S ")");
+	return false;
+#endif
 }
 
 SO_EXPORT bool Json::get(const char *path, const char *key, Json *val)
@@ -493,6 +498,7 @@ SO_EXPORT bool Json::get(const char *path, const char *key, std::string *val)
 
 SO_EXPORT bool Json::get(const char *path, const char *key, GVariant **val)
 {
+#if JSON_CHECK_VERSION(0, 14, 0)
 	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
 	IF_FAIL_RETURN_TAG(key && val, false, _E, "Invalid parameter");
 
@@ -515,6 +521,11 @@ SO_EXPORT bool Json::get(const char *path, const char *key, GVariant **val)
 	IF_FAIL_RETURN(*val, false);
 
 	return true;
+#else
+	_E("Insufficient version of json-glib(" JSON_VERSION_S ")");
+	*val = NULL;
+	return false;
+#endif
 }
 
 static JsonArray* __get_array(JsonNode *jnode, const char *path, const char *key, bool force)
@@ -587,7 +598,7 @@ SO_EXPORT bool Json::append(const char *path, const char *key, int64_t val)
 
 SO_EXPORT bool Json::append(const char *path, const char *key, double val)
 {
-	return append(path, key, __double_to_hex(val));
+	return append(path, key, __double_to_string(val));
 }
 
 SO_EXPORT bool Json::append(const char *path, const char *key, std::string val)
@@ -655,7 +666,7 @@ SO_EXPORT bool Json::setAt(const char *path, const char *key, int index, int64_t
 
 SO_EXPORT bool Json::setAt(const char *path, const char *key, int index, double val)
 {
-	return setAt(path, key, index, __double_to_hex(val));
+	return setAt(path, key, index, __double_to_string(val));
 }
 
 SO_EXPORT bool Json::setAt(const char *path, const char *key, int index, std::string val)
