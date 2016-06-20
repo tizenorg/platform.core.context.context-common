@@ -206,7 +206,7 @@ std::string DatabaseThread::__composeCreate(const char *tableName, const char *c
 {
 	std::string query;
 	query = "CREATE TABLE IF NOT EXISTS ";
-	query = query + tableName + " (row_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," + columns + ")";
+	query = query + tableName + " (rowId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," + columns + ")";
 	if (option) {
 		query = query + " " + option;
 	}
