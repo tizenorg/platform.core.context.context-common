@@ -28,9 +28,9 @@ namespace ctx {
 
 		/**
 		 * @brief		Creates a table if not exists. Async.
-		 * @details		The column @c row_id is created by default, thus do not use the same column name.
+		 * @details		The column @c rowId is created by default, thus do not use the same column name.
 		 *				It is the primary of the auto-increment integer type.
-		 * @param[in]	queryId		This number will be returned through IDatabaseListener::on_creation_result_received().
+		 * @param[in]	queryId		This number will be returned through IDatabaseListener::onTableCreated().
 		 * @param[in]	tableName	A table name to be created.
 		 * @param[in]	columns		Columns. In SQL format. INTEGER, REAL, and TEXT types are allowed.
 		 * @param[in]	option		Additional options. Allows NULL.
@@ -40,7 +40,7 @@ namespace ctx {
 
 		/**
 		 * @brief		Inserts a record to a table. Async.
-		 * @param[in]	queryId		This number will be returned through IDatabaseListener::on_insertion_result_received().
+		 * @param[in]	queryId		This number will be returned through IDatabaseListener::onInserted().
 		 * @param[in]	tableName	A table name in which the record is inserted.
 		 * @param[in]	record		A json object containing key, value pairs.
 		 * @param[in]	listener	A listner object to receive the result. Allows NULL.
@@ -49,7 +49,7 @@ namespace ctx {
 
 		/**
 		 * @brief		Executes a SQL query. Async.
-		 * @param[in]	queryId		This number will be returned through IDatabaseListener::on_query_result_received().
+		 * @param[in]	queryId		This number will be returned through IDatabaseListener::onExecuted().
 		 * @param[in]	query		A query to be executed.
 		 * @param[in]	listener	A listner object to receive the result.
 		 */
