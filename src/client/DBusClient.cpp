@@ -171,9 +171,13 @@ int DBusClient::__request(int type, int reqId, const char *subject, const char *
 	if (input == NULL)
 		input = EMPTY_JSON_OBJECT;
 
-	/* FIXME: the second param is the security cookie, which is deprected in 3.0.
-	 * We need to completely REMOVE this parameter from the dbus protocol. */
+#ifdef LEGACY_SECURITY
+	const char *cookie = __getCookie();
+	IF_FAIL_RETURN_TAG(cookie, ERR_OPERATION_FAILED, _E, "Cookie generation failed");
+	GVariant *param = g_variant_new("(isiss)", type, cookie, reqId, subject, input);
+#else
 	GVariant *param = g_variant_new("(isiss)", type, "", reqId, subject, input);
+#endif
 	IF_FAIL_RETURN_TAG(param, ERR_OUT_OF_MEMORY, _E, "Memory allocation failed");
 
 	GError *err = NULL;
