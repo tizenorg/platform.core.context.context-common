@@ -165,7 +165,7 @@ bool DatabaseThread::insertSync(const char *tableName, Json record, int64_t *row
 
 bool DatabaseThread::executeSync(const char *query, std::vector<Json> *records)
 {
-	IF_FAIL_RETURN(query && records, false);
+	IF_FAIL_RETURN(query, false);
 
 	_SD("SQL: %s", query);
 
@@ -206,7 +206,7 @@ std::string DatabaseThread::__composeCreate(const char *tableName, const char *c
 {
 	std::string query;
 	query = "CREATE TABLE IF NOT EXISTS ";
-	query = query + tableName + " (row_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," + columns + ")";
+	query = query + tableName + " (rowId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," + columns + ")";
 	if (option) {
 		query = query + " " + option;
 	}
@@ -294,6 +294,8 @@ void DatabaseThread::__dispatchResult(QueryType type, unsigned int queryId, IDat
 
 int DatabaseThread::__executionCb(void *userData, int dim, char **value, char **column)
 {
+	IF_FAIL_RETURN(userData, 0);
+
 	std::vector<Json> *records = static_cast<std::vector<Json>*>(userData);
 	Json row;
 	bool columnNull = false;
