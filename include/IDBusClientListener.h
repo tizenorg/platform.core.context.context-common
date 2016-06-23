@@ -17,9 +17,12 @@
 #ifndef _CONTEXT_I_DBUS_CLIENT_LISTENER_H_
 #define _CONTEXT_I_DBUS_CLIENT_LISTENER_H_
 
+#ifndef SO_EXPORT
+#define SO_EXPORT __attribute__ ((visibility("default")))
+#endif
+
 #include <string>
 #include <Json.h>
-#include <Types.h>
 
 namespace ctx {
 
