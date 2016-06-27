@@ -20,6 +20,7 @@
 #include <string>
 #include <map>
 #include <ctime>
+#include <ProviderTypes.h>
 
 #define PLACE_DETECTION_SUBJECT      "place/pattern/personal_poi"
 
