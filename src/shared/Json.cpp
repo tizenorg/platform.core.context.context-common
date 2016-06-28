@@ -21,6 +21,7 @@
 #include <locale>
 #include <iomanip>
 #include <json-glib/json-glib.h>
+#include <Types.h>
 #include <Json.h>
 
 #define PATH_DELIM	'.'
