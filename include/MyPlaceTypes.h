@@ -22,7 +22,7 @@
 #include <ctime>
 #include <ProviderTypes.h>
 
-#define PLACE_DETECTION_SUBJECT      "place/pattern/personal_poi"
+#define PLACE_DETECTION_SUBJECT      SUBJ_PLACE_DETECTION
 
 #define PLACE_DATA_READ              "PlacesList"
 #define PLACE_CATEG_ID               "CategId"
