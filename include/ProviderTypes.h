@@ -17,6 +17,8 @@
 #ifndef _CONTEXT_PROVIDER_TYPES_H_
 #define _CONTEXT_PROVIDER_TYPES_H_
 
+#include <MyPlaceTypes.h>
+
 /* Privileges */
 #define PRIV_ALARM		"alarm.set"
 #define PRIV_NETWORK	"network.get"
