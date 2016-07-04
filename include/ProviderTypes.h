@@ -85,7 +85,7 @@
 #define SUBJ_SOCIAL_FREQUENCY		SUBJ_SOCIAL_STATS "frequency"
 
 #define SUBJ_PLACE_GEOFENCE		"place/geofence"
-#define SUBJ_PLACE_DETECTION	PLACE_DETECTION_SUBJECT
+#define SUBJ_PLACE_DETECTION	"place/myplace"
 
 #define SUBJ_CUSTOM				"custom"
 
