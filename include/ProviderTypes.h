@@ -175,12 +175,6 @@
 #define VAL_INCOMING	VAL_CONNECTING
 
 
-/* Json Formats */
-#define TRIG_DEF_RANK			"\"Rank\":{\"type\":\"integer\",\"min\":1}"
-#define TRIG_DEF_TOTAL_COUNT	"\"TotalCount\":{\"type\":\"integer\",\"min\":0}"
-#define TRIG_DEF_TIME_OF_DAY	"\"TimeOfDay\":{\"type\":\"string\"}"
-#define TRIG_DEF_DAY_OF_WEEK	"\"DayOfWeek\":{\"type\":\"string\",\"values\":[\"Mon\",\"Tue\",\"Wed\",\"Thu\",\"Fri\",\"Sat\",\"Sun\",\"Weekday\",\"Weekend\"]}"
-#define TRIG_BOOL_ITEM_DEF(sbj)	"\"" sbj "\":{\"type\":\"integer\",\"min\":0,\"max\":1}"
 
 
 #endif	/* _CONTEXT_PROVIDER_TYPES_H_ */
