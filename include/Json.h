@@ -78,6 +78,8 @@ namespace ctx {
 		bool get(const char *path, const char *key, std::string *val);
 		bool get(const char *path, const char *key, GVariant **val);
 
+		bool remove(const char *path, const char *key);
+
 		/* Array operations */
 		int getSize(const char *path, const char *key);
 
