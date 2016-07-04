@@ -529,6 +529,20 @@ SO_EXPORT bool Json::get(const char *path, const char *key, GVariant **val)
 #endif
 }
 
+SO_EXPORT bool Json::remove(const char *path, const char *key)
+{
+	IF_FAIL_RETURN_TAG(this->__jsonNode, false, _E, "Json object not initialized");
+	IF_FAIL_RETURN_TAG(key, false, _E, "Invalid parameter");
+
+	JsonObject *jobj = __traverse(__jsonNode, path, true);
+	IF_FAIL_RETURN(jobj, false);
+
+	if (json_object_has_member(jobj, key))
+		json_object_remove_member(jobj, key);
+
+	return true;
+}
+
 static JsonArray* __get_array(JsonNode *jnode, const char *path, const char *key, bool force)
 {
 	JsonNode *node = NULL;

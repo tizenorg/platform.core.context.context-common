@@ -85,7 +85,7 @@
 #define SUBJ_SOCIAL_FREQUENCY		SUBJ_SOCIAL_STATS "frequency"
 
 #define SUBJ_PLACE_GEOFENCE		"place/geofence"
-#define SUBJ_PLACE_DETECTION	PLACE_DETECTION_SUBJECT
+#define SUBJ_PLACE_DETECTION	"place/myplace"
 
 #define SUBJ_CUSTOM				"custom"
 
@@ -173,14 +173,6 @@
 #define VAL_ACTIVE		VAL_CONNECTED
 #define VAL_ALERTING	VAL_CONNECTING
 #define VAL_INCOMING	VAL_CONNECTING
-
-
-/* Json Formats */
-#define TRIG_DEF_RANK			"\"Rank\":{\"type\":\"integer\",\"min\":1}"
-#define TRIG_DEF_TOTAL_COUNT	"\"TotalCount\":{\"type\":\"integer\",\"min\":0}"
-#define TRIG_DEF_TIME_OF_DAY	"\"TimeOfDay\":{\"type\":\"string\"}"
-#define TRIG_DEF_DAY_OF_WEEK	"\"DayOfWeek\":{\"type\":\"string\",\"values\":[\"Mon\",\"Tue\",\"Wed\",\"Thu\",\"Fri\",\"Sat\",\"Sun\",\"Weekday\",\"Weekend\"]}"
-#define TRIG_BOOL_ITEM_DEF(sbj)	"\"" sbj "\":{\"type\":\"integer\",\"min\":0,\"max\":1}"
 
 
 #endif	/* _CONTEXT_PROVIDER_TYPES_H_ */
