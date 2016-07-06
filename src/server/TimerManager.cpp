@@ -43,7 +43,7 @@ SO_EXPORT TimerManager::~TimerManager()
 	ScopeMutex sm(&__mutex);
 
 	for (int i : __alarms) {
-		remove(i);
+		__remove(i);
 	}
 
 	if (--__instanceCnt == 0)
@@ -175,10 +175,15 @@ SO_EXPORT int TimerManager::setAt(int hour, int min, DayOfWeek dow, ITimerListen
 SO_EXPORT void TimerManager::remove(int timerId)
 {
 	ScopeMutex sm(&__mutex);
+	__remove(timerId);
+	__alarms.erase(timerId);
+}
+
+void TimerManager::__remove(int timerId)
+{
 	auto it = __listenerMap.find(timerId);
 	if (it != __listenerMap.end()) {
 		__listenerMap.erase(it);
-		__alarms.erase(timerId);
 		alarmmgr_remove_alarm(timerId);
 		_D("Timer %d was removed", timerId);
 	}

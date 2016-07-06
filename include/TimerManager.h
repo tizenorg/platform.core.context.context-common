@@ -91,6 +91,7 @@ namespace ctx {
 
 		bool __init();
 		void __release();
+		void __remove(int timerId);
 
 		static unsigned int __instanceCnt;
 		static GMutex __mutex;
