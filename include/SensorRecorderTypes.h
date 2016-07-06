@@ -45,6 +45,8 @@
 #define KEY_AVG_PRESSURE	"AvgPressure"
 #define KEY_MIN_PRESSURE	"MinPressure"
 #define KEY_MAX_PRESSURE	"MaxPressure"
+#define KEY_SLEEP_STATE		KEY_STATE
+#define KEY_HEART_RATE		"HeartRate"
 
 /* Values */
 #define VAL_START		"Start"
