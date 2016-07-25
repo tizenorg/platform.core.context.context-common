@@ -52,6 +52,25 @@ SO_EXPORT DatabaseManager::DatabaseManager()
 	}
 }
 
+SO_EXPORT DatabaseManager::DatabaseManager(char* path)
+{
+	ScopeMutex sm(&__mutex);
+
+	if (++__refCount > 1)
+		return;
+
+	__databaseThread = new(std::nothrow) DatabaseThread();
+	if (!__databaseThread) {
+		_E("Memory allocation failed");
+		raise(SIGTERM);
+		return;
+	}
+
+	if (!__databaseThread->open(path) || !__databaseThread->start()) {
+		_E("Database initialization failed");
+		raise(SIGTERM);
+	}
+}
 SO_EXPORT DatabaseManager::~DatabaseManager()
 {
 	ScopeMutex sm(&__mutex);

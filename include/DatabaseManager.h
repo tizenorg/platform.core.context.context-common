@@ -24,6 +24,7 @@ namespace ctx {
 	class DatabaseManager {
 	public:
 		DatabaseManager();
+		DatabaseManager(char* path);
 		~DatabaseManager();
 
 		/**
