@@ -84,6 +84,12 @@
 #define SUBJ_SOCIAL_FREQ_ADDRESS	SUBJ_SOCIAL_STATS "often"
 #define SUBJ_SOCIAL_FREQUENCY		SUBJ_SOCIAL_STATS "frequency"
 
+#define SUBJ_BATTERY_STATS			"stats/battery/"
+#define SUBJ_BATTERY_LOGGER			SUBJ_BATTERY_STATS "logger"
+#define SUBJ_BATTERY_HISTORY		SUBJ_BATTERY_STATS "history"
+#define SUBJ_BATTERY_SINCE_LAST_CHARGE	SUBJ_BATTER_STATS "since_last_charge"
+
+
 #define SUBJ_PLACE_GEOFENCE		"place/geofence"
 #define SUBJ_PLACE_DETECTION	"place/myplace"
 
