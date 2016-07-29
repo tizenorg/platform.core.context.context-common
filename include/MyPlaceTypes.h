@@ -24,6 +24,9 @@
 
 #define PLACE_DETECTION_SUBJECT      SUBJ_PLACE_DETECTION
 
+#define PLACE_DETECTION_CONSENT      "Consent"
+#define PLACE_DETECTION_LIST         "List"
+
 #define PLACE_DATA_READ              "PlacesList"
 #define PLACE_CATEG_ID               "CategId"
 #define PLACE_CATEG_CONFIDENCE       "CategConfidence"
